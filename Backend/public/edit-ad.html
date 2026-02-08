@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Ad | CABII</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:#eef2f6;
+  margin:0;
+}
+.container{
+  max-width:720px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+}
+h2{
+  text-align:center;
+  margin-bottom:25px;
+  color:#0a58ca;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.full{grid-column:1/-1}
+label{
+  font-weight:600;
+  font-size:14px;
+}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+textarea{min-height:90px}
+button{
+  background:#16a34a;
+  color:#fff;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+button:hover{background:#12813d}
+.preview{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.preview img{
+  width:120px;
+  height:80px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Edit Your Ad</h2>
+
+<form id="editAdForm" class="grid" enctype="multipart/form-data">
+
+  <div>
+    <label>Brand</label>
+    <input name="brand" id="brand" required>
+  </div>
+
+  <div>
+    <label>Model</label>
+    <input name="model" id="model" required>
+  </div>
+
+  <div>
+    <label>Manufacturing Year</label>
+    <input name="manufacturerYear" id="manufacturerYear" type="number">
+  </div>
+
+  <div>
+    <label>Seller Name</label>
+    <input name="sellername" id="sellername">
+  </div>
+
+  <div>
+    <label>Fuel</label>
+    <select name="fuel" id="fuel">
+      <option>Petrol</option>
+      <option>Diesel</option>
+      <option>CNG</option>
+      <option>Electric</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Transmission</label>
+    <select name="transmission" id="transmission">
+      <option>Manual</option>
+      <option>Automatic</option>
+    </select>
+  </div>
+
+  <div>
+    <label>KM Driven</label>
+    <input name="km" id="km" type="number">
+  </div>
+
+  <div>
+    <label>Price ₹</label>
+    <input name="price" id="price" type="number">
+  </div>
+
+  <div class="full">
+    <label>Description</label>
+    <textarea name="description" id="description"></textarea>
+  </div>
+
+  <div>
+    <label>Contact Number</label>
+    <input name="contactNumber" id="contactNumber">
+  </div>
+
+  <div>
+    <label>Location</label>
+    <input name="location" id="location">
+  </div>
+
+  <div class="full">
+    <label>Upload New Images (optional)</label>
+    <input type="file" name="images" id="images" multiple>
+    <div id="previewContainer" class="preview"></div>
+  </div>
+
+  <div class="full">
+    <button type="submit">Update Ad</button>
+  </div>
+
+</form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("editAdForm");
+  const previewContainer = document.getElementById("previewContainer");
+
+  const adId = new URLSearchParams(window.location.search).get("id");
+  if (!adId) {
+    alert("Invalid Ad ID");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // =========================
+  // LOAD AD
+  // =========================
+  async function loadAd() {
+    try {
+      const res = await fetch(`https://cabii-carsandbikesinindia.onrender.com/ads/${adId}`);
+      const ad = await res.json();
+
+      document.getElementById("brand").value = ad.brand || "";
+      document.getElementById("model").value = ad.model || "";
+      document.getElementById("manufacturerYear").value = ad.manufacturerYear || "";
+      document.getElementById("sellername").value = ad.sellername || "";
+      document.getElementById("fuel").value = ad.fuel || "Petrol";
+      document.getElementById("transmission").value = ad.transmission || "Manual";
+      document.getElementById("km").value = ad.km || "";
+      document.getElementById("price").value = ad.price || "";
+      document.getElementById("description").value = ad.description || "";
+      document.getElementById("contactNumber").value = ad.contactNumber || "";
+      document.getElementById("location").value = ad.location || "";
+
+      previewContainer.innerHTML = "";
+      (ad.images || []).forEach(img => {
+        const i = document.createElement("img");
+        i.src = cabii-carsandbikesinindia-production.up.railway.app + img;
+        previewContainer.appendChild(i);
+      });
+
+    } catch (err) {
+      alert("Failed to load ad");
+      console.error(err);
+    }
+  }
+
+  // =========================
+  // UPDATE AD
+  // =========================
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    try {
+      // Get current user ID
+      const authRes = await fetch("https://cabii-carsandbikesinindia.onrender.com/auth/check-session", {
+        credentials: "include"
+      });
+
+      let currentUserId = null;
+      if (authRes.ok) {
+        const authData = await authRes.json();
+        currentUserId = authData.userId;
+      }
+
+      if (!currentUserId) {
+        alert("Please login first");
+        return;
+      }
+
+      const formData = new FormData(form);
+      formData.append("userId", currentUserId);
+
+      const res = await fetch(`https://cabii-carsandbikesinindia.onrender.com/ads/${adId}`, {
+        method: "PUT",
+        body: formData,
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("✅ Ad updated successfully");
+        window.location.href = "index.html";
+      } else {
+        alert("❌ " + (data.message || "Update failed"));
+      }
+
+    } catch (err) {
+      alert("❌ Server error: " + err.message);
+      console.error(err);
+    }
+  });
+
+  loadAd();
+});
+</script>
+</body>
+</html>

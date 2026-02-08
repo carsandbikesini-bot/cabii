@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund & Cancellation Policy - Cars And Bikes In India-CABII</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .site-header {
+            background: #e0e4ea;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo-area a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .logo-img {
+            height: 45px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ff6a00, #dd2476, #7f00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .main-nav a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .policy-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .policy-container h1 {
+            color: #127235;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .last-updated {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .policy-container h2 {
+            color: #127235;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-left: 4px solid #127235;
+            padding-left: 15px;
+        }
+
+        .policy-container h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .policy-container p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .policy-container ul,
+        .policy-container ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .policy-container li {
+            margin-bottom: 10px;
+        }
+
+        .important-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .contact-section {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .contact-section h3 {
+            margin-top: 0;
+        }
+
+        /* ===== PROFESSIONAL FOOTER ===== */
+        footer.site-footer {
+            background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+            color: #fff;
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        .footer-section a {
+            color: #ffd700;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #ffd700;
+            color: #1a1a1a;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-right: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .made-in-india {
+            color: #ffd700;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            margin: 30px 0;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .footer-bottom a {
+            color: #ffd700;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .footer-bottom a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .legal-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .policy-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .policy-container h1 {
+                font-size: 24px;
+            }
+
+            .policy-container h2 {
+                font-size: 18px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .legal-links {
+                flex-direction: column;
+            }
+
+            .footer-bottom a {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="logo-area">
+            <a href="index.html">
+                <img src="images/logo.png" alt="CABII Logo" class="logo-img" onerror="this.style.display='none'">
+                <span class="logo-text">CABII</span>
+            </a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="post-ad.html">Post Free Ad</a>
+            <a href="sell48.html">Sell in 48H</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="policy-container">
+        <h1>🔄 Refund & Cancellation Policy</h1>
+        <div class="last-updated">Last Updated: January 28, 2026</div>
+
+        <h2>📋 Overview</h2>
+        <p>At <strong>CABII (Cars And Bikes In India)</strong>, we are committed to providing transparent and fair refund and cancellation policies. This policy outlines the terms and conditions for refunds, cancellations, and returns across our platform services.</p>
+
+        <div class="info-box">
+            <strong>💡 Key Point:</strong> CABII acts as a facilitator between buyers and sellers. We do not own the vehicles listed on our platform. Vehicle transactions and disputes are handled between buyer and seller.
+        </div>
+
+        <h2>1️⃣ Membership Refund Policy</h2>
+        
+        <h3>1.1 Premium Membership Plans</h3>
+        <p>If you purchase a premium membership and wish to cancel within the specified cancellation window:</p>
+        <ul>
+            <li><strong>7-Day Money-Back Guarantee:</strong> Full refund if you cancel within 7 days of purchase</li>
+            <li><strong>No Questions Asked:</strong> We refund without asking for reasons</li>
+            <li><strong>Processing Time:</strong> 5-7 business days</li>
+        </ul>
+
+        <h3>1.2 Post-Cancellation Window</h3>
+        <p>Memberships cancelled after the 7-day window are non-refundable. However:</p>
+        <ul>
+            <li>Remaining membership balance can be transferred to next renewal cycle (non-transferable)</li>
+            <li>Premium features will be deactivated immediately upon cancellation</li>
+            <li>Ads posted during active membership will remain listed for their full duration</li>
+        </ul>
+
+        <h3>1.3 How to Request Membership Refund</h3>
+        <ol>
+            <li>Log in to your CABII account</li>
+            <li>Go to "My Profile" → "Membership"</li>
+            <li>Click "Cancel Membership" → "Request Refund"</li>
+            <li>Provide reason (optional) and submit</li>
+            <li>Confirmation email within 24 hours</li>
+            <li>Refund processed to original payment method within 5-7 business days</li>
+        </ol>
+
+        <div class="important-box">
+            <strong>⚠️ Important:</strong> Refunds are processed to the original payment method used at purchase. CABII is not responsible for delays caused by your bank or payment processor.
+        </div>
+
+        <h2>2️⃣ Ad Posting Cancellation Policy</h2>
+        
+        <h3>2.1 Free Ad Cancellation</h3>
+        <p>You can cancel your free listing at any time:</p>
+        <ul>
+            <li><strong>Instant Cancellation:</strong> Ad removed from platform immediately</li>
+            <li><strong>No Charges:</strong> Zero cancellation fees</li>
+            <li><strong>Re-posting:</strong> You can post new ads anytime</li>
+        </ul>
+
+        <h3>2.2 Premium Ad Cancellation</h3>
+        <p>Premium listings (featured, highlighted, urgent sale) cancellation:</p>
+        <ul>
+            <li><strong>Within 24 Hours:</strong> 100% refund of premium ad fees</li>
+            <li><strong>24-48 Hours:</strong> 50% refund</li>
+            <li><strong>After 48 Hours:</strong> Non-refundable (ad remains active until expiry)</li>
+        </ul>
+
+        <h3>2.3 Ad Removal Reasons</h3>
+        <p>CABII reserves the right to remove listings if:</p>
+        <ul>
+            <li>Vehicle is sold (seller requested removal)</li>
+            <li>Listing violates platform policies</li>
+            <li>Fraudulent or misleading information detected</li>
+            <li>Seller account is suspended/terminated</li>
+        </ul>
+
+        <h2>3️⃣ Sell in 48 Hours Program Cancellation</h2>
+        
+        <h3>3.1 Before Vehicle Inspection</h3>
+        <p>If you enroll in "Sell in 48 Hours" and cancel before inspection:</p>
+        <ul>
+            <li><strong>Full Refund:</strong> 100% of program fees refunded</li>
+            <li><strong>No Inspection Charges:</strong> Zero charges</li>
+            <li><strong>Processing:</strong> Refund within 3-5 business days</li>
+        </ul>
+
+        <h3>3.2 After Vehicle Inspection</h3>
+        <p>If inspection is completed but you wish to cancel:</p>
+        <ul>
+            <li><strong>Inspection Fee:</strong> Non-refundable (₹0-500 based on location)</li>
+            <li><strong>Program Fee:</strong> 50% refund available</li>
+            <li><strong>No Sale Guarantee Void:</strong> If buyer not found within 48 hours</li>
+        </ul>
+
+        <h3>3.3 After Buyer Confirmation</h3>
+        <p>Once buyer confirms interest and agreement is signed:</p>
+        <ul>
+            <li><strong>Non-Refundable:</strong> Seller cannot cancel without buyer consent</li>
+            <li><strong>Dispute Resolution:</strong> Contact CABII support for mediation</li>
+            <li><strong>Cancellation Fee:</strong> ₹5,000 penalty if seller cancels arbitrarily</li>
+        </ul>
+
+        <div class="important-box">
+            <strong>⚠️ Important:</strong> The "Sell in 48 Hours" program provides guaranteed buyer identification, not guaranteed vehicle sale. Actual transaction terms are negotiable between buyer and seller.
+        </div>
+
+        <h2>4️⃣ Vehicle Transaction Disputes</h2>
+        
+        <h3>4.1 CABII's Role</h3>
+        <p>CABII facilitates transactions but:</p>
+        <ul>
+            <li>We are not party to vehicle sale agreements</li>
+            <li>We do not hold buyer or seller funds</li>
+            <li>Transaction disputes are between buyer and seller</li>
+            <li>CABII acts as mediator for platform-related disputes only</li>
+        </ul>
+
+        <h3>4.2 Dispute Resolution</h3>
+        <ol>
+            <li><strong>Contact CABII Support:</strong> Within 48 hours of dispute</li>
+            <li><strong>Evidence Submission:</strong> Provide transaction details, messages, documents</li>
+            <li><strong>Investigation:</strong> CABII investigates for 7 business days</li>
+            <li><strong>Resolution:</strong> Decision communicated with reasons</li>
+            <li><strong>Appeal:</strong> 72-hour appeal window available</li>
+        </ol>
+
+        <h3>4.3 Refund Eligibility (Fraud Cases)</h3>
+        <p>CABII may refund membership or service fees if:</p>
+        <ul>
+            <li>Fraudulent listing confirmed through investigation</li>
+            <li>Seller identity verification failed</li>
+            <li>Misleading vehicle information proven</li>
+            <li>Platform's negligence caused financial loss</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>ℹ️ Note:</strong> Vehicle transaction amounts (buyer-seller payments) are NOT managed by CABII and therefore cannot be refunded through CABII. Disputes must be resolved directly between parties or through legal channels.
+        </div>
+
+        <h2>5️⃣ Related Services: Quick Links</h2>
+        <p>For other CABII services, refer to their specific policies:</p>
+        <ul>
+            <li><strong>🚗 Car Insurance Affiliate:</strong> Insurance provider terms apply; cancellations handled by insurance company</li>
+            <li><strong>🛣️ FASTag Services:</strong> Processed through official FASTag providers; CABII is referral partner</li>
+            <li><strong>📋 RC Transfer Service:</strong> Government-mandated timeframes apply; no cancellation after submission</li>
+            <li><strong>💰 Loan / EMI Calculator:</strong> Free tool; no cancellation policy applicable</li>
+        </ul>
+
+        <h2>6️⃣ Payment Method & Refund Timeline</h2>
+        
+        <h3>Refund Processing</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #127235; color: white;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Payment Method</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Processing Time</th>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td style="padding: 12px; border: 1px solid #ddd;">Credit/Debit Card</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">5-7 Business Days</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">Bank Transfer</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">3-5 Business Days</td>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td style="padding: 12px; border: 1px solid #ddd;">UPI/Digital Wallet</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">1-2 Business Days</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">Mobile Wallet</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">2-3 Business Days</td>
+            </tr>
+        </table>
+
+        <div class="important-box">
+            <strong>⚠️ Note:</strong> Processing times are from CABII's end. Actual credit depends on your bank's processing time.
+        </div>
+
+        <h2>7️⃣ Non-Refundable Items</h2>
+        <p>The following are <strong>NOT refundable</strong>:</p>
+        <ul>
+            <li>Ad listing fees after 7-day cancellation window (if applicable)</li>
+            <li>Premium feature charges not cancelled within policy window</li>
+            <li>Vehicle inspection fees (non-recoverable cost)</li>
+            <li>Platform transaction fees (for completed transactions)</li>
+            <li>Third-party service charges (insurance, loan EMI, RC transfer)</li>
+        </ul>
+
+        <h2>8️⃣ Account Suspension/Termination</h2>
+        
+        <h3>8.1 Account Suspension</h3>
+        <p>If CABII suspends your account due to:</p>
+        <ul>
+            <li>Policy violations</li>
+            <li>Fraudulent activity</li>
+            <li>Multiple complaints</li>
+        </ul>
+        <p><strong>Result:</strong> Any pending refunds may be withheld pending investigation.</p>
+
+        <h3>8.2 Account Termination</h3>
+        <p>Upon permanent account closure:</p>
+        <ul>
+            <li>All active ads are removed</li>
+            <li>Refund eligibility is reviewed</li>
+            <li>Eligible refunds processed within 10 business days</li>
+            <li>Re-registration is prohibited (per terms)</li>
+        </ul>
+
+        <h2>9️⃣ Policy Changes & Updates</h2>
+        <p>CABII reserves the right to modify this policy anytime with 30 days' notice. Changes will be communicated via:</p>
+        <ul>
+            <li>Email notification to registered email address</li>
+            <li>In-app notification in user dashboard</li>
+            <li>Policy page update with "Last Updated" date</li>
+        </ul>
+        <p>Continued use of CABII platform after policy changes constitutes acceptance.</p>
+
+        <h2>🔟 Grievance Redressal</h2>
+        
+        <h3>Step-by-Step Process:</h3>
+        <ol>
+            <li><strong>Submit Complaint:</strong> Use "Help & Support" section in app/website</li>
+            <li><strong>Acknowledgment:</strong> Receive ticket number within 2 hours</li>
+            <li><strong>Investigation:</strong> 7 business days for complete investigation</li>
+            <li><strong>Response:</strong> Detailed resolution communicated</li>
+            <li><strong>Appeal:</strong> 72-hour appeal window if unsatisfied</li>
+            <li><strong>Escalation:</strong> Senior team review for unresolved issues</li>
+        </ol>
+
+        <!-- CONTACT SECTION -->
+        <div class="contact-section">
+            <h3>📞 Need Help?</h3>
+            <p><strong>Email:</strong> <a href="mailto:carsandbikesini@cabii.in">carsandbikesini@cabii.in</a></p>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/919769510067">+91 9769510067</a></p>
+            <p><strong>Support Hours:</strong> Monday - Saturday, 10 AM - 7 PM IST</p>
+            <p><strong>Response Time:</strong> Within 24 hours for all inquiries</p>
+        </div>
+
+        <h2>📝 Disclaimer</h2>
+        <p>This Refund & Cancellation Policy is governed by Indian Consumer Protection Act, 2019, and all applicable laws. In case of any conflict between this policy and legal requirements, the law shall prevail. CABII is committed to fair and transparent practices.</p>
+
+        <p style="text-align: center; margin-top: 40px; color: #127235; font-weight: bold;">
+            ✅ Last Updated: January 28, 2026<br>
+            Version 1.0 | CABII Refund & Cancellation Policy
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <!-- FOOTER GRID -->
+            <div class="footer-grid">
+                <!-- ABOUT CABII -->
+                <div class="footer-section">
+                    <h3>📱 About CABII</h3>
+                    <p>CABII is India's trusted automobile infrastructure for buying and selling cars and bikes. We connect verified sellers with genuine buyers through a secure, transparent, and technology-driven platform—ensuring fast, reliable, and hassle-free vehicle transactions across India.</p>
+                    <p><strong>✔ 10,000+ Verified Listings</strong><br>✔ 100% Genuine Sellers<br>✔ 48H Guaranteed Sale</p>
+                </div>
+
+                <!-- QUICK LINKS -->
+                <div class="footer-section">
+                    <h3>🔗 Quick Links</h3>
+                    <a href="index.html">🏠 Home</a><br>
+                    <a href="post-ad.html">📝 Post Free Ad</a><br>
+                    <a href="sell48.html">🚀 Sell in 48 Hours</a><br>
+                    <a href="membership.html">💎 Membership Plans</a><br>
+                    <a href="trust.html">🛡️ Why Trust CABII</a>
+                </div>
+
+                <!-- SUPPORT & CONTACT -->
+                <div class="footer-section">
+                    <h3>📞 Support & Contact</h3>
+                    <p><strong>📧 Email:</strong><br><a href="mailto:carsandbikesini@cabii.in">carsandbikesini@cabii.in</a></p>
+                    <p><strong>📱 WhatsApp:</strong><br><a href="https://wa.me/919769510067">+91 9769510067</a></p>
+                    <p><strong>⏰ Hours:</strong><br>Mon-Sat: 10 AM - 7 PM<br>Sunday: Closed</p>
+                </div>
+
+                <!-- SOCIAL MEDIA -->
+                <div class="footer-section">
+                    <h3>🤝 Follow Us</h3>
+                    <p>Stay updated with latest listings and tips</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com/cabii" class="social-icon" title="Facebook">f</a>
+                        <a href="https://twitter.com/cabii" class="social-icon" title="Twitter">𝕏</a>
+                        <a href="https://instagram.com/cabii" class="social-icon" title="Instagram">📷</a>
+                        <a href="https://youtube.com/cabii" class="social-icon" title="YouTube">▶</a>
+                        <a href="https://linkedin.com/company/cabii" class="social-icon" title="LinkedIn">in</a>
+                    </div>
+                    <div class="made-in-india">🇮🇳 Made in India</div>
+                </div>
+            </div>
+
+            <!-- FOOTER DIVIDER -->
+            <div class="footer-divider"></div>
+
+            <!-- FOOTER BOTTOM -->
+            <div class="footer-bottom">
+                <div style="flex: 1;">
+                    <p>© 2025 <strong>Cars And Bikes In India – CABII</strong><br>All Rights Reserved</p>
+                </div>
+                <div class="legal-links">
+                    <a href="privacy-policy.html">🔒 Privacy Policy</a>
+                    <a href="terms.html">⚖️ Terms & Conditions</a>
+                    <a href="refund-policy.html">🔄 Refund Policy</a>
+                    <a href="contact.html">📧 Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

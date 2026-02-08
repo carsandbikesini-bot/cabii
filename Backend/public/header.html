@@ -1,0 +1,64 @@
+<div class="site-header">
+  <div class="logo-area">
+    <a href="index.html">
+      <img src="images/logo.png" class="logo-img">
+      <span class="logo-text">Cars And Bikes In India – CABII</span>
+    </a>
+  </div>
+
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="About.html">About Us</a>
+    <a href="Contact.html">Contact Us</a>
+    <a href="Terms.html">Terms & Conditions</a>
+    <a href="post-ad.html" class="post-ad-btn" id="postAdBtn">Post Free Ad</a>
+    <button class="login-btn" id="loginBtn">Login</button>
+    <button class="login-btn" id="signupBtn">Signup</button>
+    <button class="login-btn" id="logoutBtn" style="display:none;">Logout</button>
+    <button class="login-btn" id="profileBtn" style="display:none;">My Profile</button>
+    <button class="login-btn" id="myAdsBtn" style="display:none;">My Ads</button>
+  </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  const token = localStorage.getItem("cabii_token");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const profileBtn = document.getElementById("profileBtn");
+  const myAdsBtn = document.getElementById("myAdsBtn");
+  const postAdBtn = document.getElementById("postAdBtn");
+
+  // ================= AUTH BUTTON TOGGLE =================
+  if(token){
+    loginBtn.style.display = "none";
+    signupBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    profileBtn.style.display = "inline-block";
+    myAdsBtn.style.display = "inline-block";
+    postAdBtn.style.display = "inline-block";
+  } else {
+    loginBtn.style.display = "inline-block";
+    signupBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    profileBtn.style.display = "none";
+    myAdsBtn.style.display = "none";
+    postAdBtn.style.display = "none";
+  }
+
+  // ================= BUTTON ACTIONS =================
+  loginBtn.onclick = ()=> window.location.href="login.html";
+  signupBtn.onclick = ()=> window.location.href="signup.html";
+  logoutBtn.onclick = ()=>{
+    if(confirm("Logout from CABII?")){
+      localStorage.removeItem("cabii_token");
+      window.location.reload();
+    }
+  };
+  profileBtn.onclick = ()=> window.location.href="profile.html";
+  myAdsBtn.onclick = ()=> window.location.href="my-ads.html";
+
+});
+</script>

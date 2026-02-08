@@ -1,0 +1,20 @@
+<div class="dashboard-container">
+  <h2>Welcome, <span id="userName"></span></h2>
+
+  <div class="stats">
+    <div class="card">
+      <h3>Total Ads</h3>
+      <p id="totalAds">0</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("cabiiUser"));
+
+if (!user) {
+  window.location.href = "/login.html";
+} else {
+  document.getElementById("userName").innerText = user.name || "User";
+}
+</script>

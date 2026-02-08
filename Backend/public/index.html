@@ -1,0 +1,3445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> Cars And Bikes In India – CABII</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/corporate-fix.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f4f6f8;color:#222}
+.site-header{
+  background:#e0e4ea; /* dark header so logo text is visible */
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:12px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:relative;
+  z-index:1000;
+}
+.logo-area a{ color: #fff } 
+.logo-text{ color: #fff }
+.logo-area a{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  color:#000
+}
+.logo-img{height:45px;margin-right:10px}
+.logo-text{font-size:24px;font-weight:800; background: linear-gradient(90deg,#ff6a00,#dd2476,#7f00ff); -webkit-background-clip: text; background-clip:text; color:transparent; animation:siteColor 6s linear infinite}
+@keyframes siteColor{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.main-nav a{
+  margin-left:15px;
+  text-decoration:none;
+  color:#333;
+  font-weight:600;
+  position:relative;
+  z-index:2000;
+}
+
+.main-nav { position: relative; z-index:2000; }
+
+.login-btn { position: relative; z-index:2100; }
+
+.post-ad-btn{
+  background:#127235;
+  color:#fff!important;
+  padding:8px 16px;
+  border-radius:6px;
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 0 rgba(18, 114, 53, 0.7);
+  animation: glowPulse 2.5s infinite, buttonBounce 3s ease-in-out infinite;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.post-ad-btn:hover{
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 12px 32px rgba(18, 114, 53, 0.5),
+    0 0 30px rgba(18, 114, 53, 0.6),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  animation: glowPulse 1.5s infinite, buttonBounce 2s ease-in-out infinite;
+}
+
+.post-ad-btn:active{
+  transform: translateY(-1px) scale(0.98);
+}
+
+.post-ad-btn::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  border-radius: 6px;
+  animation: shine 3s infinite;
+  opacity: 0;
+}
+
+.post-ad-btn:hover::after{
+  opacity: 1;
+}
+
+@keyframes buttonBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 768px){
+  .post-ad-btn{
+    animation: mobilePulse 1.5s infinite;
+  }
+}
+
+@keyframes glowPulse{
+  0%{
+    box-shadow: 0 0 0 0 rgba(18, 114, 53, 0.7);
+  }
+  50%{
+    box-shadow: 0 0 0 8px rgba(18, 114, 53, 0);
+  }
+  100%{
+    box-shadow: 0 0 0 0 rgba(18, 114, 53, 0);
+  }
+}
+
+@keyframes shine{
+  0%{
+    left: -100%;
+  }
+  100%{
+    left: 100%;
+  }
+}
+
+@keyframes mobilePulse{
+  0%, 100%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.05);
+  }
+}
+
+.login-btn{
+  background:#db4437;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:4px;
+  margin-left:8px;
+  border:none;
+  cursor:pointer
+}
+
+.hero{
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  color:#fff;
+  padding:80px 20px 40px;
+  text-align:center;
+  animation: gradientShift 15s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+@keyframes gradientShift{
+  0%{
+    background-position: 0% 50%;
+  }
+  50%{
+    background-position: 100% 50%;
+  }
+  100%{
+    background-position: 0% 50%;
+  }
+}
+
+.hero-content{
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title{
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  animation: slideInDown 0.8s ease;
+  line-height: 1.3;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.hero-sub{
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.95;
+  animation: slideInUp 0.8s ease 0.1s backwards;
+}
+
+@keyframes slideInDown{
+  from{
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp{
+  from{
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trust-stats{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 700px;
+  margin: 30px auto 40px;
+  animation: slideInUp 0.8s ease 0.2s backwards;
+}
+
+.trust-stats div{
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(31,38,135,0.2);
+  transition: all 0.3s ease;
+}
+
+.trust-stats div:hover{
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(31,38,135,0.3);
+}
+
+.trust-stats strong{
+  display: block;
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.trust-stats span{
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.hero-cta{
+  display: inline-block;
+  background: #fff;
+  color: #127235;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  animation: slideInUp 0.8s ease 0.3s backwards;
+}
+
+.hero-cta:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px){
+  .hero{
+    padding: 40px 20px 30px;
+  }
+  
+  .hero-title{
+    font-size: 32px;
+  }
+  
+  .hero-sub{
+    font-size: 16px;
+  }
+  
+  .trust-stats{
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 20px auto 30px;
+  }
+}
+
+.search-box{
+  background:#fff;
+  max-width:900px;
+  margin:-25px auto 40px;
+  padding:15px;
+  border-radius:6px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+/* ===== PREMIUM SEARCH BOX ===== */
+.premium-search-container{
+  animation: slideInUp 0.8s ease 0.4s backwards;
+}
+
+.search-wrapper{
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+  max-width: 1000px;
+  margin: 0 auto 40px;
+  padding: 20px 16px;
+  border-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05);
+  backdrop-filter: blur(10px);
+}
+
+.search-input-group{
+  position: relative;
+  flex: 1 1 150px;
+  min-width: 150px;
+}
+
+.search-input{
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.search-input:focus{
+  outline: none;
+  border-color: #127235;
+  box-shadow: 0 0 0 3px rgba(18, 114, 53, 0.1);
+}
+
+.search-input::placeholder{
+  color: #999;
+}
+
+.search-brand{
+  appearance: none;
+  cursor: pointer;
+  padding-right: 36px;
+}
+
+.search-city{
+  padding-left: 36px;
+  cursor: pointer;
+}
+
+.brand-icon, .detect-btn, .voice-btn{
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detect-btn, .voice-btn{
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.detect-btn:hover, .voice-btn:hover{
+  background: rgba(18, 114, 53, 0.1);
+  transform: translateY(-50%) scale(1.15);
+}
+
+.search-btn{
+  flex: 0 1 auto;
+  background: linear-gradient(135deg, #127235 0%, #0f5c28 100%);
+  color: #fff;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(18, 114, 53, 0.3);
+}
+
+.search-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(18, 114, 53, 0.4);
+}
+
+.search-btn:active{
+  transform: translateY(0);
+}
+
+/* POPULAR SEARCHES */
+.popular-searches{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  padding: 0 4px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.popular-label{
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  white-space: nowrap;
+}
+
+.popular-tag{
+  background: linear-gradient(135deg, #f0fdf4 0%, #e8f8f2 100%);
+  color: #127235;
+  border: 1px solid #d1fae5;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.popular-tag:hover{
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(18, 114, 53, 0.15);
+}
+
+/* SERVICES SECTION */
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 30px auto 0;
+  padding: 0 20px;
+}
+
+.service-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #fff 0%, #f9fafb 100%);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.service-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.service-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #127235;
+  margin: 0;
+}
+
+.service-desc {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px){
+  .services-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px auto 0;
+  }
+  
+  .service-card {
+    padding: 12px;
+  }
+  
+  .service-icon {
+    font-size: 28px;
+  }
+  
+  .service-title {
+    font-size: 13px;
+  }
+  
+  .service-desc {
+    font-size: 11px;
+  }
+
+  .search-wrapper{
+    gap: 10px;
+    padding: 12px 12px;
+  }
+
+  .search-input-group{
+    flex: 1 1 100px;
+    min-width: 100px;
+  }
+
+  .search-btn{
+    flex: 1 1 100%;
+    order: 4;
+  }
+
+  .popular-searches{
+    margin-top: 12px;
+    gap: 6px;
+  }
+
+  .popular-tag{
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+.search-box input{
+  flex:1 1 200px;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:4px
+}
+.search-box select{
+  padding:12px;
+  border-radius:4px;
+  border:1px solid #ccc;
+}
+.search-box button{
+  padding:12px 20px;
+  border:none;
+  background:#28a745;
+  color:#fff;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+/* ===== CARD ENHANCEMENTS ===== */
+
+/* PRICE BADGE - BOLD AND PROMINENT */
+.price-badge{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* VERIFIED CHIP */
+.verified-chip{
+  display: inline-block;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  z-index: 10;
+}
+
+/* HOT DEAL / RECENTLY POSTED BADGE */
+.hot-deal-badge{
+  display: inline-block;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  z-index: 10;
+  animation: hotPulse 2s infinite;
+}
+
+@keyframes hotPulse{
+  0%, 100%{
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  }
+  50%{
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.6);
+  }
+}
+
+.card{
+  background:#fff;
+  border-radius:12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  overflow:hidden;
+  position:relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0,0,0,0.05);
+  animation: cardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card:hover{
+  box-shadow: 0 24px 48px rgba(0,0,0,0.18), 0 12px 24px rgba(0,0,0,0.12);
+  transform: translateY(-12px);
+}
+
+.card:hover .actions{
+  display: flex !important;
+}
+
+.card:hover .image-slider img{
+  transform: scale(1.08);
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.image-slider{
+  position: relative;
+  overflow: hidden;
+  height: 240px;
+  background: #f5f5f5;
+}
+
+.image-slider img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* LOGIN UNLOCK ANIMATION */
+.login-lock {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-left: 4px solid #dc2626;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #991b1b;
+  font-weight: 600;
+  margin: 12px 0;
+  animation: pulseAlert 2s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-lock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shineAlert 3s infinite;
+}
+
+@keyframes pulseAlert {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+  }
+}
+
+@keyframes shineAlert {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* UNLOCK CONTENT ANIMATION */
+.ad-description-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f0f7 100%);
+  border-left: 4px solid #0b3c91;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(11, 60, 145, 0.1);
+  animation: contentUnlock 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes contentUnlock {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+    filter: blur(0px);
+  }
+}
+
+.card .content{padding:15px}
+
+.card .actions{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  gap: 8px;
+  z-index: 100;
+  flex-direction: row;
+}
+
+.card:hover .actions{
+  display: flex;
+}
+
+.card .actions button{
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit{
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #000;
+}
+
+.edit:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+}
+
+.edit:active {
+  transform: scale(0.95);
+}
+
+.delete{
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.delete:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
+
+.delete:active {
+  transform: scale(0.95);
+}
+
+/* IMAGE SLIDER - PROFESSIONAL ZOOM & PREVIEW */
+.image-slider{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 12;   /* Larger preview area */
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-slider img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* Cover entire area for professional look */
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: zoom-in;
+}
+
+.image-slider:hover img {
+  transform: scale(1.05);   /* Subtle zoom on hover */
+}
+
+/* IMAGE SLIDER BUTTONS */
+.image-slider button{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+}
+
+.image-slider button:hover{
+  background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.prev{left: 10px}
+.next{right: 10px}
+
+/* IMAGE COUNTER */
+.image-counter {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+}
+
+/* WATERMARK / LOGO */
+.watermark{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.5);
+  padding: 4px 10px;
+  border-radius: 4px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  z-index: 15;
+  backdrop-filter: blur(4px);
+}
+
+.watermark:hover{
+  opacity: 1;
+  background: rgba(0,0,0,0.7);
+  transform: translateY(-2px);
+}
+
+/* DESCRIPTION & SELLER INFO */
+.desc{
+  font-size:14px;
+  line-height:1.6;
+}
+.seller-info{
+  border-top:1px solid #eee;
+  margin-top:8px;
+  padding-top:8px;
+  font-size:14px;
+}
+
+/* ===== PROFESSIONAL FOOTER ===== */
+footer.site-footer{
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #ccc;
+  padding: 60px 20px 30px;
+  margin-top: 80px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-section p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #aaa;
+  margin-bottom: 12px;
+}
+
+.footer-section a {
+  display: inline-block;
+  font-size: 14px;
+  color: #aaa;
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #fff;
+  padding-left: 4px;
+}
+
+/* SOCIAL ICONS */
+.social-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #ccc;
+}
+
+.social-icon:hover {
+  background: linear-gradient(135deg, #127235 0%, #0f5c28 100%);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(18, 114, 53, 0.4);
+}
+
+/* MADE IN INDIA BADGE */
+.made-in-india {
+  background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+  color: #000;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(255, 153, 51, 0.3);
+}
+
+/* FOOTER DIVIDER */
+.footer-divider {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 20px 0 0;
+  margin: 20px 0;
+}
+
+/* FOOTER BOTTOM */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+}
+
+.footer-bottom a {
+  color: #888;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #fff;
+}
+
+.legal-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.legal-links a {
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  footer.site-footer {
+    padding: 40px 16px 20px;
+  }
+  
+  .footer-grid {
+    gap: 24px;
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .legal-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+/* ===== PROFESSIONAL AD CARD UPGRADE ===== */
+
+.price-row{
+  font-size:20px;
+  font-weight:900;
+  color:#16a34a;
+  margin:6px 0 10px;
+}
+
+/* HIDE PRICE BADGE AND VERIFIED CHIP */
+.price-badge {
+  display: none !important;
+}
+
+.verified-chip {
+  display: none !important;
+}
+
+/* DESCRIPTION BOX */
+.ad-description{
+  background:#f8fafc;
+  border-left:4px solid #0b3c91;
+  padding:10px 12px;
+  border-radius:6px;
+  font-size:14px;
+  line-height:1.6;
+  color:#334155;
+  margin-bottom:10px;
+}
+
+/* NEW DESCRIPTION STYLING */
+.ad-description-box{
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f0f7 100%);
+  border-left: 4px solid #0b3c91;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(11, 60, 145, 0.1);
+}
+.ad-desc-title{
+  font-size: 16px;
+  font-weight: 700;
+  color: #0b3c91;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ad-desc-text{
+  font-size: 14px;
+  color: #2c3e50;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.login-lock{
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-left: 4px solid #dc2626;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #991b1b;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+.ad-description p{
+  margin-top:6px;
+}
+
+/* DESCRIPTION BADGE */
+.ad-badge{
+  display:inline-block;
+  font-size:11px;
+  font-weight:800;
+  color:#0b3c91;
+  background:#e0ecff;
+  padding:3px 10px;
+  border-radius:20px;
+}
+
+/* OWNER NAME */
+.owner-name{
+  font-size:13px;
+  font-weight:800;
+  color:#0b3c91;
+  margin-top:6px;
+  animation:pulseGlow 2.5s infinite;
+}
+
+/* VERIFIED CHIP */
+.verified{
+  display:inline-block;
+  margin-top:8px;
+  font-size:12px;
+  font-weight:800;
+  color:#065f46;
+  background:#d1fae5;
+  padding:4px 12px;
+  border-radius:20px;
+}
+
+/* OWNER NAME GLOW */
+@keyframes pulseGlow{
+  0%{opacity:1}
+  50%{opacity:0.6}
+  100%{opacity:1}
+}
+
+/* ===== MICRO-INTERACTIONS ===== */
+
+/* BUTTON RIPPLE EFFECT */
+button, a.post-ad-btn, .search-btn, .popular-tag {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: rippleAnimation 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes rippleAnimation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* CARD HOVER TILT 3D EFFECT */
+.card {
+  transform-style: preserve-3d;
+}
+
+.card:hover {
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --scale: 1.02;
+  transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(var(--scale));
+}
+
+/* LOADING SKELETONS */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeletonLoading 2s infinite;
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeletonLoading 2s infinite;
+}
+
+.skeleton-content {
+  padding: 16px;
+}
+
+.skeleton-price {
+  height: 24px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  width: 40%;
+  animation: skeletonLoading 2s infinite;
+}
+
+.skeleton-title {
+  height: 16px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  animation: skeletonLoading 2s infinite;
+}
+
+.skeleton-text {
+  height: 14px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  animation: skeletonLoading 2s infinite;
+}
+
+.skeleton-text:last-child {
+  width: 80%;
+  margin-bottom: 0;
+}
+
+/* SMOOTH PAGE TRANSITIONS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+body {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+a {
+  transition: all 0.3s ease;
+}
+
+/* PAGE EXIT ANIMATION */
+a[href]:not([href="#"]) {
+  transition: all 0.3s ease;
+}
+
+.page-transition {
+  animation: fadeOutDown 0.4s ease-in;
+}
+
+/* ===== HIGH-IMPACT FEATURES ===== */
+
+/* PRICE COMPARISON BADGE */
+.price-compare-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 6px;
+  z-index: 10;
+  animation: badgePop 0.4s ease-out;
+}
+
+.price-compare-badge.low-price {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+}
+
+.price-compare-badge.fair-price {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #fff;
+}
+
+.price-compare-badge.high-price {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #fff;
+}
+
+@keyframes badgePop {
+  from {
+    transform: scale(0) rotateZ(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+  }
+}
+
+/* SELLER RATING STARS */
+.seller-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.seller-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 14px;
+  color: #f59e0b;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.star.empty {
+  color: #ddd;
+}
+
+.rating-count {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* SAVE/WISHLIST BUTTON */
+.save-ad-btn {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.save-ad-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  background: #fff;
+  border-color: #127235;
+  box-shadow: 0 4px 12px rgba(18, 114, 53, 0.2);
+}
+
+.save-ad-btn.saved {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-color: #dc2626;
+  color: #fff;
+}
+
+
+
+/* LOCATION MAP PREVIEW */
+.location-map {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.location-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.location-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #127235;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.location-badge:hover {
+  color: #0f5c28;
+  transform: translateX(4px);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== TRUST SECTION ENHANCEMENT ===== */
+.trust-section {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  padding: 60px 20px;
+  margin: 80px 0 40px;
+  border-radius: 16px;
+  border: 2px solid #d1fae5;
+  animation: fadeInUp 0.8s ease-out;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.trust-section h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #127235;
+  margin-bottom: 32px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  animation: slideInDown 0.6s ease-out;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.trust-grid div {
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: #127235;
+  box-shadow: 0 2px 8px rgba(18, 114, 53, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid #d1fae5;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.trust-grid div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(18, 114, 53, 0.2);
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border-color: #10b981;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== SEARCH BOX UPGRADE ===== */
+.premium-search-container {
+  animation: slideInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s backwards;
+}
+
+.search-wrapper {
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+  max-width: 1000px;
+  margin: -30px auto 40px;
+  padding: 20px 16px;
+  border-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,0,0,0.06);
+  position: relative;
+  z-index: 10;
+}
+
+.search-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(18, 114, 53, 0.02) 0%, rgba(16, 185, 129, 0.02) 100%);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+.search-input-group {
+  position: relative;
+  flex: 1 1 150px;
+  min-width: 150px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #127235;
+  box-shadow: 0 0 0 3px rgba(18, 114, 53, 0.1), 0 4px 12px rgba(18, 114, 53, 0.1);
+  transform: scale(1.02);
+}
+
+.search-btn {
+  flex: 0 1 auto;
+  background: linear-gradient(135deg, #127235 0%, #0f5c28 100%);
+  color: #fff;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(18, 114, 53, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.search-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(18, 114, 53, 0.4);
+}
+
+.search-btn:active {
+  transform: translateY(0);
+}
+
+.popular-tag {
+  background: linear-gradient(135deg, #f0fdf4 0%, #e8f8f2 100%);
+  color: #127235;
+  border: 1px solid #d1fae5;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+
+.popular-tag:hover {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(18, 114, 53, 0.15);
+}
+/* ===== HEADER CLICK FIX ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 999999;
+  background: #e0e4ea;
+}
+
+.nav-right,
+.menu-icon,
+.login-btn {
+  position: relative;
+  z-index: 1000000;
+  pointer-events: auto;
+}
+/* MOBILE SMOOTH TOUCH */
+@media (max-width: 768px) {
+  .trust-card,
+  .post-ad-btn,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .trust-card {
+    transition: transform 0.2s ease;
+  }
+
+  .trust-card:active {
+    transform: scale(0.97);
+  }
+}
+</style>
+</head>
+<body>
+  <script>
+
+</script>
+<header class="site-header">
+  <div class="logo-area">
+    <a href="index.html" class="logo-link">
+      <img src="images/logo.png" class="logo-img" alt="CABII Logo">
+      <span class="logo-text">Cars And Bikes In India – CABII</span>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <!-- Guest -->
+    <a href="login.html" id="loginBtn" class="login-btn guest-only">Login / Signup</a>
+
+  
+    <!-- Hamburger -->
+    <button class="hamburger-btn" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="hamburger-menu" id="menu">
+  <!-- Guest -->
+  <a href="login.html" class="guest-only">🔐 Login / Signup</a>
+
+  <!-- Common -->
+  <a href="sell48.html">🚀 Sell in 48 Hours</a>
+  <a href="membership.html">💎 Membership Plans</a>
+ <a href="dealer-membership.html">💎Dealer-Membership Plans</a>
+  <!-- Logged in -->
+  <a href="post-ad.html" class="auth-only">➕ Post Free Ad</a>
+  <a href="dashboard.html" class="auth-only">📊 Dashboard</a>
+  <a href="profile.html" class="auth-only">👤 Profile</a>
+
+  <button id="menuLogoutBtn" class="auth-only">🚪 Logout</button>
+</div></div><section class="hero premium-hero">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Buy & Sell Cars and Bikes Across India
+    </h1>
+
+    <p class="hero-sub">
+       🇮🇳 India's Trusted Automobile Platform
+    </p>
+
+    <!-- TRUST COUNTERS -->
+    <div class="trust-stats">
+      <div><strong>10,000+</strong><span>Verified Listings</span></div>
+      <div><strong>100%</strong><span>Genuine Sellers</span></div>
+     <div class="trust-card fast-selling" id="sell48Trigger" role="button">
+  <h3>48 Hrs</h3>
+  <p>Fast Selling</p>
+</div>>
+</div>
+    </div>
+
+    
+
+      
+</section>
+</section>
+<!-- INLINE POST AD FORM (hidden by default) -->
+<section id="sell48Section" class="sell48-section" style="display:none; margin-top:20px;">
+  <div class="sell48-container">
+    <form id="sell48Form" class="sell48-form" enctype="multipart/form-data">
+
+<h2 class="section-title">Post Your Ad — Sell in 48 Hours</h2>
+
+     
+<div class="form-grid">
+
+        <div>
+          <label>Brand
+            <input name="brand" id="brand" placeholder="e.g., Maruti" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Model
+            <input name="model" id="model" placeholder="e.g., Swift" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Year
+            <input type="number" name="manufacturerYear" id="manufacturerYear" placeholder="YYYY" min="1900" max="2026">
+          </label>
+        </div>
+
+        <div>
+          <label>Km
+            <input name="Km" id="Km" placeholder="Km" required>
+          </label>
+        </div>
+<div>
+  <label>Owner</label>
+  <select id="owner" name="owner" required>
+    <option value="">Select</option>
+    <option>1st</option>
+    <option>2nd</option>
+    <option>3rd</option>
+    <option>4th</option>
+  </select>
+</div>
+
+<div>
+  <label>Insurance</label>
+  <select id="insurance" name="insurance" required>
+    <option value="">Select</option>
+    <option value="Valid">Valid</option>
+    <option value="Expired">Expired</option>
+  </select>
+</div>
+        <!-- TRANSMISSION -->
+        <div>
+          <label>Transmission</label>
+          <div class="option-group">
+            <button type="button" class="opt-btn" data-target="transmission" data-value="Manual">Manual</button>
+            <button type="button" class="opt-btn" data-target="transmission" data-value="Automatic">Automatic</button>
+          </div>
+          <input type="hidden" name="transmission" id="transmission">
+        </div>
+
+        <!-- FUEL -->
+        <div>
+          <label>Fuel</label>
+          <div class="option-group">
+            <button type="button" class="opt-btn" data-target="fuel" data-value="Petrol">Petrol</button>
+            <button type="button" class="opt-btn" data-target="fuel" data-value="Diesel">Diesel</button>
+            <button type="button" class="opt-btn" data-target="fuel" data-value="CNG">CNG</button>
+            <button type="button" class="opt-btn" data-target="fuel" data-value="Electric">Electric</button>
+          </div>
+          <input type="hidden" name="fuel" id="fuel">
+        </div>
+
+        <div>
+          <label>Price (₹)
+            <input type="number" name="price" id="price" required>
+          </label>
+        </div>
+
+<!-- MARKET ANALYSIS RESULT -->
+<input type="hidden" id="guaranteeEligible" name="guaranteeEligible" value="false">
+<!-- 🧠 CONDITION SCORE -->
+<div class="market-analysis-box">
+  <strong>🧠 Condition Score</strong>
+  <p id="conditionScoreText">Fill details to calculate condition</p>
+</div>
+
+<input type="hidden" id="conditionScore" name="conditionScore">
+
+<!-- 📊 MARKET ANALYSIS (ONLY ONE BOX) -->
+<div class="market-analysis-box" id="marketAnalysisBox"
+  style="border:2px dashed #cbd5e1;padding:12px;border-radius:8px;background:#f8fafc;">
+  <strong>📊 Market Analysis</strong>
+  <p id="marketAnalysisText">Enter details to check dealer market price</p>
+</div>
+
+</div>
+
+     <label>Description (Auto Generated)</label>
+<textarea
+  id="description"
+  name="description"
+  placeholder="Auto-generated description (you can edit if required)"
+  rows="8"
+></textarea>
+      <label class="upload-label" for="imagesInput">
+  📷 Upload Vehicle Images (6–10 required)
+</label>
+<input
+  id="imagesInput"
+  type="file"
+  name="images"
+  accept="image/*"
+  multiple
+  style="display:block;margin-top:6px"
+/>
+      <div id="imagePreview" class="grid" style="margin-top:10px"></div>
+
+      <label class="upload-label">
+        Upload RC Book Images (Front & Back) <span style="color:red">*</span>
+        <input id="rcImagesInput"
+       type="file"
+       name="rcImages"
+       accept="image/*"
+       multiple
+       required>
+      </label>
+<div id="rcPreview" class="grid" style="margin-top:10px"></div>
+      <div style="
+  background: linear-gradient(135deg, #b76d13, #fff1c1, #71a0d0);
+  border-left: 6px solid #f59e0b;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-top: 10px;
+  position: relative;
+  box-shadow: 
+    0 6px 18px rgba(245,158,11,0.25),
+    inset 0 0 18px rgba(199, 53, 53, 0.6);
+  overflow: hidden;
+">
+  <!-- SHINE EFFECT -->
+  <div style="
+    position:absolute;
+    top:-40%;
+    left:-60%;
+    width:200%;
+    height:200%;
+    background: linear-gradient(
+      120deg,
+      transparent 40%,
+      rgba(255,255,255,0.45) 50%,
+      transparent 60%
+    );
+    animation: rcShine 3.5s infinite;
+  "></div>
+
+  <div style="position:relative; z-index:2">
+    📘 <b>RC Book Mandatory for 48-Hour Guaranteed Sale</b><br>
+    <span style="
+      font-size:13px;
+      font-weight:600;
+      color:#7c2d12;
+      display:block;
+      margin-top:4px;
+    ">
+      RC verification required to activate fast-selling guarantee
+    </span>
+  </div>
+</div>
+<section class="trust-info">
+  <h3>🔐 Vehicle Verification System</h3>
+  <p>✔ AIu + RTO Intelligence</p>
+  <p>⏳ VAHAN Integration (NIC Approval in progress)</p>
+</section>
+<style>
+@keyframes rcShine {
+  0%   { transform: translateX(-50%) rotate(15deg); }
+  100% { transform: translateX(50%) rotate(15deg); }
+}
+.menu-toggle{
+  position:fixed;
+  top:15px;
+  left:15px;   /* ☰ left side like 99acres */
+  font-size:26px;
+  cursor:pointer;
+  z-index:1001;
+}
+
+.side-menu a:hover{
+  color:#f97316;
+}
+.nav-right{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-icon{
+  font-size: 26px;
+  cursor: pointer;
+}
+</style>
+      <div>
+        <label>Seller Name
+          <input name="sellername" id="sellername" placeholder="Name" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Contact Number
+          <input name="contactNumber" id="contactNumber" placeholder="Mobile" required>
+        </label>
+      </div>
+
+     <div>
+  <label>Location
+    <input name="location" id="location" placeholder="City" required>
+  </label>
+</div>
+      <div style="display:flex;gap:12px;margin-top:18px;align-items:center;">
+        <button id="postAdSubmit" class="post-btn" type="submit">Post Ad</button>
+        <button id="sell48Cancel" class="post-btn cancel-btn" type="button">Cancel</button>
+      </div>
+
+      <p id="sell48Message" class="info-text" style="margin-top:12px"></p>
+
+    </form>
+  </div>
+</section>
+</div>
+
+<p id="adsMessage" class="info-text" style="text-align:center;margin-top:18px;display:none"></p>
+<div id="adsContainer" class="grid" aria-live="polite"></div>
+<section class="trust-section">
+  <h2>🛡️ Why Cars And Bikes In India-CABII is Safe</h2>
+
+  <div class="trust-grid">
+    <div>✔ Verified Sellers</div>
+    <div>✔ No Spam Numbers</div>
+    <div>✔ Secure Login</div>
+    <div>✔ Fraud Protection</div>
+  </div>
+</section>
+
+<!-- EMI CALCULATOR POPUP -->
+
+<script>
+function showSuccessPopup(message){
+  const pop = document.getElementById("successPopup");
+  pop.textContent = "✅ " + message;
+  pop.style.display = "block";
+  setTimeout(()=> pop.style.display="none", 3000);
+}
+
+function showUpgradeModal(){
+  document.getElementById("upgradeModal").style.display = "flex";
+}
+
+function closeUpgrade(){
+  document.getElementById("upgradeModal").style.display = "none";
+}
+
+function goToMembership(){
+  window.location.href = "membership.html";
+}
+
+document.addEventListener("DOMContentLoaded", async ()=>{
+  
+/* ===== 🎯 MICRO-INTERACTIONS ===== */
+
+// Button Ripple Effect
+function createRipple(event) {
+  const button = event.currentTarget;
+  const ripple = document.createElement('span');
+  
+  const rect = button.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = event.clientX - rect.left - size / 2;
+  const y = event.clientY - rect.top - size / 2;
+  
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = x + 'px';
+  ripple.style.top = y + 'px';
+  ripple.classList.add('ripple');
+  
+  button.appendChild(ripple);
+  
+  setTimeout(() => ripple.remove(), 600);
+}
+
+// Add ripple effect to all buttons
+document.querySelectorAll('button, a.post-ad-btn, .search-btn, .popular-tag').forEach(button => {
+  button.addEventListener('click', createRipple);
+});
+
+// Card Hover Tilt Effect
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    
+    card.style.setProperty('--rotate-x', rotateX + 'deg');
+    card.style.setProperty('--rotate-y', rotateY + 'deg');
+    card.style.setProperty('--scale', '1.03');
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.setProperty('--rotate-x', '0deg');
+    card.style.setProperty('--rotate-y', '0deg');
+    card.style.setProperty('--scale', '1.02');
+  });
+});
+
+// Page Transition Effect
+document.querySelectorAll('a:not([href*="#"]):not([target="_blank"])').forEach(link => {
+  link.addEventListener('click', (e) => {
+    if (link.hostname !== window.location.hostname) return;
+    
+    e.preventDefault();
+    const href = link.getAttribute('href');
+    
+    document.body.classList.add('page-transition');
+    
+    setTimeout(() => {
+      window.location.href = href;
+    }, 300);
+  });
+});
+
+// Show Loading Skeleton
+function showSkeletons(count = 6) {
+  const container = document.getElementById('adsContainer');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  for (let i = 0; i < count; i++) {
+    const skeleton = document.createElement('div');
+    skeleton.className = 'skeleton-card';
+    skeleton.innerHTML = `
+      <div class="skeleton-image"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-price"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text"></div>
+      </div>
+    `;
+    container.appendChild(skeleton);
+  }
+}
+
+// Enhance loadAds to show skeletons first
+const originalLoadAds = window.loadAds;
+if (typeof originalLoadAds === 'function') {
+  window.loadAds = async function() {
+    showSkeletons();
+    return originalLoadAds();
+  };
+}
+
+/* ===== 48-HOUR AUTO-DESTROY ADS ===== */
+function checkAndDestroyExpiredAds() {
+  const adsContainer = document.getElementById('adsContainer');
+  if (!adsContainer) return;
+  
+  const cards = adsContainer.querySelectorAll('.card');
+  cards.forEach(card => {
+    const createdAtStr = card.dataset.createdAt;
+    if (createdAtStr) {
+      const createdAt = new Date(createdAtStr);
+      const now = new Date();
+      const diffMs = now - createdAt;
+      const diffHours = diffMs / (1000 * 60 * 60);
+      
+      if (diffHours > 48) {
+        card.style.opacity = '0.5';
+        card.style.pointerEvents = 'none';
+        card.style.borderLeft = '3px solid #dc2626';
+        const expiredOverlay = card.querySelector('.expired-overlay');
+        if (!expiredOverlay) {
+          const overlay = document.createElement('div');
+          overlay.className = 'expired-overlay';
+          overlay.innerHTML = '❌ Ad Expired (48H)';
+          overlay.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:12px;font-size:14px;';
+          card.style.position = 'relative';
+          card.appendChild(overlay);
+        }
+      }
+    }
+  });
+}
+
+// Check expired ads every 60 seconds
+setInterval(checkAndDestroyExpiredAds, 60000);
+checkAndDestroyExpiredAds();
+
+  
+/* ===== 🔍 PREMIUM SEARCH BOX (REAL WORKING) ===== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const searchCityInput = document.getElementById("searchCity");
+  const detectCityBtn   = document.getElementById("detectCityBtn");
+  const searchBtn       = document.getElementById("searchBtn");
+  const searchBrand     = document.getElementById("searchBrand");
+  const searchKeyword   = document.getElementById("searchKeyword");
+  const voiceSearchBtn  = document.getElementById("voiceSearchBtn");
+
+  /* ===============================
+     📍 AUTO-DETECT CITY
+  =============================== */
+  async function detectCity() {
+    if (!navigator.geolocation || !searchCityInput) return;
+
+    detectCityBtn && (detectCityBtn.textContent = "📍…");
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`
+          );
+          const data = await res.json();
+
+          const city =
+            data.address?.city ||
+            data.address?.town ||
+            data.address?.village ||
+            "";
+
+          searchCityInput.value = city;
+        } catch (e) {
+          console.error("City detect failed", e);
+        } finally {
+          detectCityBtn && (detectCityBtn.textContent = "📍");
+        }
+      },
+      () => detectCityBtn && (detectCityBtn.textContent = "📍")
+    );
+  }
+
+  detectCityBtn && detectCityBtn.addEventListener("click", detectCity);
+
+  /* ===============================
+     🔥 SEARCH ACTION (REAL)
+  =============================== */
+  function runSearch() {
+    const brand   = searchBrand?.value || "";
+    const city    = searchCityInput?.value || "";
+    const keyword = searchKeyword?.value || "";
+
+    // 🔥 REAL CONNECTION TO ADS
+    loadAds({
+      brand,
+      city,
+      q: keyword
+    });
+
+    document.getElementById("adsContainer")
+      ?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  searchBtn && searchBtn.addEventListener("click", runSearch);
+
+  /* ===============================
+     ⭐ POPULAR TAGS (REAL)
+  =============================== */
+  document.querySelectorAll(".popular-tag").forEach(tag => {
+    tag.addEventListener("click", () => {
+      if (searchKeyword) {
+        searchKeyword.value = tag.dataset.search || "";
+        runSearch();
+      }
+    });
+  });
+
+  /* ===============================
+     🎤 VOICE SEARCH (REAL)
+  =============================== */
+  voiceSearchBtn && voiceSearchBtn.addEventListener("click", () => {
+    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+      alert("Voice search not supported");
+      return;
+    }
+
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.onstart = () => {
+      voiceSearchBtn.textContent = "🎤🔴";
+    };
+
+    recognition.onresult = (e) => {
+      const text = e.results[0][0].transcript;
+      if (searchKeyword) searchKeyword.value = text;
+      voiceSearchBtn.textContent = "🎤";
+      runSearch();
+    };
+
+    recognition.onerror = () => {
+      voiceSearchBtn.textContent = "🎤";
+    };
+
+    recognition.start();
+  });
+
+  /* ===============================
+     ⌨️ ENTER KEY SEARCH
+  =============================== */
+  searchKeyword && searchKeyword.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      runSearch();
+    }
+  });
+
+});
+  
+// ==============================
+// 🚗 AUTO NUMBER PLATE + DESCRIPTION
+// ==============================
+const autoImg = document.getElementById("autoDetectImage");
+if (autoImg) {
+  autoImg.addEventListener("change", async () => {
+    // existing code 그대로
+  });
+}
+autoImg?.addEventListener("change", async () => {
+  const file = autoImg.files[0];
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append("image", file);
+
+  document.getElementById("ocrStatus").innerText = "⏳ Detecting vehicle number...";
+
+  try {
+    const res = await fetch(`${API}/api/detect-plate`, {
+      method: "POST",
+      body: fd
+    });
+
+    const data = await res.json();
+
+    if (data.vehicleNumber) {
+      document.getElementById("vehicleNumber").value = data.vehicleNumber;
+      document.getElementById("ocrStatus").innerText = "✅ Number detected";
+
+      if (data.description) {
+        document.getElementById("description").value = data.description;
+      }
+      document.getElementById("descStatus").innerText =
+  "✅ Description auto-generated (edit if required)";
+      // 🧠 SMART ASSIST (RC cannot fully auto-detect)
+document.getElementById("brand").placeholder = "Check RC book & enter";
+document.getElementById("model").placeholder = "As per RC";
+document.getElementById("manufacturerYear").placeholder = "RC Year";
+document.getElementById("owner").value = "";
+document.getElementById("insurance").value = "";
+    } else {
+      document.getElementById("ocrStatus").innerText =
+        "⚠️ Number not clear, please upload clearer image";
+    }
+
+  } catch (err) {
+    document.getElementById("ocrStatus").innerText =
+      "❌ Detection failed";
+  }
+});
+    /* ===== SELL48 TOGGLE ===== */
+  const sell48Toggle = document.getElementById("sell48Toggle");
+  const sell48Section = document.getElementById("sell48Section");
+  const sell48Cancel = document.getElementById("sell48Cancel");
+
+  sell48Toggle?.addEventListener("click", ()=>{
+     sell48Section.style.display="block";
+  });
+
+  sell48Cancel?.addEventListener("click", ()=>{
+    sell48Section.style.display="none";
+  });
+
+  /* ===== LOAD ADS ===== */
+ /* ===============================
+   MASTER LOAD ADS (PRODUCTION)
+================================ */
+async function loadAds() {
+  const adsContainer = document.getElementById("adsContainer");
+  if (!adsContainer) return;
+
+  showSkeletons(6);
+
+  try {
+    const res = await fetch(`${API_BASE}/ads`);
+    const ads = await res.json();
+
+    adsContainer.innerHTML = "";
+
+    if (!Array.isArray(ads) || ads.length === 0) {
+      adsContainer.innerHTML = "<p style='text-align:center'>No ads found</p>";
+      return;
+    }
+
+    const imageHost = API_BASE.replace("/api", "");
+
+    ads.forEach(ad => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.createdAt = ad.createdAt || new Date().toISOString();
+      card.style.animation = "fadeInUp 0.5s ease-out";
+
+      /* ---------- IMAGE SLIDER ---------- */
+      let imagesHTML = "";
+      if (Array.isArray(ad.images) && ad.images.length > 0) {
+        imagesHTML = `
+          <div class="image-slider" data-images='${JSON.stringify(ad.images)}' data-index="0">
+            <img
+              class="slider-img"
+              src="${imageHost}${ad.images[0]}"
+              alt="Vehicle"
+              onclick='openZoom(${JSON.stringify(ad.images)})'
+            />
+            ${
+              ad.images.length > 1
+                ? `
+                  <button class="prev">‹</button>
+                  <button class="next">›</button>
+                  <div class="image-counter">
+                    <span class="current-index">1</span>/${ad.images.length}
+                  </div>
+                `
+                : ""
+            }
+            <div class="watermark">
+              <img src="images/logo.png" alt="CABII">
+            </div>
+          </div>
+        `;
+      }
+
+      /* ---------- CARD BODY ---------- */
+      card.innerHTML = `
+        ${imagesHTML}
+
+        <button class="save-ad-btn" onclick="toggleSaveAd('${ad._id}')">♡</button>
+
+        <div class="hot-deal-badge">🔥 Recently Posted</div>
+
+        ${ad.guaranteeStatus === "approved" ? `<div class="guarantee ok">🟢 48H Guarantee</div>` : ""}
+        ${ad.guaranteeStatus === "pending" ? `<div class="guarantee pending">🟡 Under Review</div>` : ""}
+
+        <div class="content">
+          <p class="price">₹ ${ad.price ? ad.price.toLocaleString("en-IN") : "Price on request"}</p>
+
+          <div class="seller-rating">
+            ${"⭐".repeat(ad.sellerRating || 4)}${"☆".repeat(5 - (ad.sellerRating || 4))}
+            <span>(${ad.sellerReviews || 12})</span>
+          </div>
+
+          ${
+            currentUserId
+              ? `<div class="ad-description">${ad.description || "No description provided"}</div>`
+              : `<div class="login-lock">🔒 Login to view full description</div>`
+          }
+
+          <p class="owner-name">👤 ${ad.sellername || "Verified Seller"}</p>
+
+          <div class="location-badge" onclick="openLocationMap('${ad.location || ""}')">
+            📍 ${ad.location || "Location not specified"}
+          </div>
+
+          ${
+            currentUserId
+              ? `<a class="call-btn" href="tel:${ad.contactNumber}">📞 ${ad.contactNumber}</a>`
+              : `<p class="login-lock">🔒 Login to view contact</p>`
+          }
+
+          <span class="verified">✔ Verified Listing</span>
+        </div>
+      `;
+
+      /* ---------- OWNER ACTIONS ---------- */
+      if (currentUserId && ad.userId === currentUserId) {
+        const actions = document.createElement("div");
+        actions.className = "actions";
+        actions.innerHTML = `
+          <button class="edit">✏️ Edit</button>
+          <button class="delete">🗑️ Delete</button>
+        `;
+
+        actions.querySelector(".edit").onclick = () => {
+          window.location.href = `edit-ad.html?id=${ad._id}`;
+        };
+
+        actions.querySelector(".delete").onclick = async () => {
+          if (!confirm("Delete this ad?")) return;
+          const res = await fetch(`${API_BASE}/ads/${ad._id}`, {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: currentUserId })
+          });
+          if (res.ok) loadAds();
+        };
+
+        card.appendChild(actions);
+      }
+
+      adsContainer.appendChild(card);
+    });
+
+    setupImageSliders();
+
+  } catch (err) {
+    console.error("❌ loadAds failed", err);
+    adsContainer.innerHTML = "<p style='color:red'>Server error</p>";
+  }
+}
+
+/* ===============================
+   IMAGE SLIDER (SINGLE SOURCE)
+================================ */
+function setupImageSliders() {
+  document.querySelectorAll(".image-slider").forEach(slider => {
+    const images = JSON.parse(slider.dataset.images);
+    let index = 0;
+
+    const img = slider.querySelector("img");
+    const counter = slider.querySelector(".current-index");
+
+    slider.querySelector(".prev")?.addEventListener("click", e => {
+      e.stopPropagation();
+      index = (index - 1 + images.length) % images.length;
+      img.src = API_BASE.replace("/api", "") + images[index];
+      if (counter) counter.textContent = index + 1;
+    });
+
+    slider.querySelector(".next")?.addEventListener("click", e => {
+      e.stopPropagation();
+      index = (index + 1) % images.length;
+      img.src = API_BASE.replace("/api", "") + images[index];
+      if (counter) counter.textContent = index + 1;
+    });
+  });
+}
+</script>
+<footer class="site-footer">
+  <div class="footer-container">
+    <!-- FOOTER GRID -->
+    <div class="footer-grid">
+      <!-- ABOUT CABII -->
+      <div class="footer-section">
+        <h3>📱 About CABII</h3>
+        <p>CABII is India’s trusted automobile infrastructure for buying and selling cars and bikes. We connect verified sellers with genuine buyers through a secure, transparent, and technology-driven platform—ensuring fast, reliable, and hassle-free vehicle transactions across India.</p>
+        <p><strong>✔ 10,000+ Verified Listings</strong><br>✔ 100% Genuine Sellers<br>✔ 48H Guaranteed Sale</p>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="footer-section">
+        <h3>🔗 Quick Links</h3>
+        <a href="index.html">🏠 Home</a><br>
+        <a href="post-ad.html">📝 Post Free Ad</a><br>
+        <a href="sell48.html">🚀 Sell in 48 Hours</a><br>
+        <a href="membership.html">💎 Membership Plans</a><br>
+        <a href="trust.html">🛡️ Why Trust CABII</a>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="footer-section">
+        <h3>🚗 Our Services</h3>
+        <a href="insurance.html">🛡️ Car Insurance Affiliate</a><br>
+        <a href="fastag.html">🛣️ FASTag Service</a><br>
+        <a href="rc-transfer.html">📋 RC Transfer Service</a><br>
+        <a href="emi-calculator.html">💰 Loan / EMI Calculator</a>
+      </div>
+
+      <!-- SUPPORT & CONTACT -->
+      <div class="footer-section">
+        <h3>📞 Support & Contact</h3>
+        <p><strong>📧 Email:</strong><br><a href="mailto:support@cabii.in">carsandbikesini@cabii.in</a></p>
+        <p><strong>📱 WhatsApp:</strong><br><a href="https://wa.me/919769510067">+91 9769510067</a></p>
+        <p><strong>⏰ Hours:</strong><br>Mon-Sat: 10 AM - 7 PM<br>Sunday: Closed</p>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div class="footer-section">
+        <h3>🤝 Follow Us</h3>
+        <p>Stay updated with latest listings and tips</p>
+        <div class="social-icons">
+          <a href= class="social-icon" title="Facebook">f</a>
+          <a href="https://twitter.com/cabii" class="social-icon" title="Twitter">𝕏</a>
+          <a href=class="social-icon" title="Instagram">📷</a>
+          <a href="https://youtube.com/@Carsandbikesinindia-cabii
+          " class="social-icon" title="YouTube">▶</a>
+          <a href="https://linkedin.com/company/cabii" class="social-icon" title="LinkedIn">in</a>
+        </div>
+        <div class="made-in-india">🇮🇳 Made in India</div>
+      </div>
+    </div>
+
+    <!-- FOOTER DIVIDER -->
+    <div class="footer-divider"></div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+      <div style="flex: 1;">
+        <p>© 2025 <strong>Cars And Bikes In India – CABII</strong><br>All Rights Reserved</p>
+      </div>
+      <div class="legal-links">
+        <a href="privacy-policy.html">🔒 Privacy Policy</a>
+        <a href="terms.html">⚖️ Terms & Conditions</a>
+        <a href="refund-policy.html">🔄 Refund Policy</a>
+        <a href="contact.html">📧 Contact Us</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- SUCCESS POPUP -->
+<div id="successPopup" style="
+  display:none;
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#16a34a;
+  color:white;
+  padding:14px 20px;
+  border-radius:8px;
+  font-weight:bold;
+  z-index:9999;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+">
+  ✅ Ad Posted Successfully
+</div>
+<!-- LOGOUT SUCCESS POPUP -->
+<div id="logoutPopup" style="
+  display:none;
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#16a34a;
+  color:white;
+  padding:14px 20px;
+  border-radius:8px;
+  font-weight:bold;
+  z-index:9999;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+">
+  ✅ Logout Successful
+</div>
+<!-- UPGRADE POPUP -->
+<div id="upgradeModal" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    width:320px;
+    text-align:center;
+  ">
+    <h3>🚀 Upgrade Required</h3>
+    <p>You have used your free 2 ads.</p>
+    <p>Please upgrade your membership to post more ads.</p>
+
+    <button onclick="goToMembership()" style="
+      background:#0b3c91;
+      color:#fff;
+      border:none;
+      padding:10px 15px;
+      border-radius:5px;
+      cursor:pointer;
+    ">
+      View Membership Plans
+    </button>
+
+    <br><br>
+    <button onclick="closeUpgrade()" style="
+      background:none;
+      border:none;
+      color:red;
+      cursor:pointer;
+    ">
+      Cancel
+    </button>
+  </div>
+</div>
+<script>
+document.querySelectorAll(".opt-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const target = btn.dataset.target;
+    const value  = btn.dataset.value;
+
+    // UI active state
+    btn.parentElement.querySelectorAll(".opt-btn")
+      .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // set hidden input value
+    const input = document.getElementById(target);
+    if (input) {
+      input.value = value;
+    }
+
+    // 🔥 FORCE AUTO DESCRIPTION UPDATE
+    if (typeof generateAutoDescription === "function") {
+      generateAutoDescription();
+    }
+  });
+});
+</script>
+
+<script>
+document.querySelectorAll(".deal-timer").forEach(el => {
+  const expiry = el.dataset.expiry;
+  if (expiry) startTimer(expiry, el);
+});
+</script>
+
+<script>
+fetch(`${API}/ads`)
+  .then(res => res.json())
+  .then(data => {
+    console.log("ADS FROM BACKEND:", data);
+  })
+  .catch(err => {
+    console.error("ADS FETCH ERROR:", err);
+  });
+  </script>
+
+<script>
+function calculateConditionScore() {
+  let score = 100;
+
+  const year = Number(document.getElementById("manufacturerYear").value);
+  const km   = Number(document.getElementById("Km").value);
+  const owner = document.getElementById("owner").value;
+
+  const currentYear = new Date().getFullYear();
+
+  if (year && currentYear - year > 8) score -= 15;
+  if (km > 80000) score -= 20;
+  else if (km > 50000) score -= 10;
+
+  if (owner === "2nd") score -= 5;
+  if (owner === "3rd") score -= 10;
+  if (owner === "4th") score -= 15;
+
+  if (score < 40) score = 40;
+
+  document.getElementById("conditionScore").value = score;
+
+  let label = "Excellent";
+  if (score < 85) label = "Good";
+  if (score < 65) label = "Average";
+
+  document.getElementById("conditionScoreText").innerHTML =
+    `✅ ${score}/100 (${label})`;
+}
+
+/* 🔁 AUTO TRIGGER */
+["manufacturerYear","Km","owner"].forEach(id=>{
+  document.getElementById(id)
+    ?.addEventListener("change", calculateConditionScore);
+});
+</script>
+<script>
+
+
+async function runMarketAnalysis() {
+  const brand = document.getElementById("brand")?.value;
+  const model = document.getElementById("model")?.value;
+  const year  = document.getElementById("manufacturerYear")?.value;
+  const price = Number(document.getElementById("price")?.value);
+  const score = Number(document.getElementById("conditionScore")?.value || 80);
+
+  const box = document.getElementById("marketAnalysisText");
+
+  if (!brand || !model || !year || !price) {
+    box.innerHTML = "ℹ️ Fill details to check dealer market price";
+    box.style.color = "#475569";
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `${API}/api/market-rate?brand=${brand}&model=${model}&year=${year}`
+    );
+
+    const data = await res.json();
+
+    if (!data.rate) {
+      box.innerHTML = "❌ Dealer market data not available";
+      box.style.color = "red";
+      return;
+    }
+
+    // Example output (aap customize kar sakte ho)
+    box.innerHTML = `✅ Dealer market price: ₹${data.rate}`;
+    box.style.color = "green";
+
+  } catch (error) {
+    console.error(error);
+    box.innerHTML = "❌ Server error, try again later";
+    box.style.color = "red";
+  }
+}
+</script>
+    
+<script>
+const imagesInput = document.getElementById("imagesInput");
+const imagePreview = document.getElementById("imagePreview");
+
+let selectedImages = [];
+
+imagesInput?.addEventListener("change", () => {
+  selectedImages = [...imagesInput.files];
+  renderImages();
+});
+
+function renderImages() {
+  imagePreview.innerHTML = "";
+
+  selectedImages.forEach((file, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = `
+      position: relative;
+      display: inline-block;
+      margin: 8px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    `;
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.style.cssText = `
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      transition: all 0.3s ease;
+    `;
+
+    // Hover effect
+    wrapper.addEventListener("mouseenter", () => {
+      img.style.transform = "scale(1.05)";
+      img.style.filter = "brightness(0.7)";
+      controls.style.opacity = "1";
+    });
+
+    wrapper.addEventListener("mouseleave", () => {
+      img.style.transform = "scale(1)";
+      img.style.filter = "brightness(1)";
+      controls.style.opacity = "0";
+    });
+
+    // Controls
+    const controls = document.createElement("div");
+    controls.style.cssText = `
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 12px;
+    `;
+
+    // Edit button
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML = "✏️";
+    editBtn.style.cssText = `
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(59, 130, 246, 0.9);
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    `;
+    editBtn.title = "Replace image";
+    editBtn.onmouseover = () => editBtn.style.background = "rgba(37, 99, 235, 1)";
+    editBtn.onmouseout = () => editBtn.style.background = "rgba(59, 130, 246, 0.9)";
+    editBtn.onclick = () => {
+      const tempInput = document.createElement("input");
+      tempInput.type = "file";
+      tempInput.accept = "image/*";
+      tempInput.onchange = (e) => {
+        if (e.target.files[0]) {
+          selectedImages[index] = e.target.files[0];
+          renderImages();
+        }
+      };
+      tempInput.click();
+    };
+
+    // Delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML = "🗑️";
+    deleteBtn.style.cssText = `
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    `;
+    deleteBtn.title = "Delete image";
+    deleteBtn.onmouseover = () => deleteBtn.style.background = "rgba(220, 38, 38, 1)";
+    deleteBtn.onmouseout = () => deleteBtn.style.background = "rgba(239, 68, 68, 0.9)";
+    deleteBtn.onclick = () => {
+      selectedImages.splice(index, 1);
+      renderImages();
+    };
+
+    controls.appendChild(editBtn);
+    controls.appendChild(deleteBtn);
+
+    // Index badge
+    const badge = document.createElement("span");
+    badge.innerHTML = index + 1;
+    badge.style.cssText = `
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: linear-gradient(135deg, #127235, #10b981);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 10;
+    `;
+
+    wrapper.appendChild(img);
+    wrapper.appendChild(controls);
+    wrapper.appendChild(badge);
+    imagePreview.appendChild(wrapper);
+  });
+}
+</script>
+<script>
+/* ===============================
+   ENHANCED IMAGE PREVIEW WITH EDIT & DELETE
+================================ */
+
+function setupImagePreview(inputId, previewId) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+
+  let filesArray = [];
+
+  input.addEventListener("change", () => {
+    filesArray = Array.from(input.files);
+    render();
+  });
+
+  function render() {
+    preview.innerHTML = "";
+
+    filesArray.forEach((file, index) => {
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        const wrapper = document.createElement("div");
+        wrapper.style.cssText = `
+          position: relative;
+          display: inline-block;
+          margin: 8px;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          transition: all 0.3s ease;
+        `;
+
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.cssText = `
+          width: 140px;
+          height: 140px;
+          object-fit: cover;
+          border-radius: 12px;
+          display: block;
+          transition: all 0.3s ease;
+        `;
+
+        // Hover effect
+        wrapper.addEventListener("mouseenter", () => {
+          img.style.transform = "scale(1.05)";
+          img.style.filter = "brightness(0.7)";
+          controls.style.opacity = "1";
+        });
+
+        wrapper.addEventListener("mouseleave", () => {
+          img.style.transform = "scale(1)";
+          img.style.filter = "brightness(1)";
+          controls.style.opacity = "0";
+        });
+
+        // Controls
+        const controls = document.createElement("div");
+        controls.style.cssText = `
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          border-radius: 12px;
+        `;
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = "✏️";
+        editBtn.style.cssText = `
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(59, 130, 246, 0.9);
+          color: white;
+          cursor: pointer;
+          font-size: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        `;
+        editBtn.title = "Replace image";
+        editBtn.onmouseover = () => editBtn.style.background = "rgba(37, 99, 235, 1)";
+        editBtn.onmouseout = () => editBtn.style.background = "rgba(59, 130, 246, 0.9)";
+        editBtn.onclick = () => {
+          const tempInput = document.createElement("input");
+          tempInput.type = "file";
+          tempInput.accept = "image/*";
+          tempInput.onchange = (e) => {
+            if (e.target.files[0]) {
+              filesArray[index] = e.target.files[0];
+              updateInputFiles();
+              render();
+            }
+          };
+          tempInput.click();
+        };
+
+        // Delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = "🗑️";
+        deleteBtn.style.cssText = `
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(239, 68, 68, 0.9);
+          color: white;
+          cursor: pointer;
+          font-size: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        `;
+        deleteBtn.title = "Delete image";
+        deleteBtn.onmouseover = () => deleteBtn.style.background = "rgba(220, 38, 38, 1)";
+        deleteBtn.onmouseout = () => deleteBtn.style.background = "rgba(239, 68, 68, 0.9)";
+        deleteBtn.onclick = () => {
+          filesArray.splice(index, 1);
+          updateInputFiles();
+          render();
+        };
+
+        controls.appendChild(editBtn);
+        controls.appendChild(deleteBtn);
+
+        // Index badge
+        const badge = document.createElement("span");
+        badge.innerHTML = index + 1;
+        badge.style.cssText = `
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          background: linear-gradient(135deg, #127235, #10b981);
+          color: white;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 12px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          z-index: 10;
+        `;
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(controls);
+        wrapper.appendChild(badge);
+        preview.appendChild(wrapper);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function updateInputFiles() {
+    const dt = new DataTransfer();
+    filesArray.forEach(file => dt.items.add(file));
+    input.files = dt.files;
+  }
+}
+
+/* INIT BOTH */
+setupImagePreview("imagesInput", "imagePreview");
+setupImagePreview("rcImagesInput", "rcPreview");
+</script>
+
+
+<script>
+/* ===============================
+   🚗 CAR HEALTH SCORE SYSTEM
+   CABII – 48H GUARANTEE CORE
+================================ */
+
+function calculateHealthScore() {
+  let score = 100;
+
+  const year  = Number(document.getElementById("manufacturerYear")?.value);
+  const km    = Number(document.getElementById("Km")?.value);
+  const owner = document.getElementById("owner")?.value;
+
+  const currentYear = new Date().getFullYear();
+
+  if (year && currentYear - year > 8) score -= 15;
+  if (km > 80000) score -= 20;
+  else if (km > 50000) score -= 10;
+
+  if (owner === "2nd") score -= 5;
+  if (owner === "3rd") score -= 10;
+  if (owner === "4th") score -= 15;
+
+  if (score < 40) score = 40;
+
+  document.getElementById("conditionScore").value = score;
+
+  let label = "Excellent";
+  if (score < 85) label = "Good";
+  if (score < 65) label = "Average";
+
+  return { score, label };
+}
+</script>
+<script>
+async function run48HourCheck() {
+  const price = Number(document.getElementById("price")?.value);
+  const brand = document.getElementById("brand")?.value;
+  const model = document.getElementById("model")?.value;
+  const year  = document.getElementById("manufacturerYear")?.value;
+
+  if (!price || !brand || !model) return;
+
+  const health = calculateHealthScore();
+
+  const res = await fetch(`${API}/api/market-rate?brand=${brand}&model=${model}&year=${year}`);
+  const data = await res.json();
+  if (!data.rate) return;
+
+  // 🔥 CONDITION BASED PRICE
+  let factor = 1;
+  if (health.score < 70) factor = 0.95;
+  if (health.score < 55) factor = 0.90;
+
+  const dealerRate = Math.round(data.rate * factor);
+  const min = Math.round(dealerRate * 0.95);
+  const max = Math.round(dealerRate * 1.03);
+
+  showHealthPopup(health.score, health.label, price, min, max);
+}
+</script>
+<!-- 🚗 48H GUARANTEE POPUP -->
+<div id="healthPopup" style="
+display:none; position:fixed; inset:0;
+background:rgba(0,0,0,0.7);
+z-index:10000; align-items:center; justify-content:center;">
+  
+  <div style="
+  background:#fff; padding:20px; width:320px;
+  border-radius:10px; text-align:center">
+    
+    <h3>🚗 Vehicle Health Report</h3>
+
+    <p id="hpScore" style="font-weight:800"></p>
+    <p id="hpRange"></p>
+
+    <label style="font-size:13px;display:block;margin-top:10px">
+      <input type="checkbox" id="sellerDeclaration">
+      I confirm photos & details are genuine
+    </label>
+
+    <button onclick="confirm48H()" style="
+      margin-top:12px;
+      background:#16a34a;color:#fff;
+      border:none;padding:8px 12px;
+      border-radius:6px;cursor:pointer">
+      Confirm & Post Ad
+    </button>
+
+    <button onclick="closeHealthPopup()" style="
+      margin-top:8px;background:none;
+      border:none;color:red;cursor:pointer">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<script>
+function showHealthPopup(score, label, price, min, max) {
+  document.getElementById("hpScore").innerHTML =
+    `Health Score: ${score}/100 (${label})`;
+
+  const range = document.getElementById("hpRange");
+
+  if (price >= min && price <= max) {
+    range.innerHTML = `
+      💰 Dealer Range: ₹${min} – ₹${max}<br>
+      ✅ 48-Hour Guaranteed Sale
+    `;
+    document.getElementById("guaranteeEligible").value = "true";
+  } else {
+    range.innerHTML = `
+      ❌ Dealer Range: ₹${min} – ₹${max}<br>
+      Reduce price to activate guarantee
+    `;
+    document.getElementById("guaranteeEligible").value = "false";
+  }
+
+  document.getElementById("healthPopup").style.display = "flex";
+}
+
+function closeHealthPopup() {
+  document.getElementById("healthPopup").style.display = "none";
+}
+
+function confirm48H() {
+  if (!document.getElementById("sellerDeclaration").checked) {
+    alert("Declaration required");
+    return;
+  }
+  closeHealthPopup();
+  document.getElementById("sell48Form").requestSubmit();
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const menuBtn = document.getElementById("menuBtn");
+  const menu = document.getElementById("menu");
+
+  if (!menuBtn || !menu) return;
+
+  menuBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    menu.style.display =
+      menu.style.display === "block" ? "none" : "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+      menu.style.display = "none";
+    }
+  });
+
+});
+</script>
+<script>
+(function () {
+  const user = localStorage.getItem("cabiiUser");
+
+  const loginLink = document.getElementById("loginLink");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const menuLogoutBtn = document.getElementById("menuLogoutBtn");
+
+  const authOnly = document.querySelectorAll(".auth-only");
+  const guestOnly = document.querySelectorAll(".guest-only");
+
+  if (user) {
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    authOnly.forEach(el => el.style.display = "block");
+    guestOnly.forEach(el => el.style.display = "none");
+  } else {
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    authOnly.forEach(el => el.style.display = "none");
+    guestOnly.forEach(el => el.style.display = "block");
+  }
+
+  function logout() {
+    localStorage.removeItem("cabiiUser");
+    location.href = "login.html";
+  }
+
+  logoutBtn?.addEventListener("click", logout);
+  menuLogoutBtn?.addEventListener("click", logout);
+})();
+</script>
+
+<div class="hamburger-menu" id="menu">
+  <!-- Guest -->
+  <a href="login.html" class="guest-only">🔐 Login / Signup</a>
+
+  <!-- Common -->
+  <a href="sell48.html">🚀 Sell in 48 Hours</a>
+  <a href="membership.html">💎 Membership Plans</a>
+
+  <!-- Logged in -->
+  <a href="post-ad.html" class="auth-only">➕ Post Free Ad</a>
+  <a href="dashboard.html" class="auth-only">📊 Dashboard</a>
+  <a href="profile.html" class="auth-only">👤 Profile</a>
+
+  <button id="menuLogoutBtn" class="auth-only">🚪 Logout</button>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = localStorage.getItem("cabiiUser");
+
+  document.querySelectorAll(".auth-only").forEach(el => {
+    el.style.display = user ? "block" : "none";
+  });
+
+  document.querySelectorAll(".guest-only").forEach(el => {
+    el.style.display = user ? "none" : "block";
+  });
+});
+</script>
+<script>
+const API=cabii-carsandbikesinindia-production.up.railway.app;
+
+function loadAds(){
+ fetch(`${API}/api/ads`)
+ .then(r=>r.json())
+ .then(ads=>{
+  const box=document.getElementById("liveAds");
+  box.innerHTML="";
+  ads.forEach(ad=>{
+    box.innerHTML+=`
+      <div class="ad-card">
+        <img src="${API}${ad.images[0]}" />
+        <h3>${ad.brand} ${ad.model}</h3>
+        <p>₹${ad.price}</p>
+        <span>${ad.city}</span>
+      </div>
+    `;
+  });
+ });
+}
+
+document.getElementById("searchBtn").onclick=()=>{
+ const b=document.getElementById("searchBrand").value.toLowerCase();
+ const c=document.getElementById("searchCity").value.toLowerCase();
+
+ fetch(`${API}/api/ads`)
+ .then(r=>r.json())
+ .then(ads=>{
+  const box=document.getElementById("liveAds");
+  box.innerHTML="";
+  ads.filter(a=>
+    (!b || a.brand.toLowerCase().includes(b)) &&
+    (!c || (a.city||"").toLowerCase().includes(c))
+  ).forEach(ad=>{
+    box.innerHTML+=`
+      <div class="ad-card">
+        <img src="${API}${ad.images[0]}" />
+        <h3>${ad.brand} ${ad.model}</h3>
+        <p>₹${ad.price}</p>
+        <span>${ad.city}</span>
+      </div>
+    `;
+  });
+ });
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadAds();
+  setupImageSliders();
+  loadSavedAds?.();
+});
+})
+</script>
+<script>
+async function loadAds(filters = {}) {
+  const params = new URLSearchParams(filters).toString();
+  const res = await fetch(`${API_BASE}/api/ads?${params}`);
+  const ads = await res.json();
+
+  const box = document.getElementById("adsContainer");
+  box.innerHTML = "";
+
+  if (!Array.isArray(ads) || ads.length === 0) {
+    box.innerHTML = "<p>No ads found</p>";
+    return;
+  }
+
+  ads.forEach(ad => {
+    box.innerHTML += `
+      <div class="card">
+        <img src="${API_BASE}${ad.images?.[0] || ""}" />
+        <h3>${ad.brand} ${ad.model}</h3>
+        <p>₹${ad.price}</p>
+
+        ${
+          currentUser
+            ? `<p>${ad.description || ""}</p>`
+            : `<div class="login-lock">🔒 Login to view details</div>`
+        }
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadAds);
+</script>
+<script>
+document.getElementById("sell48Trigger")
+  ?.addEventListener("click", () => {
+    window.location.href = "sell48.html";
+  });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sell48 = document.getElementById("sell48Trigger");
+
+  if (!sell48) return;
+
+  sell48.addEventListener("click", () => {
+    const user = localStorage.getItem("cabiiUser");
+
+    if (!user) {
+      // 🔒 Guest user
+      alert("🔐 Sell in 48 Hours ke liye Login zaroori hai");
+      window.location.href = "login.html";
+      return;
+    }
+
+    // ✅ Logged in user
+    window.location.href = "sell48.html";
+  });
+});
+</script>
+</body>
+</html>

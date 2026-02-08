@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dealer Membership | CABII</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Segoe UI;background:#f4f6fb}
+.header{background:#0f172a;color:#fff;padding:15px 25px;font-size:18px;font-weight:700}
+.container{max-width:1100px;margin:30px auto;padding:20px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.plan{
+ background:#fff;border-radius:16px;padding:25px;
+ box-shadow:0 10px 25px rgba(0,0,0,.08)
+}
+.plan h2{margin:0 0 10px}
+.price{font-size:32px;font-weight:800;color:#16a34a}
+ul{padding-left:18px;color:#555}
+button{
+ width:100%;padding:14px;border:none;border-radius:10px;
+ background:#dc2626;color:#fff;font-weight:700;
+ cursor:pointer;margin-top:15px
+}
+button:hover{background:#991b1b}
+</style>
+</head>
+<body>
+
+<script>
+if(!localStorage.getItem("cabiiUser")){
+  location.replace("login.html");
+}
+</script>
+
+<div class="header">Dealer Membership – CABII</div>
+
+<div class="container">
+  <div class="plans">
+
+    <div class="plan">
+      <h2>🟦 Silver</h2>
+      <div class="price">₹999</div>
+      <ul>
+        <li>1 Month</li>
+        <li>2 Leads</li>
+        <li>Basic Support</li>
+      </ul>
+      <button onclick="buy('silver',999,2,1)">Buy Silver</button>
+    </div>
+
+    <div class="plan">
+      <h2>🟨 Gold</h2>
+      <div class="price">₹4999</div>
+      <ul>
+        <li>2 Months</li>
+        <li>10 Leads</li>
+        <li>Priority Support</li>
+      </ul>
+      <button onclick="buy('gold',4999,10,2)">Buy Gold</button>
+    </div>
+
+    <div class="plan">
+      <h2>🟪 Platinum</h2>
+      <div class="price">₹9999</div>
+      <ul>
+        <li>3 Months</li>
+        <li>20 Leads</li>
+        <li>VIP Support</li>
+      </ul>
+      <button onclick="buy('platinum',9999,20,3)">Buy Platinum</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function buy(plan, price, leads, months){
+  fetch("https://cabii-carsandbikesinindia.onrender.com/api/dealer/activate",{
+    method:"POST",
+    credentials:"include",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+      plan: plan,
+      leads: leads,
+      months: months
+    })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if(d.success){
+      alert("✅ Membership Activated!");
+      location.href="dealer-dashboard.html";
+    }else{
+      alert("❌ Activation failed");
+    }
+  });
+}
+</script>
+</body>
+</html>

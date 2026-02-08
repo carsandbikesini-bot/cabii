@@ -1,0 +1,18 @@
+{
+  "MH12AB1234": {
+    "brand": "Maruti",
+    "model": "Swift",
+    "fuel": "Petrol",
+    "owner": "1st",
+    "insurance": "Valid",
+    "manufacturerYear": 2019
+  },
+  "MH14CD5678": {
+    "brand": "Hyundai",
+    "model": "i20",
+    "fuel": "Diesel",
+    "owner": "2nd",
+    "insurance": "Expired",
+    "manufacturerYear": 2018
+  }
+}

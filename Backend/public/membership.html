@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cars And Bikes In India-CABII Membership Plans</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  padding:50px 20px 30px;
+}
+.header h1{
+  font-size:38px;
+  font-weight:800;
+}
+.header span{
+  color:#facc15;
+}
+.header p{
+  margin-top:10px;
+  color:#d1d5db;
+  font-size:16px;
+}
+
+/* PLANS */
+.plans{
+  padding:40px 20px 70px;
+}
+.plan-grid{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+/* CARD */
+.plan-card{
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  padding:35px 25px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  transition:0.4s;
+}
+.plan-card:hover{
+  transform:translateY(-10px) scale(1.03);
+}
+
+/* TITLES */
+.plan-card h3{
+  font-size:24px;
+  margin-bottom:10px;
+}
+.price{
+  font-size:42px;
+  font-weight:900;
+  margin:15px 0;
+}
+.price span{
+  font-size:14px;
+  color:#e5e7eb;
+}
+
+/* LIST */
+.plan-card ul{
+  list-style:none;
+  padding:0;
+  margin:25px 0 35px;
+  text-align:left;
+}
+.plan-card ul li{
+  margin:12px 0;
+  font-size:15px;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:15px;
+  font-size:17px;
+  font-weight:bold;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  transition:0.3s;
+  color:#fff;
+}
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(255,255,255,0.4);
+}
+
+/* FREE */
+.free{
+  border:2px solid #22c55e;
+}
+.free .btn{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+/* STARTER */
+.starter{
+  border:2px solid #3b82f6;
+}
+.starter .btn{
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+/* PRO */
+.pro{
+  border:2px solid #f59e0b;
+}
+.pro .btn{
+  background:linear-gradient(135deg,#f59e0b,#d97706);
+}
+
+/* BADGE */
+.badge{
+  position:absolute;
+  top:-14px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#facc15;
+  color:#000;
+  padding:6px 18px;
+  font-size:13px;
+  font-weight:bold;
+  border-radius:30px;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+  color:#cbd5f5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Cars And Bikes In India <span>(CABII)</span></h1>
+  <p>Sell Faster • Reach More Buyers • Upgrade Anytime</p>
+</div>
+
+<!-- PLANS -->
+<section class="plans">
+  <div class="plan-grid">
+
+    <!-- FREE -->
+    <div class="plan-card free">
+      <h3>🆓 Free Plan</h3>
+      <div class="price">₹0</div>
+      <ul>
+        <li>✔ 2 Free Ad</li>
+        <li>✔ 7 Days Validity</li>
+        <li>✔ Basic Visibility</li>
+        <li>✖ No Priority</li>
+      </ul>
+      <button class="btn">Start Free</button>
+    </div>
+
+    <!-- STARTER -->
+    <div class="plan-card starter">
+      <div class="badge">Best Choice</div>
+      <h3>💎 Starter Plan</h3>
+      <div class="price">₹299 <span>/month</span></div>
+      <ul>
+        <li>✔ 5 Ads</li>
+        <li>✔ 30 Days Validity</li>
+        <li>✔ Better Visibility</li>
+        <li>✔ Faster Selling</li>
+      </ul>
+      <button class="btn">Upgrade @ ₹299</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan-card pro">
+      <h3>👑 Pro Seller</h3>
+      <div class="price">₹499 <span>/month</span></div>
+      <ul>
+        <li>✔ 50 Ads</li>
+        <li>✔ 90 Days Validity</li>
+        <li>✔ Top Search Placement</li>
+        <li>✔ Verified Seller Badge</li>
+        <li>✔ Priority Support</li>
+      </ul>
+      <button class="btn">Go Pro @ ₹499</button>
+    </div>
+
+  </div>
+</section>
+
+<div class="footer">
+© 2025 Cars And Bikes In India – CABII |India's Trusted Automible Marketplace
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  // Check if user is logged in
+  let isLoggedIn = false;
+  try {
+    const res = await fetch("https://cabii-carsandbikesinindia.onrender.com/auth/check-session", {
+      credentials: "include"
+    });
+    if (res.ok) {
+      const data = await res.json();
+      isLoggedIn = data.loggedIn;
+    }
+  } catch (e) {
+    console.error("Session check error:", e);
+  }
+
+  // Get all plan buttons
+  const buttons = document.querySelectorAll(".btn");
+  
+  buttons.forEach((btn, index) => {
+    btn.style.cursor = "pointer";
+    
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      
+      if (!isLoggedIn) {
+        alert("Please login first to upgrade your membership");
+        window.location.href = "login.html";
+        return;
+      }
+
+      let plan = "free";
+      let price = 0;
+      
+      if (index === 0) {
+        plan = "free";
+        price = 0;
+        alert("✅ You are on the Free Plan\n\n📋 Features:\n• 2 Free Ads\n• Unlimited Validity\n• Basic Visibility");
+      } else if (index === 1) {
+        plan = "starter";
+        price = 299;
+      } else if (index === 2) {
+        plan = "pro";
+        price = 499;
+      }
+
+      if (plan !== "free") {
+        // In real app, this would integrate with payment gateway
+        alert(`🔔 Upgrade to ${plan.toUpperCase()}\n\nAmount: ₹${price}/month\n\n⏳ Payment gateway integration coming soon!\n\nFor now, please contact support.`);
+        
+        // Store membership preference
+        localStorage.setItem("preferredPlan", plan);
+        localStorage.setItem("preferredPrice", price);
+      }
+    });
+  });
+});
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>

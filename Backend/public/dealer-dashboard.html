@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dealer Dashboard | CABII</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Segoe UI;background:#f4f6fb}
+.header{
+  background:#0f172a;color:#fff;
+  padding:15px 25px;font-size:18px;
+  display:flex;justify-content:space-between;align-items:center
+}
+.container{max-width:1100px;margin:30px auto;padding:20px}
+.card{
+  background:#fff;padding:20px;border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  margin-bottom:20px
+}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.stat{
+  background:#f8fafc;border-radius:12px;
+  padding:15px;font-weight:700;text-align:center
+}
+.stat span{display:block;font-size:26px;margin-top:5px;color:#16a34a}
+
+.lead{
+  border:1px solid #e5e7eb;
+  padding:15px;border-radius:12px;margin-bottom:12px
+}
+.timer{
+  font-weight:700;
+  margin:8px 0;
+  color:#dc2626
+}
+.lead button{
+  background:#dc2626;color:#fff;border:none;
+  padding:8px 14px;border-radius:8px;
+  cursor:pointer;font-weight:700
+}
+.lead button:hover{background:#991b1b}
+
+.logout{
+  background:#dc2626;border:none;color:#fff;
+  padding:8px 14px;border-radius:8px;
+  cursor:pointer
+}
+.timer.red {
+  color: #dc2626;
+  font-weight: 900;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1 }
+  50% { opacity: 0.6 }
+  100% { opacity: 1 }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+if(!localStorage.getItem("cabiiUser")){
+  location.replace("login.html");
+}
+</script>
+
+<div class="header">
+  <div>Dealer Dashboard – CABII</div>
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h3>📊 Membership Status</h3>
+    <div class="stats">
+      <div class="stat">Plan<span id="plan">-</span></div>
+      <div class="stat">Total Leads<span id="total">0</span></div>
+      <div class="stat">Used Leads<span id="used">0</span></div>
+      <div class="stat">Remaining<span id="remaining">0</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📞 Assigned Leads (48 Hours)</h3>
+    <div id="leadsBox">Loading leads...</div>
+  </div>
+
+</div>
+
+<script>
+const API = cabii-carsandbikesinindia-production.up.railway.app;
+
+/* ===== LOGOUT ===== */
+function logout(){
+  fetch(API + "/api/logout",{method:"POST",credentials:"include"})
+    .then(()=>{
+      localStorage.removeItem("cabiiUser");
+      location.href="login.html";
+    });
+}
+
+/* ===== LOAD DEALER STATUS ===== */
+async function loadStatus(){
+  const res = await fetch(API + "/api/dealer/status",{credentials:"include"});
+  if(!res.ok) return;
+  const d = await res.json();
+
+  document.getElementById("plan").innerHTML =
+  d.plan === "platinum" ? "Platinum ⭐" :
+  d.plan === "gold" ? "Gold 🟨" :
+  d.plan === "silver" ? "Silver 🟦" : "-";
+  document.getElementById("total").innerText = d.leadLimit || 0;
+  document.getElementById("used").innerText = d.leadUsed || 0;
+  document.getElementById("remaining").innerText =
+    (d.leadLimit || 0) - (d.leadUsed || 0);
+}
+
+/* ===== LOAD LEADS ===== */
+async function loadLeads(){
+  const res = await fetch(API + "/api/dealer/leads",{credentials:"include"});
+  const box = document.getElementById("leadsBox");
+
+  if(!res.ok){
+    box.innerHTML="❌ Failed to load leads";
+    return;
+  }
+
+  const leads = await res.json();
+  if(leads.length===0){
+    box.innerHTML="No leads available";
+    return;
+  }
+
+  box.innerHTML="";
+  leads.forEach(l=>{
+    const div=document.createElement("div");
+    div.className="lead";
+   div.innerHTML=`
+  <h4>${l.brand} ${l.model}</h4>
+  <p>📍 ${l.city}</p>
+  <p>💰 ₹${l.price}</p>
+
+  <div class="timer" data-time="${l.assignedAt}">
+    ⏳ <span class="countdown"></span>
+  </div>
+
+  <button onclick="useLead('${l._id}')">Use Lead</button>
+`;
+    box.appendChild(div);
+  });
+
+  startCountdown();
+}
+
+/* ===== COUNTDOWN (48 HOURS) ===== */
+function startCountdown(){
+  document.querySelectorAll(".timer").forEach(t=>{
+    const start = new Date(t.dataset.time).getTime();
+
+    function update(){
+      const diff = start + 48*60*60*1000 - Date.now();
+
+      if(diff <= 0){
+        t.innerHTML = "⛔ Lead Expired";
+        return;
+      }
+
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+
+      // 🔴 LAST 6 HOURS → RED TIMER
+      if(diff <= 6 * 60 * 60 * 1000){
+        t.classList.add("red");
+      }
+
+      t.querySelector(".countdown").innerText =
+        `${h}h ${m}m left`;
+    }
+
+    update();
+    setInterval(update,60000); // every 1 minute
+  });
+}
+
+/* ===== USE LEAD ===== */
+async function useLead(id){
+  if(!confirm("Consume this lead?")) return;
+
+  const res = await fetch(API + "/api/dealer/use-lead",{
+    method:"POST",
+    credentials:"include",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({leadId:id})
+  });
+
+  const d = await res.json();
+  if(d.success){
+    alert("✅ Lead consumed");
+    loadStatus();
+    loadLeads();
+  }else{
+    alert("❌ " + d.message);
+  }
+}
+startCountdown();
+loadStatus();
+loadLeads();
+</script>
+
+</body>
+</html>

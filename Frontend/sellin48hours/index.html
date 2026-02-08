@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sell Your Car in 48 Hours | CABII</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6f9;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+  padding:16px 30px;
+}
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-size:22px;
+  font-weight:bold;
+}
+nav a{
+  color:#fff;
+  margin-left:20px;
+  text-decoration:none;
+  font-weight:600;
+}
+nav a:hover{opacity:.8}
+
+/* ===== HERO ===== */
+.hero{
+  background:#fff;
+  padding:30px 20px;
+  text-align:center;
+  border-bottom:1px solid #ddd;
+}
+.hero h1{
+  margin:0;
+  color:#222;
+}
+.hero p{
+  color:#555;
+  margin-top:8px;
+}
+
+/* ===== FORM ===== */
+.container{
+  max-width:1200px;
+  margin:20px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+label{
+  font-weight:600;
+  margin-top:10px;
+  display:block;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+.btnGroup button{
+  padding:10px 16px;
+  margin:6px 6px 0 0;
+  border-radius:20px;
+  border:1px solid #ccc;
+  background:#f1f1f1;
+  cursor:pointer;
+}
+.btnGroup button.active{
+  background:#007bff;
+  color:#fff;
+  border-color:#007bff;
+}
+
+#preview{
+  display:flex;
+  gap:12px;
+  margin-top:10px;
+}
+.imgBox{
+  position:relative;
+}
+.imgBox img{
+  width:110px;
+  height:75px;
+  border-radius:6px;
+  object-fit:cover;
+}
+.imgBox span{
+  position:absolute;
+  top:4px;
+  right:6px;
+  background:#e11d48;
+  color:#fff;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+  display:none;
+  cursor:pointer;
+}
+
+#conditionBox,#marketBox{
+  margin-top:12px;
+  padding:10px;
+  border-radius:6px;
+  background:#f8fafc;
+  font-weight:700;
+}
+
+/* ===== BUTTON ===== */
+#activate48{
+  width:100%;
+  margin-top:20px;
+  padding:16px;
+  font-size:17px;
+  border:none;
+  border-radius:30px;
+  background:#cbd5e1;
+  color:#fff;
+  cursor:not-allowed;
+}
+#activate48.active{
+  background:linear-gradient(90deg,#16a34a,#22c55e);
+  cursor:pointer;
+}
+
+/* ===== POPUP ===== */
+#popup{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+}
+#popup .box{
+  background:#fff;
+  padding:22px;
+  width:320px;
+  margin:18% auto;
+  border-radius:10px;
+  text-align:center;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#0f172a;
+  color:#cbd5e1;
+  padding:30px 20px;
+  margin-top:40px;
+}
+.footer-inner{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+footer h4{margin-bottom:10px;color:#fff}
+footer p,footer a{
+  font-size:14px;
+  color:#cbd5e1;
+  text-decoration:none;
+}
+footer a:hover{color:#fff}
+.copy{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+<span class="logo-text">Cars And Bikes In India – CABII</span>
+    </a>  </div>
+</header>
+
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sell Car in 48 Hours – CABII</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:8px;
+}
+h2{margin-bottom:10px}
+
+input,select,textarea{
+  width:100%;
+  padding:8px;
+  margin:6px 0;
+}
+
+.btnGroup button{
+  padding:8px 14px;
+  margin:4px;
+  border:1px solid #ccc;
+  background:#eee;
+  cursor:pointer;
+}
+.btnGroup button.active{
+  background:#007bff;
+  color:#fff;
+}
+
+#preview{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.imgBox{
+  position:relative;
+}
+.imgBox img{
+  width:100px;
+  height:70px;
+  object-fit:cover;
+  border-radius:4px;
+}
+.imgBox span{
+  position:absolute;
+  top:2px;
+  right:5px;
+  background:red;
+  color:#fff;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+  display:none;
+  cursor:pointer;
+}
+
+#conditionBox,#marketBox{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+#activate48{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  background:#ccc;
+  border:none;
+  color:#fff;
+  cursor:not-allowed;
+}
+#activate48.active{
+  background:#28a745;
+  cursor:pointer;
+}
+
+#popup{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.5);
+}
+#popup .box{
+  background:#fff;
+  padding:20px;
+  width:300px;
+  margin:15% auto;
+  text-align:center;
+  border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Sell Your Car in 48 Hours (Guaranteed)</h2>
+
+<label>Brand</label>
+<input id="brand">
+
+<label>Model</label>
+<input id="model">
+
+<label>Manufacturing Year</label>
+<input id="year" type="number">
+
+<label>KM Driven</label>
+<input id="km" type="number">
+
+<label>Owner</label>
+<select id="owner">
+  <option value="">Select</option>
+  <option value="1">1st Owner</option>
+  <option value="2">2nd Owner</option>
+  <option value="3">3rd Owner</option>
+</select>
+
+<label>Insurance</label>
+<select id="insurance">
+  <option value="valid">Valid</option>
+  <option value="expired">Expired</option>
+</select>
+
+<label>Fuel</label>
+<div class="btnGroup">
+  <button data-set="fuel" data-val="Petrol">Petrol</button>
+  <button data-set="fuel" data-val="Diesel">Diesel</button>
+  <button data-set="fuel" data-val="CNG">CNG</button>
+</div>
+<input type="hidden" id="fuel">
+
+<label>Transmission</label>
+<div class="btnGroup">
+  <button data-set="transmission" data-val="Manual">Manual</button>
+  <button data-set="transmission" data-val="Automatic">Automatic</button>
+</div>
+<input type="hidden" id="transmission">
+
+<label>Your Expected Price (₹)</label>
+<input id="price" type="number">
+
+<label>Vehicle Images (min 3)</label>
+<input type="file" id="images" multiple accept="image/*">
+<div id="preview"></div>
+
+<div id="conditionBox"></div>
+<div id="marketBox"></div>
+
+<label>Description (Auto Generated)</label>
+<textarea id="description" rows="6"></textarea>
+
+<button id="activate48" disabled>Complete all details to activate</button>
+
+</div>
+
+<div id="popup">
+  <div class="box">
+    <div id="popupData"></div><br>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<script src="sell48.js"></script>
+</body>
+</html>
+
+<!-- ===== POPUP ===== -->
+<div id="popup">
+  <div class="box">
+    <div id="popupData"></div><br>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>About CABII</h4>
+      <p>Cars And Bikes In India (CABII™) is a trusted vehicle marketplace with AI-driven pricing & verification.</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <p>Sell Car in 48 Hours</p>
+      <p>Dealer Network</p>
+      <p>Price Discovery</p>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <p>Privacy Policy</p>
+      <p>Terms & Conditions</p>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <p>Email: carsandbikesini@gmail.com</p>
+      <p>India Only</p>
+    </div>
+  </div>
+  <div class="copy">
+    © 2026 Cars And Bikes In India – CABII™. All rights reserved.
+  </div>
+</footer>
+
+<script src="/sellin48hours/sell48.js"></script>
+</body>
+</html>

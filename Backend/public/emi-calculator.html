@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CABII – Loan / EMI Calculator</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f4f6f8;color:#222}
+
+/* ===== HEADER ===== */
+.site-header{
+  background:#e0e4ea;
+  padding:12px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 8px rgba(0,0,0,.1)
+}
+.logo-wrap{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1
+}
+.logo-text{
+  font-size:26px;
+  font-weight:800;
+  background:linear-gradient(90deg,#ff6a00,#dd2476,#7f00ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.logo-tag{
+  font-size:11px;
+  color:#555;
+  font-weight:600;
+}
+.main-nav a{
+  margin-left:15px;
+  text-decoration:none;
+  font-weight:600;
+  color:#333
+}
+
+/* ===== PAGE ===== */
+.page-container{
+  max-width:950px;
+  margin:35px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 6px 25px rgba(0,0,0,.12)
+}
+h1{
+  text-align:center;
+  margin-bottom:25px;
+  color:#0f7a3a
+}
+
+/* ===== CALCULATOR ===== */
+.calculator{
+  background:linear-gradient(135deg,#0f7a3a,#0a4f25);
+  color:#fff;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25)
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px
+}
+label{
+  font-size:14px;
+  font-weight:600;
+  display:block;
+  margin-bottom:6px
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  font-size:15px
+}
+input:focus{
+  outline:none;
+  box-shadow:0 0 0 2px #ffd700
+}
+
+button.calc-btn{
+  margin-top:18px;
+  padding:14px;
+  width:100%;
+  background:linear-gradient(90deg,#ffd700,#ffae00);
+  border:none;
+  border-radius:8px;
+  font-weight:800;
+  cursor:pointer;
+  font-size:16px
+}
+
+/* ===== RESULTS ===== */
+.results{
+  margin-top:25px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px
+}
+.box{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  padding:18px;
+  border-radius:12px;
+  text-align:center
+}
+.box h4{
+  font-size:14px;
+  color:#ffd700;
+  margin-bottom:6px
+}
+.box p{
+  font-size:22px;
+  font-weight:800
+}
+
+/* ===== APPLY LOAN ===== */
+.apply-box{
+  margin-top:35px;
+  background:#f9fafb;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.12)
+}
+.apply-box h3{
+  margin-bottom:15px;
+  color:#0f7a3a
+}
+.apply-box input{
+  margin-bottom:12px;
+  border:1px solid #ccc
+}
+.apply-box button{
+  width:100%;
+  padding:14px;
+  background:#0f7a3a;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-weight:800;
+  font-size:16px;
+  cursor:pointer
+}
+.apply-box button:hover{
+  background:#0a4f25
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .grid,.results{grid-template-columns:1fr}
+  .main-nav{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="logo-wrap">
+    <div class="logo-text">CABII</div>
+    <div class="logo-tag">Cars And Bikes In India</div>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="post-ad.html">Post Free Ad</a>
+    <a href="sell48.html">Sell in 48H</a>
+  </nav>
+</header>
+
+<div class="page-container">
+<h1>💰 Loan / EMI Calculator</h1>
+
+<div class="calculator">
+<div class="grid">
+  <div>
+    <label>Vehicle Price (₹)</label>
+    <input id="price" type="number" value="500000">
+  </div>
+  <div>
+    <label>Down Payment (₹)</label>
+    <input id="down" type="number" value="100000">
+  </div>
+  <div>
+    <label>Interest Rate (% yearly)</label>
+    <input id="rate" type="number" value="9.5">
+  </div>
+  <div>
+    <label>Loan Tenure (Months)</label>
+    <input id="months" type="number" value="60">
+  </div>
+</div>
+
+<button class="calc-btn" onclick="calculateEMI()">Calculate EMI</button>
+
+<div class="results">
+  <div class="box"><h4>Monthly EMI</h4><p>₹ <span id="emi">0</span></p></div>
+  <div class="box"><h4>Total Interest</h4><p>₹ <span id="interest">0</span></p></div>
+  <div class="box"><h4>Loan Amount</h4><p>₹ <span id="loan">0</span></p></div>
+  <div class="box"><h4>Total Payout</h4><p>₹ <span id="total">0</span></p></div>
+</div>
+</div>
+
+<div class="apply-box">
+<h3>📞 Apply for Loan (Bank / NBFC will contact you)</h3>
+
+<form id="loanForm">
+  <input name="name" placeholder="Full Name" required>
+  <input name="mobile" placeholder="Mobile Number" required>
+  <input name="city" placeholder="City" required>
+  <input name="amount" placeholder="Loan Amount" required>
+  <button type="submit">Submit Application</button>
+</form>
+
+<p style="font-size:13px;color:#666;margin-top:10px">
+By submitting, you agree that partner banks/NBFCs may contact you.
+</p>
+</div>
+
+</div>
+
+<script>
+function calculateEMI(){
+  let P = price.value - down.value;
+  let r = (rate.value/12)/100;
+  let n = months.value;
+  if(P<=0){alert("Down payment invalid");return}
+
+  let emi = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  let total = emi*n;
+  let interest = total-P;
+
+  emi = Math.round(emi);
+  total = Math.round(total);
+  interest = Math.round(interest);
+
+  document.getElementById("emi").innerText = emi;
+  document.getElementById("interest").innerText = interest;
+  document.getElementById("loan").innerText = P;
+  document.getElementById("total").innerText = total;
+}
+
+/* Auto calculate on change */
+["price","down","rate","months"].forEach(id=>{
+  document.getElementById(id).addEventListener("input",calculateEMI)
+});
+calculateEMI();
+
+document.getElementById("loanForm").onsubmit=(e)=>{
+  e.preventDefault();
+  alert("Application submitted successfully. Bank will contact you.");
+  e.target.reset();
+}
+</script>
+
+</body>
+</html>

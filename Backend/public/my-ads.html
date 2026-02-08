@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Ads | Cars And Bikes In India-CABII</title>
+<meta charset="UTF-8">
+<style>
+body{font-family:Arial;background:#f4f6f8}
+.grid{max-width:1000px;margin:30px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+.card{background:#fff;padding:15px;border-radius:8px}
+img{width:100%;height:180px;object-fit:cover}
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center">My Ads</h2>
+<div class="grid" id="ads"></div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if(!user){
+  alert("Login required");
+  location.href="login.html";
+}
+
+fetch(`https://cabii-carsandbikesinindia.onrender.com/user/ads/${user._id}`)
+.then(res=>res.json())
+.then(ads=>{
+  const box=document.getElementById("ads");
+  ads.forEach(ad=>{
+    box.innerHTML+=`
+      <div class="card">
+        <img src="https://cabii-carsandbikesinindia.onrender.com${ad.images[0]}">
+        <h3>${ad.brand} ${ad.model}</h3>
+        <p>₹${ad.price}</p>
+        <p>${ad.city}</p>
+      </div>`;
+  });
+});
+</script>
+<script>
+(function () {
+  const user = localStorage.getItem("cabiiUser");
+  if (!user) {
+    window.location.replace("login.html");
+  }
+})();
+</script>
+</body>
+</html>
