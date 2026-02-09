@@ -153,10 +153,12 @@ function isLoggedIn(req,res,next){
  next();
 }
 
-app.get("/api/auth/me",(req,res)=>{
- res.json({userId:req.session?.userId||null});
+app.get("/api/auth/me", (req,res)=>{
+  if(!req.session?.userId){
+    return res.status(401).json({userId:null});
+  }
+  res.json({userId:req.session.userId});
 });
-
 /* ================= REGISTER ================= */
 app.post("/api/register", async (req, res) => {
   try {
@@ -253,7 +255,6 @@ app.post("/api/logout", (req, res) => {
 
     res.clearCookie("cabii.sid", {
       path: "/",
-      secure: process.env.NODE_ENV === "production",
       secure: true,
       sameSite: "none"
     });
