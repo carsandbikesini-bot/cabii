@@ -125,12 +125,9 @@ button{
   <div class="note">🔒 Secure • ✔ Verified • Trusted Platform</div>
 </div>
 
-<!-- ====================
-   CABII LOGIN / SIGNUP – STABLE CORE
-   OTP = DISABLED (INTENTIONALLY)
-================================ -->
 <script>
 const API = location.protocol + "//" + location.host;
+
 const nameEl = document.getElementById("name");
 const emailEl = document.getElementById("email");
 const passwordEl = document.getElementById("password");
@@ -161,17 +158,13 @@ loginBtn.addEventListener("click", async (e) => {
   setLoading(loginBtn, true);
 
   try {
+    const res = await fetch(API + "/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ email, password })
+    });
 
-fetch(API + "/api/register",{
-  method:"POST",
-  headers:{ "Content-Type":"application/json" },
-  credentials:"include",
-  body: JSON.stringify({
-    name: name,
-    email: email,
-    password: password
-  })
-});
     const data = await res.json();
 
     if (!res.ok || !data.success) {
@@ -179,17 +172,12 @@ fetch(API + "/api/register",{
       return;
     }
 
-    // SESSION VERIFY
-    const me = await fetch(API + "/api/auth/me",{
-      credentials:"include"
-    });
+    // Optional: store user if backend sends it
+    if (data.user) {
+      localStorage.setItem("cabiiUser", JSON.stringify(data.user));
+    }
 
-    const user = await me.json();
-    console.log("SESSION USER:", user);
-
-    localStorage.setItem("cabiiUser", JSON.stringify(data.user));
-
-    alert("Login Successful");
+    alert("✅ Login Successful");
     window.location.href = "/";
 
   } catch (err) {
@@ -199,6 +187,7 @@ fetch(API + "/api/register",{
     setLoading(loginBtn, false);
   }
 });
+
 /* ================= SIGNUP ================= */
 signupBtn.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -219,11 +208,7 @@ signupBtn.addEventListener("click", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({
-        name,
-        email,
-        password
-      })
+      body: JSON.stringify({ name, email, password })
     });
 
     const data = await res.json();
@@ -233,7 +218,7 @@ signupBtn.addEventListener("click", async (e) => {
       return;
     }
 
-    alert("Account created successfully");
+    alert("✅ Account created successfully");
     window.location.href = "/";
 
   } catch (err) {
@@ -243,6 +228,7 @@ signupBtn.addEventListener("click", async (e) => {
     setLoading(signupBtn, false);
   }
 });
+
 /* ================= FORGOT PASSWORD ================= */
 document.getElementById("forgotLink").addEventListener("click", async (e) => {
   e.preventDefault();
@@ -258,15 +244,7 @@ document.getElementById("forgotLink").addEventListener("click", async (e) => {
       body: JSON.stringify({ email })
     });
 
-    const text = await res.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (err) {
-      console.error("Invalid JSON:", err, text);
-      alert("Server returned invalid response. Refresh and try again.");
-      return;
-    }
+    const data = await res.json();
 
     if (!res.ok || !data.success) {
       alert(data.message || "Error");
@@ -281,7 +259,3 @@ document.getElementById("forgotLink").addEventListener("click", async (e) => {
   }
 });
 </script>
-
-
-</body>
-</html>

@@ -131,19 +131,32 @@ app.post("/api/register", async (req, res) => {
 /* ================= LOGIN ================= */
 app.post("/api/login", async (req, res) => {
   try {
-    console.log("LOGIN HIT");
-    console.log(req.body);
+    const { email, password } = req.body;
 
-    return res.json({
-      success: true,
-      message: "Login API reached"
-    });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email & password required" });
+    }
 
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    req.session.userId = user._id;
+    res.json({ success: true });
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Server error" });
   }
-});/* ================= FORGOT PASSWORD ================= */
+});
+
+/* ================= FORGOT PASSWORD ================= */
 const forgotLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5
