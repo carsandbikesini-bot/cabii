@@ -494,6 +494,42 @@ app.options("*", (req, res) => {
 app.get("/api/auth/test", (req,res)=>{
   res.json({status:"auth working"});
 });
+/* ================== GLOBAL ERROR FIX (CABII LOGIN FIX) ================== */
+
+// Railway trust proxy
+app.set("trust proxy", 1);
+
+// Body parser
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+// Test route
+app.get("/api/test", (req, res) => {
+  res.json({ success: true, message: "CABII API WORKING" });
+});
+
+// Catch missing API routes
+app.use("/api", (req, res, next) => {
+  next();
+});
+
+// 404 handler
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith("/api")) {
+    return res.status(404).json({ success:false, message:"API route not found" });
+  }
+  next();
+});
+
+// Global error handler (VERY IMPORTANT)
+app.use((err, req, res, next) => {
+  console.error("SERVER CRASH:", err);
+  res.status(500).json({
+    success:false,
+    message:"Internal server error",
+    error: err.message
+  });
+});
   app.listen(PORT, ()=>{
     console.log("🚀 CABII SERVER RUNNING ON PORT " + PORT);
   });
