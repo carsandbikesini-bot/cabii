@@ -192,12 +192,20 @@ app.post("/api/register", async (req, res) => {
 
 /* ================= LOGIN ================= */
 app.post("/api/login", async (req, res) => {
-  return res.json({
-    success: true,
-    message: "Login API reached"
-  });
-});
-/* ================= FORGOT PASSWORD ================= */
+  try {
+    console.log("LOGIN HIT");
+    console.log(req.body);
+
+    return res.json({
+      success: true,
+      message: "Login API reached"
+    });
+
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});/* ================= FORGOT PASSWORD ================= */
 const forgotLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5
