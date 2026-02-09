@@ -209,42 +209,34 @@ signupBtn.addEventListener("click", async (e) => {
   setLoading(signupBtn, true);
 
   try {
-const res = await fetch(API + "/api/login",{
-  method:"POST",
-  headers:{ "Content-Type":"application/json" },
-  credentials:"include",
-  body: JSON.stringify({
-    email: email,
-    password: password
-  })
-});
-    const text = await res.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (err) {
-      console.error("Invalid JSON:", err, text);
-      alert("Server returned invalid response. Refresh and try again.");
-      return;
-    }
+    const res = await fetch(API + "/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        name,
+        email,
+        password
+      })
+    });
+
+    const data = await res.json();
 
     if (!res.ok || !data.success) {
       alert(data.message || "Signup failed");
       return;
     }
 
-    localStorage.setItem("cabiiUser", JSON.stringify(data.user));
     alert("Account created successfully");
     window.location.href = "/";
 
   } catch (err) {
     console.error("SIGNUP ERROR:", err);
-    alert("Server error. Try again.");
+    alert("Server error");
   } finally {
     setLoading(signupBtn, false);
   }
 });
-
 /* ================= FORGOT PASSWORD ================= */
 document.getElementById("forgotLink").addEventListener("click", async (e) => {
   e.preventDefault();
