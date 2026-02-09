@@ -52,26 +52,30 @@ mongoose
     console.log("✅ MongoDB connected");
 
     /* ================= SESSION (AFTER DB) ================= */
+/* ================= SESSION FIX (FINAL) ================= */
+
+app.set("trust proxy", 1);
+
 app.use(session({
   name: "cabii.sid",
-  secret: process.env.SESSION_SECRET || "cabii_local_secret",
+  secret: process.env.SESSION_SECRET || "cabii_secret_2026",
   resave: false,
   saveUninitialized: false,
-  proxy: true,
 
   store: MongoStore.create({
-    client: mongoose.connection.getClient(),
+    mongoUrl: process.env.MONGO_URI,
     ttl: 60 * 60 * 24 * 7
   }),
 
   cookie: {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: false,          // VERY IMPORTANT (Railway fix)
+    sameSite: "lax",        // VERY IMPORTANT
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }));
-    /* ================= AUTH ================= */
+
+/* ================= AUTH ================= */
 
     function isLoggedIn(req, res, next) {
       if (!req.session || !req.session.userId) {
