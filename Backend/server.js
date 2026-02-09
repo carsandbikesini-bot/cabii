@@ -466,7 +466,30 @@ app.get("/api/ping",(req,res)=>{
   res.json({status:"ok"});
 });
 
+/* ================= FIX RAILWAY LOGIN SESSION ================= */
 
+// Railway reverse proxy fix
+app.set("trust proxy", 1);
+
+// Important headers (VERY IMPORTANT)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://www.carsandbikesinindia.com");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+// Preflight fix
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://www.carsandbikesinindia.com");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(200);
+});
+
+// Health debug
+app.get("/api/auth/test", (req,res)=>{
+  res.json({status:"auth working"});
+});
   app.listen(PORT, ()=>{
     console.log("🚀 CABII SERVER RUNNING ON PORT " + PORT);
   });
