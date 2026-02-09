@@ -123,28 +123,19 @@ mongoose.connect(process.env.MONGO_URI)
   console.log("✅ MongoDB connected");
 
   /* ===== SESSION AFTER DB ===== */
-app.use(
-  session({
-    name: "cabii.sid",
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    proxy: true,
-
-    store: MongoStore.create({
-      client: mongoose.connection.getClient(),
-      ttl: 60 * 60 * 24 * 7,
-    }),
-
-    cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      path: "/",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    },
-  })
-);
+app.use(session({
+  name: "cabii.sid",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  proxy: true,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
 /* ================= AUTH ================= */
 function isLoggedIn(req,res,next){
  if(!req.session || !req.session.userId)
