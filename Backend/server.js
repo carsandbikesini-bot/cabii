@@ -18,20 +18,23 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 const MongoStore = require("connect-mongo");
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-/* ================= TRUST PROXY ================= */
-
+app.set("trust proxy", 1);
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === "production") {
+    req.headers["x-forwarded-proto"] = "https";
+  }
+  next();
+});
+const PORT = process.env.PORT || 8080;
 
 /* ================= CORS ================= */
-app.set("trust proxy", 1);
 
 app.use(cors({
   origin: [
-    "https://www.carsandbikesinindia.com",
-    
-  ],
-  credentials: true
+  "https://carsandbikesinindia.com",
+  "https://www.carsandbikesinindia.com"
+],
+credentials: true
 }));
 app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({extended:true,limit:"50mb"}));
@@ -120,9 +123,8 @@ mongoose.connect(process.env.MONGO_URI)
   console.log("✅ MongoDB connected");
 
   /* ===== SESSION AFTER DB ===== */
-app.set("trust proxy", 1);
-
-  app.use(session({
+app.use(
+  session({
     name: "cabii.sid",
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -131,18 +133,18 @@ app.set("trust proxy", 1);
 
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
-      ttl: 60 * 60 * 24 * 7
+      ttl: 60 * 60 * 24 * 7,
     }),
 
-   cookie: {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  domain: ".carsandbikesinindia.com",
-  path: "/",
-  maxAge: 1000 * 60 * 60 * 24 * 7
-}
-  }));
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      path: "/",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+);
 /* ================= AUTH ================= */
 function isLoggedIn(req,res,next){
  if(!req.session || !req.session.userId)
@@ -160,20 +162,33 @@ app.post("/api/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    if (await User.findOne({ email })) {
+    if (!name || !email || !password) {
+      return res.status(400).json({ success: false, message: "All fields required" });
+    }
+
+    const existing = await User.findOne({ email });
+    if (existing) {
       return res.status(400).json({ success: false, message: "User exists" });
     }
 
     const hash = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hash });
 
-    req.session.userId = user._id.toString();
-    req.session.save(err => {
+    req.session.regenerate(err => {
       if (err) {
-        console.error("SESSION SAVE ERROR:", err);
+        console.error("SESSION REGENERATE ERROR:", err);
         return res.status(500).json({ success: false, message: "Session error" });
       }
-      return res.json({ success: true, user });
+
+      req.session.userId = user._id.toString();
+
+      req.session.save(err => {
+        if (err) {
+          console.error("SESSION SAVE ERROR:", err);
+          return res.status(500).json({ success: false, message: "Session error" });
+        }
+        res.json({ success: true, user });
+      });
     });
 
   } catch (err) {
@@ -183,92 +198,134 @@ app.post("/api/register", async (req, res) => {
 });
 
 /* ================= LOGIN ================= */
-app.post("/api/login", async (req,res)=>{
-  try{
-    const {email,password} = req.body;
-    const user = await User.findOne({email});
-    if(!user) return res.status(400).json({ success: false, message:"User not found" });
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-    const match = await bcrypt.compare(password,user.password);
-    if(!match) return res.status(401).json({ success: false, message:"Wrong password" });
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Email & password required" });
+    }
 
-    req.session.userId = user._id.toString();
-    req.session.save(err=>{
-      if(err){
-        console.error("SESSION SAVE ERROR:",err);
-        return res.status(500).json({ success: false, message:"Session error" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({ success: false, message: "Wrong password" });
+    }
+
+    req.session.regenerate(err => {
+      if (err) {
+        console.error("SESSION REGENERATE ERROR:", err);
+        return res.status(500).json({ success: false, message: "Session error" });
       }
-      return res.json({ success: true, user });
+
+      req.session.userId = user._id.toString();
+
+      req.session.save(err => {
+        if (err) {
+          console.error("SESSION SAVE ERROR:", err);
+          return res.status(500).json({ success: false, message: "Session error" });
+        }
+        res.json({ success: true, user });
+      });
     });
 
-  }catch(err){
-    console.error("LOGIN ERROR:",err);
-    res.status(500).json({ success: false, message:"Server error" });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
 /* ================= LOGOUT ================= */
-app.post("/api/logout", (req,res)=>{
-  req.session.destroy(err=>{
-    if(err){
-      console.error("LOGOUT ERROR:",err);
-      return res.status(500).json({ success:false, message:"Logout failed" });
+app.post("/api/logout", (req, res) => {
+  if (!req.session) {
+    return res.json({ success: true });
+  }
+
+  req.session.destroy(err => {
+    if (err) {
+      console.error("LOGOUT ERROR:", err);
+      return res.status(500).json({ success: false, message: "Logout failed" });
     }
-    res.clearCookie("cabii.sid");
-    return res.json({ success:true, message:"Logged out successfully" });
+
+    res.clearCookie("cabii.sid", {
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      secure: true,
+      sameSite: "none"
+    });
+
+    res.json({ success: true, message: "Logged out successfully" });
   });
 });
 
 /* ================= FORGOT PASSWORD ================= */
-const forgotLimiter=rateLimit({windowMs:15*60*1000,max:5});
-app.post("/api/auth/forgot-password",forgotLimiter,async(req,res)=>{
- try{
-   const {email}=req.body;
-   const user=await User.findOne({email});
-   if(!user) return res.json({success:true});
+const forgotLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5
+});
 
-   const token=crypto.randomBytes(32).toString("hex");
-   user.resetToken=token;
-   user.resetTokenExpiry=Date.now()+15*60*1000;
-   await user.save();
+app.post("/api/auth/forgot-password", forgotLimiter, async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.json({ success: true });
 
-   const link=`${process.env.FRONTEND_URL}/reset-password.html?token=${token}`;
-   await transporter.sendMail({
-     from:`CABII <${process.env.EMAIL_USER}>`,
-     to:user.email,
-     subject:"Reset Password",
-     html:`Click here to reset password:<br>${link}`
-   });
+    const user = await User.findOne({ email });
+    if (!user) return res.json({ success: true });
 
-   res.json({success:true});
- }catch(e){
-   console.error("FORGOT PASSWORD ERROR:",e);
-   res.status(500).json({success:false,message:"Email send failed"});
- }
+    const token = crypto.randomBytes(32).toString("hex");
+    user.resetToken = token;
+    user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
+    await user.save();
+
+    const link = `${process.env.FRONTEND_URL}/reset-password.html?token=${token}`;
+
+    await transporter.sendMail({
+      from: `CABII <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: "Reset Password",
+      html: `Click here to reset password:<br><a href="${link}">${link}</a>`
+    });
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error("FORGOT PASSWORD ERROR:", e);
+    res.status(500).json({ success: false, message: "Email send failed" });
+  }
 });
 
 /* ================= RESET PASSWORD ================= */
-app.post("/api/auth/reset-password",async(req,res)=>{
- try{
-   const {token,newPassword}=req.body;
-   const user=await User.findOne({
-    resetToken:token,
-    resetTokenExpiry:{$gt:Date.now()}
-   });
-   if(!user) return res.status(401).json({success:false,message:"Invalid token"});
+app.post("/api/auth/reset-password", async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
 
-   user.password=await bcrypt.hash(newPassword,10);
-   user.resetToken=undefined;
-   user.resetTokenExpiry=undefined;
-   await user.save();
+    if (!token || !newPassword) {
+      return res.status(400).json({ success: false, message: "Invalid request" });
+    }
 
-   res.json({success:true});
- }catch(err){
-   console.error("RESET PASSWORD ERROR:",err);
-   res.status(500).json({success:false,message:"Server error"});
- }
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid or expired token" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+    await user.save();
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("RESET PASSWORD ERROR:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
-
 /* ================= MULTER ================= */
 const upload = multer({
   limits:{ fileSize:5*1024*1024 },
