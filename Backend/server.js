@@ -24,16 +24,15 @@ const PORT = process.env.PORT || 5000;
 
 
 /* ================= CORS ================= */
-const corsOptions = {
-  origin: [
-    "https://cabii-carsandbikesinindia-production.up.railway.app"
-  ],
-  credentials: true,
-  methods: ["GET","POST","PUT","DELETE"],
-  allowedHeaders: ["Content-Type","Authorization"]
-};
+app.set("trust proxy", 1);
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: [
+    "https://www.carsandbikesinindia.com",
+    
+  ],
+  credentials: true
+}));
 app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({extended:true,limit:"50mb"}));
 
@@ -135,13 +134,14 @@ app.set("trust proxy", 1);
       ttl: 60 * 60 * 24 * 7
     }),
 
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+   cookie: {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  domain: ".carsandbikesinindia.com",
+  path: "/",
+  maxAge: 1000 * 60 * 60 * 24 * 7
+}
   }));
 /* ================= AUTH ================= */
 function isLoggedIn(req,res,next){
