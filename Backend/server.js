@@ -201,68 +201,11 @@ app.post("/api/register", async (req, res) => {
 
 /* ================= LOGIN ================= */
 app.post("/api/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: "Email & password required" });
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ success: false, message: "User not found" });
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ success: false, message: "Wrong password" });
-    }
-
-    req.session.regenerate(err => {
-      if (err) {
-        console.error("SESSION REGENERATE ERROR:", err);
-        return res.status(500).json({ success: false, message: "Session error" });
-      }
-
-      req.session.userId = user._id.toString();
-
-      req.session.save(err => {
-        if (err) {
-          console.error("SESSION SAVE ERROR:", err);
-          return res.status(500).json({ success: false, message: "Session error" });
-        }
-        res.json({ success: true, user });
-      });
-    });
-
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-/* ================= LOGOUT ================= */
-app.post("/api/logout", (req, res) => {
-  if (!req.session) {
-    return res.json({ success: true });
-  }
-
-  req.session.destroy(err => {
-    if (err) {
-      console.error("LOGOUT ERROR:", err);
-      return res.status(500).json({ success: false, message: "Logout failed" });
-    }
-
-    res.clearCookie("cabii.sid", {
-      path: "/",
-      secure: true,
-      sameSite: "none"
-    });
-
-    res.json({ success: true, message: "Logged out successfully" });
+  return res.json({
+    success: true,
+    message: "Login API reached"
   });
 });
-
 /* ================= FORGOT PASSWORD ================= */
 const forgotLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
