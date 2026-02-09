@@ -22,14 +22,14 @@ if(!user){
   location.href="login.html";
 }
 
-fetch(`https://cabii-carsandbikesinindia.onrender.com/user/ads/${user._id}`)
+fetch(`https://www.carsandbikesinindia.com/user/ads/${user._id}`)
 .then(res=>res.json())
 .then(ads=>{
   const box=document.getElementById("ads");
   ads.forEach(ad=>{
     box.innerHTML+=`
       <div class="card">
-        <img src="https://cabii-carsandbikesinindia.onrender.com${ad.images[0]}">
+        <img src="https://www.carsandbikesinindia.com${ad.images[0]}">
         <h3>${ad.brand} ${ad.model}</h3>
         <p>₹${ad.price}</p>
         <p>${ad.city}</p>

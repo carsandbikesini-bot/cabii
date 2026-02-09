@@ -1437,7 +1437,7 @@ fd.append("paymentAmount", 49);
       fd.append(`photo_${key}`, photo.file);
     });
 
-   const res = await fetch('https://cabii-carsandbikesinindia.onrender.com/api/sell48/submit', {
+   const res = await fetch('https://www.carsandbikesinindia.com/api/sell48/submit', {
   method: 'POST',
   credentials: 'include',
   body: fd
@@ -1468,7 +1468,7 @@ fd.append("paymentAmount", 49);
 function notifyDealers(adId, brand, model, price) {
   console.log(`📱 WhatsApp notifications sent to all dealers about: ${brand} ${model} - ₹${price}`);
   
-  fetch('https://cabii-carsandbikesinindia.onrender.com/api/sell48/notify-dealers', {
+  fetch('https://www.carsandbikesinindia.com/api/sell48/notify-dealers', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ adId, brand, model, price, membership: selectedMembership })
@@ -1514,7 +1514,7 @@ async function startPayment(amount) {
   try {
     // 🔹 1️⃣ Create Razorpay order from backend
     const res = await fetch(
-      "https://cabii-carsandbikesinindia.onrender.com/api/payment/create-order",
+      "https://www.carsandbikesinindia.com/api/payment/create-order",
       {
         method: "POST",
         credentials: "include",
@@ -1548,7 +1548,7 @@ async function startPayment(amount) {
         try {
           // 🔹 3️⃣ Verify payment from backend
           const verifyRes = await fetch(
-            "https://cabii-carsandbikesinindia.onrender.com/api/payment/verify",
+            "https://www.carsandbikesinindia.com/api/payment/verify",
             {
               method: "POST",
               credentials: "include",

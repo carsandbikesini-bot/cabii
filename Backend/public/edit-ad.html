@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   async function loadAd() {
     try {
-      const res = await fetch(`https://cabii-carsandbikesinindia.onrender.com/ads/${adId}`);
+      const res = await fetch(`https://www.carsandbikesinindia.com/ads/${adId}`);
       const ad = await res.json();
 
       document.getElementById("brand").value = ad.brand || "";
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Get current user ID
-      const authRes = await fetch("https://cabii-carsandbikesinindia.onrender.com/auth/check-session", {
+      const authRes = await fetch("https://www.carsandbikesinindia.com/auth/check-session", {
         credentials: "include"
       });
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const formData = new FormData(form);
       formData.append("userId", currentUserId);
 
-      const res = await fetch(`https://cabii-carsandbikesinindia.onrender.com/ads/${adId}`, {
+      const res = await fetch(`https://www.carsandbikesinindia.com/ads/${adId}`, {
         method: "PUT",
         body: formData,
         credentials: "include"

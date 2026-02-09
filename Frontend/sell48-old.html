@@ -204,7 +204,7 @@ marketBtn.addEventListener("click", async () => {
 
   try{
     const res = await fetch(
-      "https://cabii-carsandbikesinindia.onrender.com/api/market-rate/check?" + params,
+      "https://www.carsandbikesinindia.com/api/market-rate/check?" + params,
       { credentials:"include" }
     );
     const data = await res.json();
@@ -238,7 +238,7 @@ form.addEventListener("submit", async e=>{
 
   try{
     const res = await fetch(
-      "https://cabii-carsandbikesinindia.onrender.com/api/sell48/check",
+      "https://www.carsandbikesinindia.com/api/sell48/check",
       {
         method:"POST",
         headers:{ "Content-Type":"application/json" },

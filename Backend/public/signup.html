@@ -29,7 +29,7 @@ document.getElementById("signupBtn").onclick = async ()=>{
   const email=document.getElementById("email").value;
   const password=document.getElementById("password").value;
   try{
-    const res=await fetch("https://cabii-carsandbikesinindia.onrender.com/auth/signup",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"include",body:JSON.stringify({name,email,password})});
+    const res=await fetch("https://www.carsandbikesinindia.com/auth/signup",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"include",body:JSON.stringify({name,email,password})});
     const data=await res.json();
     if(res.ok){localStorage.setItem("cabii_token",data.user._id);alert("✅ Signup Successful");window.location.href="index.html"}
     else alert(data.message||"❌ Signup Failed");
