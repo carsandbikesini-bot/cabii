@@ -6,151 +6,89 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const multer = require("multer");
 const path = require("path");
 const session = require("express-session");
-const bcrypt = require("bcryptjs");
 const cors = require("cors");
-const rateLimit = require("express-rate-limit");
-const crypto = require("crypto");
-const Razorpay = require("razorpay");
-const nodemailer = require("nodemailer");
-const fs = require("fs");
 const MongoStore = require("connect-mongo");
+
 const app = express();
+
+/* ================= TRUST PROXY (RAILWAY) ================= */
 app.set("trust proxy", 1);
+
+/* ================= FORCE HTTPS (RAILWAY) ================= */
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === "production") {
     req.headers["x-forwarded-proto"] = "https";
   }
   next();
 });
+
 const PORT = process.env.PORT || 8080;
 
+/* ================= BODY PARSER ================= */
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
 /* ================= CORS ================= */
+app.use(
+  cors({
+    origin: [
+      "https://carsandbikesinindia.com",
+      "https://www.carsandbikesinindia.com",
+    ],
+    credentials: true,
+  })
+);
 
-app.use(cors({
-  origin: [
-  "https://carsandbikesinindia.com",
-  "https://www.carsandbikesinindia.com"
-],
-credentials: true
-}));
-app.use(express.json({limit:"50mb"}));
-app.use(express.urlencoded({extended:true,limit:"50mb"}));
-
-/* ================= FRONTEND SERVE ================= */
+/* ================= FRONTEND ================= */
 const frontendPath = path.join(__dirname, "public");
 app.use(express.static(frontendPath));
 
-/* ================= UPLOADS ================= */
-const uploadDir = path.join(__dirname,"uploads");
-if(!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir,{recursive:true});
-
-/* ================= SESSION ================= */
-
-/* ================= EMAIL ================= */
-const transporter=nodemailer.createTransport({
-  host:process.env.EMAIL_HOST,
-  port:Number(process.env.EMAIL_PORT),
-  secure:false,
-  auth:{user:process.env.EMAIL_USER,pass:process.env.EMAIL_PASS}
-});
-
 /* ================= DATABASE ================= */
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected");
 
-/* ================= MODELS ================= */
-const User=mongoose.model("User",new mongoose.Schema({
-  name:String,
-  email:{type:String,unique:true},
-  password:String,
-  resetToken:String,
-  resetTokenExpiry:Date,
-  membership:{type:String,default:"Free"}
-},{timestamps:true}));
+    /* ================= SESSION (AFTER DB) ================= */
+    app.use(
+      session({
+        name: "cabii.sid",
+        secret: process.env.SESSION_SECRET, // Railway variable
+        resave: false,
+        saveUninitialized: false,
+        proxy: true,
+        store: MongoStore.create({
+          mongoUrl: process.env.MONGO_URI,
+          collectionName: "sessions",
+        }),
+        cookie: {
+          secure: true,          // HTTPS only
+          httpOnly: true,
+          sameSite: "none",      // cross-domain
+          maxAge: 1000 * 60 * 60 * 24, // 1 day
+        },
+      })
+    );
 
-const Ad=mongoose.model("Ad",new mongoose.Schema({
-  title:String,
-  city:String,
-  brand:String,
-  model:String,
-  manufacturerYear:Number,
-  fuel:String,
-  transmission:String,
-  km:Number,
-  owner:String,
-  description:String,
-  images:[String],
-  price:Number,
-  sellername:String,
-  contactNumber:String,
-  location:String,
-  userId:String
-},{timestamps:true}));
+    /* ================= AUTH ================= */
 
-const Sell48Ad=mongoose.model("Sell48Ad",new mongoose.Schema({
-  userId:String,
-  brand:String,
-  model:String,
-  year:Number,
-  price:Number,
-  city:String,
-  description:String,
-  photos:[String]
-},{timestamps:true}));
+    function isLoggedIn(req, res, next) {
+      if (!req.session || !req.session.userId) {
+        return res.status(401).json({ message: "Login required" });
+      }
+      req.userId = req.session.userId.toString();
+      next();
+    }
 
-const Dealer=mongoose.model("Dealer",new mongoose.Schema({
-  userId:String,
-  membershipPlan:String,
-  leadLimit:Number,
-  leadUsed:{type:Number,default:0},
-  expiryDate:Date,
-  isActive:{type:Boolean,default:true}
-}));
-
-const Lead=mongoose.model("Lead",new mongoose.Schema({
-  dealerId:String,
-  adId:{type:mongoose.Schema.Types.ObjectId,ref:"Ad"},
-  assignedAt:{type:Date,default:Date.now}
-}));
-
-
-/* ================= SERVER START ================= */
-
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-
-  console.log("✅ MongoDB connected");
-
-  /* ===== SESSION AFTER DB ===== */
-app.use(session({
-  name: "cabii.sid",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  proxy: true,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 24
-  }
-}));
-/* ================= AUTH ================= */
-function isLoggedIn(req,res,next){
- if(!req.session || !req.session.userId)
-  return res.status(401).json({message:"Login required"});
- req.userId=req.session.userId.toString();
- next();
-}
-
-app.get("/api/auth/me", (req,res)=>{
-  if(!req.session?.userId){
-    return res.status(401).json({userId:null});
-  }
-  res.json({userId:req.session.userId});
-});
-/* ================= REGISTER ================= */
+    app.get("/api/auth/me", (req, res) => {
+      if (!req.session?.userId) {
+        return res.status(401).json({ userId: null });
+      }
+      res.json({ userId: req.session.userId });
+    });
+    /* ================= REGISTER ================= */
 app.post("/api/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
