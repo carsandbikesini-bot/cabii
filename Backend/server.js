@@ -1,569 +1,368 @@
-/***********************
- * CABII BACKEND SERVER
- * FULL PRODUCTION WORKING BUILD
- ***********************/
-
 require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const session = require("express-session");
-const cors = require("cors");
 const MongoStore = require("connect-mongo");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const app = express();
-
-/* ================= TRUST PROXY (RAILWAY) ================= */
-app.set("trust proxy", 1);
-
-/* ================= FORCE HTTPS (RAILWAY) ================= */
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === "production") {
-    req.headers["x-forwarded-proto"] = "https";
-  }
-  next();
-});
-
 const PORT = process.env.PORT || 8080;
 
-/* ================= BODY PARSER ================= */
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+/* ================= TRUST PROXY ================= */
+app.set("trust proxy", 1);
+
+/* ================= BODY ================= */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /* ================= CORS ================= */
 app.use(
   cors({
     origin: [
-      "https://carsandbikesinindia.com",
       "https://www.carsandbikesinindia.com",
+      "https://carsandbikesinindia.com",
+      "https://cabii-carsandbikesinindia-production.up.railway.app"
     ],
     credentials: true,
   })
 );
 
-/* ================= FRONTEND ================= */
-const frontendPath = path.join(__dirname, "public");
-app.use(express.static(frontendPath));
+/* ================= STATIC ================= */
+app.use(express.static(path.join(__dirname, "public")));
 
 /* ================= DATABASE ================= */
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB connected");
+mongoose.connect(process.env.MONGO_URI)
+.then(()=>console.log("MongoDB Connected"))
+.catch(err=>console.log("DB Error",err));
 
-    /* ================= SESSION (AFTER DB) ================= */
-/* ================= SESSION FIX (FINAL) ================= */
-
-app.set("trust proxy", 1);
-
-app.use(session({
-  name: "cabii.sid",
-  secret: process.env.SESSION_SECRET || "cabii_secret_2026",
-  resave: false,
-  saveUninitialized: false,
-
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-    ttl: 60 * 60 * 24 * 7
-  }),
-
-  cookie: {
-    httpOnly: true,
-    secure: false,          // VERY IMPORTANT (Railway fix)
-    sameSite: "lax",        // VERY IMPORTANT
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
-}));
-
-/* ================= AUTH ================= */
-
-    function isLoggedIn(req, res, next) {
-      if (!req.session || !req.session.userId) {
-        return res.status(401).json({ message: "Login required" });
-      }
-      req.userId = req.session.userId.toString();
-      next();
+/* ================= SESSION ================= */
+app.use(
+  session({
+    name:"cabii.sid",
+    secret: process.env.SESSION_SECRET || "cabii_secret_2026",
+    resave:false,
+    saveUninitialized:false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI
+    }),
+    cookie:{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      maxAge:1000*60*60*24*7
     }
+  })
+);
 
-    app.get("/api/auth/me", (req, res) => {
-      if (!req.session?.userId) {
-        return res.status(401).json({ userId: null });
-      }
-      res.json({ userId: req.session.userId });
-    });
-    /* ================= REGISTER ================= */
-app.post("/api/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+/* ================= AUTH CHECK ================= */
+function isLoggedIn(req,res,next){
+  if(!req.session.userId)
+    return res.status(401).json({message:"Login required"});
+  next();
+}
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: "All fields required" });
-    }
+/* ================= USER MODEL ================= */
+const userSchema = new mongoose.Schema({
+  name:String,
+  email:{type:String,unique:true},
+  password:String,
+  resetToken:String,
+  resetTokenExpiry:Date
+});
+const User = mongoose.model("User",userSchema);
 
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ success: false, message: "User exists" });
-    }
+/* ================= ADS MODEL ================= */
+const adSchema = new mongoose.Schema({
+  title:String,
+  price:Number,
+  city:String,
+  description:String,
+  userId:String,
+  createdAt:{type:Date,default:Date.now}
+});
+const Ad = mongoose.model("Ad",adSchema);
 
-    const hash = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hash });
+/* ================= SELL48 MODEL ================= */
+const sell48Schema = new mongoose.Schema({
+  brand:String,
+  model:String,
+  year:Number,
+  km:Number,
+  fuel:String,
+  city:String,
+  expectedPrice:Number,
+  phone:String,
+  description:String,
+  userId:String,
+  status:{type:String,default:"ACTIVE"},
+  createdAt:{type:Date,default:Date.now},
+  expiresAt:{type:Date,default:()=> new Date(Date.now()+48*60*60*1000)}
+});
+const Sell48 = mongoose.model("Sell48",sell48Schema);
 
-    req.session.regenerate(err => {
-      if (err) {
-        console.error("SESSION REGENERATE ERROR:", err);
-        return res.status(500).json({ success: false, message: "Session error" });
-      }
+/* ================= REGISTER ================= */
+app.post("/api/register",async(req,res)=>{
+ try{
+  const {name,email,password}=req.body;
 
-      req.session.userId = user._id.toString();
+  const exist=await User.findOne({email});
+  if(exist) return res.json({success:false,message:"User exists"});
 
-      req.session.save(err => {
-        if (err) {
-          console.error("SESSION SAVE ERROR:", err);
-          return res.status(500).json({ success: false, message: "Session error" });
-        }
-        res.json({ success: true, user });
-      });
-    });
+  const hash=await bcrypt.hash(password,10);
+  const user=await User.create({name,email,password:hash});
 
-  } catch (err) {
-    console.error("REGISTER ERROR:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
+  req.session.userId=user._id;
+  res.json({success:true});
+
+ }catch{
+  res.status(500).json({success:false});
+ }
 });
 
 /* ================= LOGIN ================= */
-app.post("/api/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+app.post("/api/login",async(req,res)=>{
+ try{
+  const {email,password}=req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Email and password required"
-      });
-    }
+  const user=await User.findOne({email});
+  if(!user) return res.json({success:false,message:"Invalid email"});
 
-    const user = await User.findOne({ email });
+  const match=await bcrypt.compare(password,user.password);
+  if(!match) return res.json({success:false,message:"Wrong password"});
 
-    if (!user || !user.password) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials"
-      });
-    }
+  req.session.userId=user._id;
 
-    const isMatch = await bcrypt.compare(password, user.password);
+  res.json({success:true,user:{id:user._id,name:user.name,email:user.email}});
 
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials"
-      });
-    }
+ }catch(err){
+  console.log(err);
+  res.status(500).json({success:false});
+ }
+});
 
-    req.session.userId = user._id;
-
-    res.json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email
-      }
-    });
-
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
-  }
+/* ================= LOGOUT ================= */
+app.post("/api/logout",(req,res)=>{
+ req.session.destroy(()=>{
+  res.json({success:true});
+ });
 });
 
 /* ================= FORGOT PASSWORD ================= */
-const forgotLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5
-});
-
-app.post("/api/auth/forgot-password", forgotLimiter, async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) return res.json({ success: true });
-
-    const user = await User.findOne({ email });
-    if (!user) return res.json({ success: true });
-
-    const token = crypto.randomBytes(32).toString("hex");
-    user.resetToken = token;
-    user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
-    await user.save();
-
-    const link = `${process.env.FRONTEND_URL}/reset-password.html?token=${token}`;
-
-    await transporter.sendMail({
-      from: `CABII <${process.env.EMAIL_USER}>`,
-      to: user.email,
-      subject: "Reset Password",
-      html: `Click here to reset password:<br><a href="${link}">${link}</a>`
-    });
-
-    res.json({ success: true });
-  } catch (e) {
-    console.error("FORGOT PASSWORD ERROR:", e);
-    res.status(500).json({ success: false, message: "Email send failed" });
-  }
-});
-
-/* ================= RESET PASSWORD ================= */
-app.post("/api/auth/reset-password", async (req, res) => {
-  try {
-    const { token, newPassword } = req.body;
-
-    if (!token || !newPassword) {
-      return res.status(400).json({ success: false, message: "Invalid request" });
-    }
-
-    const user = await User.findOne({
-      resetToken: token,
-      resetTokenExpiry: { $gt: Date.now() }
-    });
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: "Invalid or expired token" });
-    }
-
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.resetToken = undefined;
-    user.resetTokenExpiry = undefined;
-    await user.save();
-
-    res.json({ success: true });
-  } catch (err) {
-    console.error("RESET PASSWORD ERROR:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-/* ================= MULTER ================= */
-const upload = multer({
-  limits:{ fileSize:5*1024*1024 },
-  storage: multer.memoryStorage()
-});
-
-/* ================= AUTO LEAD ASSIGN ================= */
-async function autoAssignLead(adId){
+app.post("/api/auth/forgot-password",async(req,res)=>{
  try{
-   const dealers=await Dealer.find({
-    isActive:true,
-    expiryDate:{$gt:new Date()},
-    $expr:{$lt:["$leadUsed","$leadLimit"]}
-   }).sort({leadUsed:1});
-   if(!dealers.length) return;
-   const dealer=dealers[0];
-   await Lead.create({ dealerId:dealer._id.toString(), adId });
- }catch(err){
-   console.error("AUTO ASSIGN ERROR:",err);
+  const user=await User.findOne({email:req.body.email});
+  if(!user) return res.json({success:true});
+
+  const token=crypto.randomBytes(32).toString("hex");
+  user.resetToken=token;
+  user.resetTokenExpiry=Date.now()+15*60*1000;
+  await user.save();
+
+  console.log("RESET TOKEN:",token);
+  res.json({success:true});
+ }catch{
+  res.status(500).json({success:false});
  }
-}
+});
 
 /* ================= POST AD ================= */
-app.post("/api/ads", isLoggedIn, upload.array("images",10), async (req,res)=>{
-  try{
-    const images = (req.files || []).map(file =>
-      `data:${file.mimetype};base64,${file.buffer.toString("base64")}`
-    );
-    const ad = await Ad.create({
-      ...req.body,
-      images: images.slice(0,5),
-      userId: req.userId
-    });
-    await autoAssignLead(ad._id);
-    res.json({success:true,adId:ad._id});
-  }catch(err){
-    console.error("POST AD ERROR:",err);
-    res.status(500).json({success:false,message:"Ad creation failed"});
-  }
+app.post("/api/ads",isLoggedIn,async(req,res)=>{
+ const ad=await Ad.create({
+  ...req.body,
+  userId:req.session.userId
+ });
+ res.json({success:true,ad});
 });
 
 /* ================= MY ADS ================= */
-app.get("/api/my-ads", isLoggedIn, async (req,res)=>{
-  try{
-    const ads = await Ad.find({userId:req.userId}).sort({createdAt:-1});
-    return res.json(ads);
-  }catch(err){
-    console.error("MY ADS ERROR:",err);
-    return res.status(500).json({success:false,message:"Unable to fetch ads"});
-  }
-});
-
-/* ================= EDIT AD ================= */
-app.put("/api/ads/:id",isLoggedIn,async(req,res)=>{
- try{
-   const ad=await Ad.findOne({_id:req.params.id,userId:req.userId});
-   if(!ad) return res.status(403).json({success:false,message:"Not owner"});
-   await Ad.updateOne({_id:ad._id},req.body);
-   res.json({success:true});
- }catch(err){
-   console.error("EDIT AD ERROR:",err);
-   res.status(500).json({success:false,message:"Update failed"});
- }
+app.get("/api/my-ads",isLoggedIn,async(req,res)=>{
+ const ads=await Ad.find({userId:req.session.userId}).sort({createdAt:-1});
+ res.json(ads);
 });
 
 /* ================= DELETE AD ================= */
 app.delete("/api/ads/:id",isLoggedIn,async(req,res)=>{
- try{
-   const ad=await Ad.findOne({_id:req.params.id,userId:req.userId});
-   if(!ad) return res.status(403).json({success:false,message:"Not owner"});
-   await Ad.deleteOne({_id:ad._id});
-   res.json({success:true});
- }catch(err){
-   console.error("DELETE AD ERROR:",err);
-   res.status(500).json({success:false,message:"Delete failed"});
- }
+ await Ad.deleteOne({_id:req.params.id,userId:req.session.userId});
+ res.json({success:true});
 });
 
-/* ================= SELL48 ================= */
-app.post("/api/sell48/submit",isLoggedIn,upload.any(),async(req,res)=>{
- try{
-   const photos = (req.files || []).map(file =>
-    `data:${file.mimetype};base64,${file.buffer.toString("base64")}`
-   );
+/* ================= EDIT AD ================= */
+app.put("/api/ads/:id",isLoggedIn,async(req,res)=>{
+ await Ad.updateOne({_id:req.params.id,userId:req.session.userId},req.body);
+ res.json({success:true});
+});
 
-   const ad = await Sell48Ad.create({
-     userId:req.userId,
-     ...req.body,
-     photos: photos.slice(0,8)   // ✅ अब 8 images तक allow हैं
-   });
+/* ================= SELL48 SUBMIT ================= */
+app.post("/api/sell48",isLoggedIn,async(req,res)=>{
+ const sell=await Sell48.create({
+  ...req.body,
+  userId:req.session.userId
+ });
+ res.json({success:true,id:sell._id});
+});
 
-   res.json({success:true,adId:ad._id});
- }catch(err){
-   console.error("SELL48 ERROR:",err);
-   res.status(500).json({success:false,message:"Sell48 failed"});
- }
+/* ================= MY SELL48 ================= */
+app.get("/api/my-sell48",isLoggedIn,async(req,res)=>{
+ const data=await Sell48.find({userId:req.session.userId});
+ res.json(data);
 });
 
 /* ================= DEALER LEADS ================= */
-app.get("/api/dealer/leads",isLoggedIn,async(req,res)=>{
- try{
-   const dealer=await Dealer.findOne({userId:req.userId});
-   if(!dealer) return res.json([]);
-   const leads=await Lead.find({dealerId:dealer._id.toString()}).populate("adId");
-   res.json(leads);
- }catch(err){
-   console.error("DEALER LEADS ERROR:",err);
-   res.status(500).json({success:false,message:"Unable to fetch leads"});
- }
+app.get("/api/dealer/sell48-leads",async(req,res)=>{
+ const leads=await Sell48.find({status:"ACTIVE"}).sort({createdAt:-1}).limit(50);
+ res.json(leads);
 });
 
-/* ================= LEAD USE ================= */
-app.post("/api/dealer/use-lead",isLoggedIn,async(req,res)=>{
- try{
-   const {leadId}=req.body;
-   const dealer=await Dealer.findOne({userId:req.userId});
-   if(!dealer) return res.json({success:false});
-
-   if(dealer.leadUsed>=dealer.leadLimit)
-     return res.json({success:false,message:"Limit exhausted"});
-
-   dealer.leadUsed++;
-   await dealer.save();
-   await Lead.findByIdAndDelete(leadId);
-
-   res.json({success:true});
- }catch(err){
-   console.error("USE LEAD ERROR:",err);
-   res.status(500).json({success:false,message:"Lead use failed"});
- }
-});
-
-/* ================= LEAD EXPIRY + ROTATION ================= */
+/* ================= AUTO 48HR CLOSE ================= */
 setInterval(async()=>{
- try{
-   const expired=await Lead.find({assignedAt:{$lt:new Date(Date.now()-48*60*60*1000)}});
-   for(const lead of expired){
-     await Lead.findByIdAndDelete(lead._id);
-     await autoAssignLead(lead.adId);
-   }
- }catch(err){
-   console.error("LEAD ROTATION ERROR:",err);
- }
-},60*1000);
+ const now=new Date();
+ await Sell48.updateMany(
+  {expiresAt:{$lt:now},status:"ACTIVE"},
+  {$set:{status:"EXPIRED"}}
+ );
+},60000);
 
-/* ================= RAZORPAY ================= */
-let razorpay=null;
-if(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET){
- razorpay=new Razorpay({
-  key_id:process.env.RAZORPAY_KEY_ID,
-  key_secret:process.env.RAZORPAY_KEY_SECRET
+/* ================= HOME ================= */
+app.get("/",(req,res)=>{
+ res.sendFile(path.join(__dirname,"public","index.html"));
+});
+
+/* ================= START ================= */
+app.listen(PORT,()=>{
+ console.log("CABII LIVE ON PORT "+PORT);
+});
+/* ================= REGISTER ================= */
+app.post("/api/register",async(req,res)=>{
+ try{
+  const {name,email,password}=req.body;
+
+  const exist=await User.findOne({email});
+  if(exist) return res.json({success:false,message:"User exists"});
+
+  const hash=await bcrypt.hash(password,10);
+  const user=await User.create({name,email,password:hash});
+
+  req.session.userId=user._id;
+  res.json({success:true});
+
+ }catch{
+  res.status(500).json({success:false});
+ }
+});
+
+/* ================= LOGIN ================= */
+app.post("/api/login",async(req,res)=>{
+ try{
+  const {email,password}=req.body;
+
+  const user=await User.findOne({email});
+  if(!user) return res.json({success:false,message:"Invalid email"});
+
+  const match=await bcrypt.compare(password,user.password);
+  if(!match) return res.json({success:false,message:"Wrong password"});
+
+  req.session.userId=user._id;
+
+  res.json({success:true,user:{id:user._id,name:user.name,email:user.email}});
+
+ }catch(err){
+  console.log(err);
+  res.status(500).json({success:false});
+ }
+});
+
+/* ================= LOGOUT ================= */
+app.post("/api/logout",(req,res)=>{
+ req.session.destroy(()=>{
+  res.json({success:true});
  });
-}
+});
 
-app.post("/api/payment/create-order",isLoggedIn,async(req,res)=>{
+/* ================= FORGOT PASSWORD ================= */
+app.post("/api/auth/forgot-password",async(req,res)=>{
  try{
-   if(!razorpay) return res.json({disabled:true});
-   const order=await razorpay.orders.create({
-    amount:req.body.amount*100,
-    currency:"INR",
-    receipt:"cabii_"+Date.now()
-   });
-   res.json(order);
- }catch(err){
-   console.error("CREATE ORDER ERROR:",err);
-   res.status(500).json({success:false,message:"Order creation failed"});
+  const user=await User.findOne({email:req.body.email});
+  if(!user) return res.json({success:true});
+
+  const token=crypto.randomBytes(32).toString("hex");
+  user.resetToken=token;
+  user.resetTokenExpiry=Date.now()+15*60*1000;
+  await user.save();
+
+  console.log("RESET TOKEN:",token);
+  res.json({success:true});
+ }catch{
+  res.status(500).json({success:false});
  }
 });
 
-app.post("/api/payment/verify",isLoggedIn,async(req,res)=>{
- try{
-   const {razorpay_order_id,razorpay_payment_id,razorpay_signature,plan,leads,months}=req.body;
-   const expected=crypto.createHmac("sha256",process.env.RAZORPAY_KEY_SECRET)
-    .update(razorpay_order_id+"|"+razorpay_payment_id)
-    .digest("hex");
-
-   if(expected!==razorpay_signature)
-     return res.status(400).json({success:false});
-
-   const expiry=new Date();
-   expiry.setMonth(expiry.getMonth()+Number(months));
-
-   await Dealer.findOneAndUpdate(
-    {userId:req.userId},
-    {membershipPlan:plan,leadLimit:Number(leads),leadUsed:0,expiryDate:expiry,isActive:true},
-    {upsert:true}
-   );
-
-   res.json({success:true});
- }catch(err){
-   console.error("PAYMENT VERIFY ERROR:",err);
-   res.status(500).json({success:false,message:"Payment verification failed"});
- }
+/* ================= POST AD ================= */
+app.post("/api/ads",isLoggedIn,async(req,res)=>{
+ const ad=await Ad.create({
+  ...req.body,
+  userId:req.session.userId
+ });
+ res.json({success:true,ad});
 });
 
-/* ================= ADS LIST ================= */
-app.get("/api/ads",async(req,res)=>{
- try{
-   const ads=await Ad.find().sort({createdAt:-1}).limit(50);
-   res.json(ads);
- }catch(err){
-   console.error("ADS LIST ERROR:",err);
-   res.status(500).json({success:false,message:"Unable to fetch ads"});
- }
+/* ================= MY ADS ================= */
+app.get("/api/my-ads",isLoggedIn,async(req,res)=>{
+ const ads=await Ad.find({userId:req.session.userId}).sort({createdAt:-1});
+ res.json(ads);
 });
 
-/* ================= HEALTH ================= */
-app.get("/health",(req,res)=>{
-  res.status(200).json({status:"CABII LIVE"});
+/* ================= DELETE AD ================= */
+app.delete("/api/ads/:id",isLoggedIn,async(req,res)=>{
+ await Ad.deleteOne({_id:req.params.id,userId:req.session.userId});
+ res.json({success:true});
 });
 
-/* 404 API protection */
-app.use("/api", (req,res)=>{
-  res.status(404).json({message:"API route not found"});
+/* ================= EDIT AD ================= */
+app.put("/api/ads/:id",isLoggedIn,async(req,res)=>{
+ await Ad.updateOne({_id:req.params.id,userId:req.session.userId},req.body);
+ res.json({success:true});
 });
 
-/* serve homepage only */
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+/* ================= SELL48 SUBMIT ================= */
+app.post("/api/sell48",isLoggedIn,async(req,res)=>{
+ const sell=await Sell48.create({
+  ...req.body,
+  userId:req.session.userId
+ });
+ res.json({success:true,id:sell._id});
 });
 
-app.get("/api/ping",(req,res)=>{
-  res.json({status:"ok"});
+/* ================= MY SELL48 ================= */
+app.get("/api/my-sell48",isLoggedIn,async(req,res)=>{
+ const data=await Sell48.find({userId:req.session.userId});
+ res.json(data);
 });
 
-/* ================= FIX RAILWAY LOGIN SESSION ================= */
-
-// Railway reverse proxy fix
-app.set("trust proxy", 1);
-
-// Important headers (VERY IMPORTANT)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://www.carsandbikesinindia.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+/* ================= DEALER LEADS ================= */
+app.get("/api/dealer/sell48-leads",async(req,res)=>{
+ const leads=await Sell48.find({status:"ACTIVE"}).sort({createdAt:-1}).limit(50);
+ res.json(leads);
 });
 
-// Preflight fix
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://www.carsandbikesinindia.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
+/* ================= AUTO 48HR CLOSE ================= */
+setInterval(async()=>{
+ const now=new Date();
+ await Sell48.updateMany(
+  {expiresAt:{$lt:now},status:"ACTIVE"},
+  {$set:{status:"EXPIRED"}}
+ );
+},60000);
+
+/* ================= HOME ================= */
+app.get("/",(req,res)=>{
+ res.sendFile(path.join(__dirname,"public","index.html"));
 });
 
-// Health debug
-app.get("/api/auth/test", (req,res)=>{
-  res.json({status:"auth working"});
-});/* ========= FORCE API ROUTES FIX ========= */
-
-const express = require("express");
-const path = require("path");
-
-/* body parser */
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-/* cookies */
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
-
-/* sessions (VERY IMPORTANT) */
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
-
-app.set("trust proxy", 1);
-
-app.use(session({
-  name: "cabii.sid",
-  secret: process.env.SESSION_SECRET || "cabii_secret_2026",
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
-  }),
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
-}));
-
-/* ===== AUTH ROUTES LOAD ===== */
-try {
-  const authRoutes = require("./routes/authRoutes");
-  app.use("/api", authRoutes);
-  console.log("AUTH ROUTES LOADED");
-} catch (err) {
-  console.log("Auth routes error:", err.message);
-}
-
-/* test route */
-app.get("/api/auth/test", (req,res)=>{
-  res.json({ success:true, message:"auth working" });
+/* ================= START ================= */
+app.listen(PORT,()=>{
+ console.log("CABII LIVE ON PORT "+PORT);
 });
-
-/* static frontend */
-app.use(express.static(path.join(__dirname,"public")));
-
-/* fallback */
-app.use((req,res)=>{
-  res.status(404).json({ message:"API route not found" });
-});
- /* ===== START SERVER AFTER LOAD ===== */
-
-const startServer = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB Connected");
-
-    app.listen(PORT, () => {
-      console.log("CABII SERVER RUNNING ON PORT " + PORT);
-    });
-
-  } catch (err) {
-    console.log("DB CONNECTION FAILED:", err.message);
-  }
-};
-
-startServer();
-  });
