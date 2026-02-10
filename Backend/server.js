@@ -493,42 +493,61 @@ app.options("*", (req, res) => {
 // Health debug
 app.get("/api/auth/test", (req,res)=>{
   res.json({status:"auth working"});
-});
-/* ================== GLOBAL ERROR FIX (CABII LOGIN FIX) ================== */
+});/* ========= FORCE API ROUTES FIX ========= */
 
-// Railway trust proxy
-app.set("trust proxy", 1);
+const express = require("express");
+const path = require("path");
 
-// Body parser
-app.use(express.json({ limit: "10mb" }));
+/* body parser */
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Test route
-app.get("/api/test", (req, res) => {
-  res.json({ success: true, message: "CABII API WORKING" });
-});
+/* cookies */
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
-// Catch missing API routes
-app.use("/api", (req, res, next) => {
-  next();
-});
+/* sessions (VERY IMPORTANT) */
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
-// 404 handler
-app.use((req, res, next) => {
-  if (req.originalUrl.startsWith("/api")) {
-    return res.status(404).json({ success:false, message:"API route not found" });
+app.set("trust proxy", 1);
+
+app.use(session({
+  name: "cabii.sid",
+  secret: process.env.SESSION_SECRET || "cabii_secret_2026",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI
+  }),
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 7
   }
-  next();
+}));
+
+/* ===== AUTH ROUTES LOAD ===== */
+try {
+  const authRoutes = require("./routes/authRoutes");
+  app.use("/api", authRoutes);
+  console.log("AUTH ROUTES LOADED");
+} catch (err) {
+  console.log("Auth routes error:", err.message);
+}
+
+/* test route */
+app.get("/api/auth/test", (req,res)=>{
+  res.json({ success:true, message:"auth working" });
 });
 
-// Global error handler (VERY IMPORTANT)
-app.use((err, req, res, next) => {
-  console.error("SERVER CRASH:", err);
-  res.status(500).json({
-    success:false,
-    message:"Internal server error",
-    error: err.message
-  });
+/* static frontend */
+app.use(express.static(path.join(__dirname,"public")));
+
+/* fallback */
+app.use((req,res)=>{
+  res.status(404).json({ message:"API route not found" });
 });
   app.listen(PORT, ()=>{
     console.log("🚀 CABII SERVER RUNNING ON PORT " + PORT);
