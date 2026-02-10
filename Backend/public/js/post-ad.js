@@ -55,7 +55,7 @@ document.getElementById("postAdForm").addEventListener("submit", async e => {
 });
 
   try {
-    const res = await fetch("http://localhost:5000/ads", {
+    const res = await fetch("/api/ads", {
       method: "POST",
       credentials: "include",
       body: formData

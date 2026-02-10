@@ -8,7 +8,8 @@ const MongoStore = require("connect-mongo");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-
+const nodemailer = require("nodemailer");
+const FileStore = require("session-file-store")(session);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -41,19 +42,20 @@ mongoose.connect(process.env.MONGO_URI,{
 
 /* SESSION */
 app.use(session({
-  name:"cabii.sid",
-  secret:process.env.SESSION_SECRET || "cabii_secret",
-  resave:false,
-  saveUninitialized:false,
-  proxy:true,
-  store:MongoStore.create({
-    mongoUrl:process.env.MONGO_URI
+  name: "cabii.sid",
+  secret: "cabii_secret_very_strong",
+  resave: false,
+  saveUninitialized: false,
+  proxy: true,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    ttl: 60 * 60 * 24 * 7
   }),
-  cookie:{
-    httpOnly:true,
-    secure:true,
-    sameSite:"lax",
-    maxAge:1000*60*60*24*7
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }));
 /* AUTH CHECK */

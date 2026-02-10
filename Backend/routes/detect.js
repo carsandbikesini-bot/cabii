@@ -8,7 +8,7 @@ const upload = multer({ dest: "uploads/" });
 router.post("/detect-plate", upload.single("image"), async (req, res) => {
 
   // 🔥 TEMP OCR RESULT (demo)
-  const detectedNumber = "MH12AB1234";
+  const detectedNumber = ""
 
   const rto = await getVehicleData(detectedNumber);
 

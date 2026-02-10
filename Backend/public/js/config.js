@@ -1,7 +1,4 @@
-// 🔧 Central API Configuration (Auto: Local / Live)
-const API_BASE =
-  location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : cabii-carsandbikesinindia-production.up.railway.app;
+// ALWAYS SAME DOMAIN
+const API_BASE = "";
 
 export { API_BASE };

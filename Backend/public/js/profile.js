@@ -1,4 +1,4 @@
-const API = "http://localhost:5000";
+const API = "/api";
 
 // STEP 1: Check login
 fetch(`${API}/auth/me`, {

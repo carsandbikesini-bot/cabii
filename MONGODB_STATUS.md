@@ -114,7 +114,7 @@ Result: ✅ MongoDB Connected!
 
 ### Test API
 ```powershell
-$response = Invoke-WebRequest -Uri "http://localhost:5000/ads" -UseBasicParsing
+$response = Invoke-WebRequest -Uri "/api/ads" -UseBasicParsing
 $response.Content | ConvertFrom-Json
 ```
 Result: Returns array of ads from database

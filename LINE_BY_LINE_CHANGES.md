@@ -83,7 +83,7 @@ form.addEventListener("submit", async e => {
   console.log("🔐 Checking user session...");
   
   // ✅ Added: Better error handling
-  const authRes = await fetch("http://localhost:5000/auth/check-session", {
+  const authRes = await fetch("/api/auth/check-session", {
     credentials: "include"
   });
 
@@ -280,7 +280,7 @@ router.put("/:id", upload.array("images", 10), async (req, res) => {
 ```javascript
 actions.querySelector(".delete").onclick = async ()=>{
   if(!confirm("Delete this ad?")) return;
-  await fetch("http://localhost:5000/ads/"+ad._id,{
+  await fetch("/api/ads/"+ad._id,{
     method:"DELETE",
     credentials:"include"
   });
@@ -293,7 +293,7 @@ actions.querySelector(".delete").onclick = async ()=>{
 actions.querySelector(".delete").onclick = async ()=>{
   if(!confirm("Delete this ad?")) return;
   try {
-    const res = await fetch("http://localhost:5000/ads/"+ad._id,{
+    const res = await fetch("/api/ads/"+ad._id,{
       method:"DELETE",
       credentials:"include",
       headers: {
@@ -330,7 +330,7 @@ form.addEventListener("submit", async (e) => {
   try {
     const formData = new FormData(form);
 
-    const res = await fetch(`http://localhost:5000/ads/${adId}`, {
+    const res = await fetch(`/api/ads/${adId}`, {
       method: "PUT",
       body: formData
     });
@@ -358,7 +358,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     // ✅ NEW: Check session
-    const authRes = await fetch("http://localhost:5000/auth/check-session", {
+    const authRes = await fetch("/api/auth/check-session", {
       credentials: "include"
     });
 
@@ -378,7 +378,7 @@ form.addEventListener("submit", async (e) => {
     // ✅ NEW: Append userId
     formData.append("userId", currentUserId);
 
-    const res = await fetch(`http://localhost:5000/ads/${adId}`, {
+    const res = await fetch(`/api/ads/${adId}`, {
       method: "PUT",
       body: formData,
       credentials: "include"

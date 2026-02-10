@@ -112,7 +112,7 @@ Auth response: {loggedIn: true, userId: "user_xxx"}
 ### Button says "Posting..." and doesn't complete
 - **Check**: Backend server is running
 - **Command**: `npm start` in Backend folder
-- **Port**: Must be http://localhost:5000
+- **Port**: Must be /api
 
 ---
 
@@ -120,7 +120,7 @@ Auth response: {loggedIn: true, userId: "user_xxx"}
 
 ### Check if logged in
 ```javascript
-fetch("http://localhost:5000/auth/check-session", {credentials: "include"})
+fetch("/api/auth/check-session", {credentials: "include"})
   .then(r => r.json())
   .then(d => console.log(d))
 ```
@@ -248,5 +248,5 @@ Backend checks:
 
 **Status**: Ready for Testing
 **Date**: January 28, 2026
-**Test Server**: http://localhost:5000
+**Test Server**: /api
 

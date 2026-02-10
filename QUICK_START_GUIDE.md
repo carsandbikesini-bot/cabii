@@ -9,7 +9,7 @@
 
 ### Step 1: Open Browser
 ```
-Navigate to: http://localhost:5000 (when backend is running)
+Navigate to: /api (when backend is running)
 Or: Open Frontend/index.html directly
 ```
 

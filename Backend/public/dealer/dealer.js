@@ -1,5 +1,5 @@
 async function loadDealerAds() {
-  const res = await fetch("http://localhost:5000/dealer/sell48-ads");
+  const res = await fetch("/api/dealer/sell48-ads");
   const ads = await res.json();
 
   const box = document.getElementById("ads");
@@ -19,7 +19,7 @@ async function loadDealerAds() {
 
     div.querySelector(".sold").onclick = async () => {
       await fetch(
-        "http://localhost:5000/dealer/sell48-sold/" + ad._id,
+        "/api/dealer/sell48-sold/" + ad._id,
         { method: "PUT" }
       );
       alert("Marked as SOLD");

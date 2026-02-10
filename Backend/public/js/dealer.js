@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", loadSell48Ads);
 
 async function loadSell48Ads() {
-  const res = await fetch("http://localhost:5000/dealer/sell48-ads");
+  const res = await fetch("/api/dealer/sell48-ads");
   const ads = await res.json();
 
   const container = document.getElementById("dealerAds");
@@ -12,7 +12,7 @@ async function loadSell48Ads() {
     div.className = "card";
 
     div.innerHTML = `
-      <img src="http://localhost:5000${ad.images[0]}" style="width:100%">
+      <img src="/api${ad.images[0]}" style="width:100%">
       <div class="content">
         <h3>${ad.brand} ${ad.model}</h3>
         <p><b>₹${ad.price}</b></p>
@@ -34,7 +34,7 @@ async function markSold(id) {
   if (!confirm("Confirm vehicle SOLD?")) return;
 
   const res = await fetch(
-    `http://localhost:5000/dealer/sell48-sold/${id}`,
+    `/api/dealer/sell48-sold/${id}`,
     { method: "PUT" }
   );
 

@@ -11,11 +11,7 @@ const Ad = require("../models/Ad");
 const conditionScoreUtil = require("../utils/conditionScore");
 const priceEngine = require("../services/pricingEngine");
 const sendWhatsApp = require("../utils/sendWhatsApp");
-<<<<<<< HEAD
 const marketAnalysis = require("../utils/marketAnalysis");
-=======
-
->>>>>>> 7d06af8fae8d8ceb290ce443e9eef383d840faea
 // ===== MULTER CONFIG =====
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -114,7 +110,6 @@ router.post("/check", async (req, res) => {
 // =====================================================
 router.post("/submit", upload.array("images", 20), async (req, res) => {
   try {
-<<<<<<< HEAD
     // 🔐 SELL48 PAYMENT LOCK (MANDATORY)
 const { paymentId, paymentAmount } = req.body;
 
@@ -124,8 +119,6 @@ if (!paymentId || Number(paymentAmount) !== 49) {
     message: "SELL48 requires ₹49 payment. Access denied."
   });
 }
-=======
->>>>>>> 7d06af8fae8d8ceb290ce443e9eef383d840faea
     const {
       brand,
       model,
@@ -143,7 +136,6 @@ if (!paymentId || Number(paymentAmount) !== 49) {
       conditionScore,
       guaranteeEligible
     } = req.body;
-<<<<<<< HEAD
 // 🔐 SELL48 PAYMENT VALIDATION (SERVER SIDE HARD LOCK)
 if (req.body.adType === "SELL48") {
   if (!req.body.paymentId || Number(req.body.paymentAmount) !== 49) {
@@ -153,9 +145,6 @@ if (req.body.adType === "SELL48") {
     });
   }
 }
-=======
-
->>>>>>> 7d06af8fae8d8ceb290ce443e9eef383d840faea
     if (!brand || !phone || !sellerName || !km) {
       return res.status(400).json({
         success: false,
@@ -179,7 +168,6 @@ if (req.body.adType === "SELL48") {
     }
 
     const imagePaths = imageFiles.map(f => `/uploads/${f.filename}`);
-<<<<<<< HEAD
     // 🔍 REAL MARKET ANALYSIS (SERVER SIDE – FINAL)
 const analysis = marketAnalysis({
   year: Number(year),
@@ -191,14 +179,6 @@ const analysis = marketAnalysis({
 
     // 🔥 FINAL GUARANTEE FLAG (SERVER SIDE SAFE)
    const isGuaranteed = analysis.chance !== "LOW";
-=======
-
-    // 🔥 FINAL GUARANTEE FLAG (SERVER SIDE SAFE)
-    const isGuaranteed =
-      guaranteeEligible === "true" &&
-      Number(conditionScore) >= 65;
-
->>>>>>> 7d06af8fae8d8ceb290ce443e9eef383d840faea
     const ad = new Ad({
       brand,
       model,
@@ -216,7 +196,6 @@ const analysis = marketAnalysis({
       images: imagePaths,
       description,
 
-<<<<<<< HEAD
       // 🔥 FINAL GUARANTEE FLAGS (ANALYSIS DRIVEN)
 conditionScore: analysis.score,
 guaranteeEligible: analysis.chance !== "LOW",
@@ -224,16 +203,6 @@ guaranteeStatus: analysis.chance === "LOW" ? "review" : "approved",
 guaranteeExpiry: analysis.chance !== "LOW"
   ? new Date(Date.now() + 48 * 60 * 60 * 1000)
   : null,
-=======
-      // 🔥 NEW IMPORTANT FLAGS (ADDED)
-      conditionScore: Number(conditionScore),
-      guaranteeEligible: isGuaranteed,
-      guaranteeStatus: isGuaranteed ? "approved" : "review",
-      guaranteeExpiry: isGuaranteed
-        ? new Date(Date.now() + 48 * 60 * 60 * 1000)
-        : null,
-
->>>>>>> 7d06af8fae8d8ceb290ce443e9eef383d840faea
       rcVerified: true,
       rcVerificationType: "guarantee"
     });

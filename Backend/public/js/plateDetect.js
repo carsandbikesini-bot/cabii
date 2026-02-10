@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fd.append("image", file);
 
     try {
-      const res = await fetch("http://localhost:5000/ads/detect-plate", {
+      const res = await fetch("/api/ads/detect-plate", {
         method: "POST",
         body: fd
       });

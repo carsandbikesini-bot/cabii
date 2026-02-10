@@ -25,7 +25,7 @@ form.addEventListener("submit", async e => {
 
   try {
     // ✅ NEW: Check if user is logged in
-    const authRes = await fetch("http://localhost:5000/auth/check-session", {
+    const authRes = await fetch("/api/auth/check-session", {
       credentials: "include"
     });
 
@@ -55,7 +55,7 @@ form.addEventListener("submit", async e => {
     fd.append("userId", currentUserId); // ✅ NEW
     uploadedImages.forEach(img => fd.append("images", img)); // ✅ FIXED
 
-    const res = await fetch("http://localhost:5000/ads", {
+    const res = await fetch("/api/ads", {
       method: "POST",
       body: fd,
       credentials: "include" // ✅ NEW
@@ -241,7 +241,7 @@ router.put("/:id", upload.array("images", 10), async (req, res) => {
 // ❌ BEFORE
 actions.querySelector(".delete").onclick = async ()=>{
   if(!confirm("Delete this ad?")) return;
-  await fetch("http://localhost:5000/ads/"+ad._id,{
+  await fetch("/api/ads/"+ad._id,{
     method:"DELETE",
     credentials:"include"
   });
@@ -252,7 +252,7 @@ actions.querySelector(".delete").onclick = async ()=>{
 actions.querySelector(".delete").onclick = async ()=>{
   if(!confirm("Delete this ad?")) return;
   try {
-    const res = await fetch("http://localhost:5000/ads/"+ad._id,{
+    const res = await fetch("/api/ads/"+ad._id,{
       method:"DELETE",
       credentials:"include",
       headers: {
@@ -288,7 +288,7 @@ form.addEventListener("submit", async (e) => {
   try {
     const formData = new FormData(form);
 
-    const res = await fetch(`http://localhost:5000/ads/${adId}`, {
+    const res = await fetch(`/api/ads/${adId}`, {
       method: "PUT",
       body: formData
     });
@@ -314,7 +314,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     // Get current user ID
-    const authRes = await fetch("http://localhost:5000/auth/check-session", {
+    const authRes = await fetch("/api/auth/check-session", {
       credentials: "include"
     });
 
@@ -332,7 +332,7 @@ form.addEventListener("submit", async (e) => {
     const formData = new FormData(form);
     formData.append("userId", currentUserId);
 
-    const res = await fetch(`http://localhost:5000/ads/${adId}`, {
+    const res = await fetch(`/api/ads/${adId}`, {
       method: "PUT",
       body: formData,
       credentials: "include"

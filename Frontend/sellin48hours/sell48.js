@@ -55,7 +55,7 @@ async function generateDescription() {
     transmission: selectedTransmission
   };
 
-  const res = await fetch("http://localhost:5000/api/sell48/auto-description", {
+  const res = await fetch("/api/api/sell48/auto-description", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -70,7 +70,7 @@ async function generateDescription() {
 async function analyzeMarket() {
   qs("marketLoading").style.display = "block";
 
-  const res = await fetch("http://localhost:5000/api/market-rate", {
+  const res = await fetch("/api/api/market-rate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -105,7 +105,7 @@ async function submitSell48() {
 
   selectedImages.forEach(img => fd.append("images", img));
 
-  const res = await fetch("http://localhost:5000/api/sell48", {
+  const res = await fetch("/api/api/sell48", {
     method: "POST",
     body: fd,
     credentials: "include"

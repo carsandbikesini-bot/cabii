@@ -30,7 +30,7 @@ uploadedImages.forEach(img => fd.append("images", img));
 ### 2️⃣ User Authentication in Posting
 ```javascript
 // Check if user logged in
-const authRes = await fetch("http://localhost:5000/auth/check-session", {
+const authRes = await fetch("/api/auth/check-session", {
   credentials: "include"
 });
 const authData = await authRes.json();
@@ -100,7 +100,7 @@ When user posts:
 
 ## Environment Variables (if needed)
 ```
-BACKEND_URL=http://localhost:5000
+BACKEND_URL=/api
 UPLOAD_DIR=./uploads
 MAX_IMAGE_SIZE=5242880  (5MB)
 MAX_IMAGES_PER_AD=10

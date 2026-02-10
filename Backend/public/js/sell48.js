@@ -12,7 +12,7 @@ priceInput.addEventListener("input", () => {
     return;
   }
 
-  if (price < 50000) {
+  if (price <0 ) {
     priceHint.textContent = "⚠️ Price seems very low for market value";
     priceHint.style.color = "red";
   } else {
@@ -26,7 +26,7 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   // LOGIN CHECK
-  const sessionRes = await fetch("http://localhost:5000/auth/me", {
+  const sessionRes = await fetch("/api/auth/me", {
     credentials: "include"
   });
   const sessionData = await sessionRes.json();
@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
   const formData = new FormData(form);
 
   try {
-    const res = await fetch("http://localhost:5000/sell48", {
+    const res = await fetch("/api/sell48", {
       method: "POST",
       body: formData,
       credentials: "include"

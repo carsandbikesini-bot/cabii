@@ -1,7 +1,7 @@
 (async ()=>{
   try{
     const fetch = global.fetch || (await import('node-fetch')).default;
-    const base = 'http://localhost:5000';
+    const base = '/api';
 
     // 1) Signup
     let res = await fetch(base + '/auth/signup', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name:'E2E User', email:'e2e.user@example.com', password:'Password123' }) });

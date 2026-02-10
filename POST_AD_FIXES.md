@@ -104,7 +104,7 @@
 ### Authentication Flow
 ```javascript
 // Check session to get userId
-const res = await fetch("http://localhost:5000/auth/check-session", {
+const res = await fetch("/api/auth/check-session", {
   credentials: "include"
 });
 const data = await res.json();

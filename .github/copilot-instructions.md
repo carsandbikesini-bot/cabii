@@ -154,7 +154,7 @@ Use this throughout new endpoints for consistency.
 # Terminal 1: Backend
 cd Backend
 npm install
-npm start  # Runs on http://localhost:5000
+npm start  # Runs on /api
 
 # Terminal 2: Frontend (open static files)
 # Navigate to Frontend/ folder in browser or use Live Server
