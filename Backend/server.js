@@ -549,11 +549,21 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use((req,res)=>{
   res.status(404).json({ message:"API route not found" });
 });
-  app.listen(PORT, ()=>{
-    console.log("🚀 CABII SERVER RUNNING ON PORT " + PORT);
+ /* ===== START SERVER AFTER LOAD ===== */
+
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+
+    app.listen(PORT, () => {
+      console.log("CABII SERVER RUNNING ON PORT " + PORT);
+    });
+
+  } catch (err) {
+    console.log("DB CONNECTION FAILED:", err.message);
+  }
+};
+
+startServer();
   });
-})
-.catch(err=>{
-  console.error("❌ MongoDB FAILED:", err);
-  process.exit(1);
-});
