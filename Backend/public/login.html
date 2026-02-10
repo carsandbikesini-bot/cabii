@@ -2,98 +2,88 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login | Cars And Bikes In India-CABII</title>
+<title>Login | Cars And Bikes In India - CABII</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-  background:#f4f6f8;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+background:#f4f6f8;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* ===== LOGIN CARD ===== */
 .container{
-  width:380px;
-  background:#ffffff;
-  padding:28px;
-  border-radius:14px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.15);
-  text-align:center;
+width:380px;
+background:#fff;
+padding:28px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,0.15);
+text-align:center;
 }
 
-/* ===== LOGO ===== */
 .logo{
-  height:60px;
-  margin-bottom:8px;
+height:60px;
+margin-bottom:10px;
 }
 
-/* ===== TITLE ===== */
 .title{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:20px;
-  background:linear-gradient(
-    120deg,
-    #c0c0c0,
-    #ffd700,
-    #ffffff,
-    #ffd700,
-    #c0c0c0
-  );
-  background-size:300% auto;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:titleShine 4s linear infinite;
+font-size:18px;
+font-weight:800;
+margin-bottom:20px;
+background:linear-gradient(120deg,#c0c0c0,#ffd700,#ffffff,#ffd700,#c0c0c0);
+background-size:300% auto;
+-webkit-backgroundclip:text;
+color:transparent;
+animation:shine 4s linear infinite;
 }
 
-@keyframes titleShine{
-  0%{background-position:0%}
-  100%{background-position:300%}
+@keyframes shine{
+0%{background-position:0%}
+100%{background-position:300%}
 }
 
-/* ===== INPUTS ===== */
 input{
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:6px;
-  border:1px solid #ccc;
-  font-size:14px;
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
 }
 
-/* ===== BUTTONS ===== */
 button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:6px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  margin-bottom:10px;
-  position:relative;
-  overflow:hidden;
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+margin-bottom:10px;
+transition:0.2s;
 }
 
-.login{ background:#f97316; color:#fff; }
-.signup{ background:#16a34a; color:#fff; }
-.google{ background:#4285F4; color:#fff; }
+.login{background:#f97316;color:#fff;}
+.signup{background:#16a34a;color:#fff;}
+
+button:disabled{
+opacity:0.6;
+cursor:not-allowed;
+}
 
 .note{
-  font-size:13px;
-  color:#555;
-  margin-top:10px;
+font-size:13px;
+color:#555;
+margin-top:10px;
 }
 </style>
 </head>
@@ -101,161 +91,148 @@ button{
 <body>
 
 <div class="container">
-  <img src="images/logo.png" class="logo">
-  <div class="title">Cars And Bikes In India – CABII</div>
 
- <button type="button" disabled class="disabled-btn">
-  Login with OTP (Coming Soon)
-</button>
-  <input type="text" id="name" placeholder="Name (signup only)">
-  <input type="email" id="email" placeholder="Email">
-  <input
-  type="password"
-  id="password"
-  name="password"
-  placeholder="Password"
-  required
-/>
+<img src="images/logo.png" class="logo">
+<div class="title">Cars And Bikes In India – CABII</div>
 
- <button type="button" id="loginBtn" class="login">Login</button>
-<button type="button" id="signupBtn" class="signup">Create New Account</button>
+<input type="text" id="name" placeholder="Name (signup only)">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+
+<button id="loginBtn" class="login">Login</button>
+<button id="signupBtn" class="signup">Create New Account</button>
+
 <div style="margin-top:10px;font-size:13px;">
-  <a href="#" id="forgotLink">Forgot Password?</a>
+<a href="#" id="forgot">Forgot Password?</a>
 </div>
-  <div class="note">🔒 Secure • ✔ Verified • Trusted Platform</div>
+
+<div class="note">🔒 Secure • ✔ Verified • Trusted Platform</div>
 </div>
 
 <script>
-const API = "https://cabii-carsandbikesinindia-production.up.railway.app";
 
+/* IMPORTANT: SAME DOMAIN API */
+const API = ""; // empty means same domain (VERY IMPORTANT)
+
+/* elements */
 const nameEl = document.getElementById("name");
 const emailEl = document.getElementById("email");
-const passwordEl = document.getElementById("password");
+const passEl = document.getElementById("password");
 const loginBtn = document.getElementById("loginBtn");
 const signupBtn = document.getElementById("signupBtn");
 
-/* ===== COMMON LOADER ===== */
-function setLoading(btn, state) {
-  btn.disabled = state;
-  btn.textContent = state ? "Please wait..." : btn.dataset.label;
+/* loading */
+function loading(btn,state){
+btn.disabled=state;
+btn.textContent=state?"Please wait...":btn.dataset.text;
+}
+loginBtn.dataset.text="Login";
+signupBtn.dataset.text="Create New Account";
+
+/* LOGIN */
+loginBtn.onclick=async()=>{
+
+const email=emailEl.value.trim();
+const password=passEl.value.trim();
+
+if(!email||!password){
+alert("Enter email and password");
+return;
 }
 
-loginBtn.dataset.label = "Login";
-signupBtn.dataset.label = "Create New Account";
+loading(loginBtn,true);
 
-/* ================= LOGIN ================= */
-loginBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
+try{
 
-  const email = emailEl.value.trim();
-  const password = passwordEl.value.trim();
-
-  if (!email || !password) {
-    alert("Email and password required");
-    return;
-  }
-
-  setLoading(loginBtn, true);
-
-  try {
-    const res = await fetch(API + "/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (!res.ok || !data.success) {
-      alert(data.message || "Login failed");
-      return;
-    }
-
-    // Optional: store user if backend sends it
-    if (data.user) {
-      localStorage.setItem("cabiiUser", JSON.stringify(data.user));
-    }
-
-    alert("✅ Login Successful");
-    window.location.href = "/";
-
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    alert("Server error. Try again.");
-  } finally {
-    setLoading(loginBtn, false);
-  }
+const res=await fetch("/api/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+credentials:"include",
+body:JSON.stringify({email,password})
 });
 
-/* ================= SIGNUP ================= */
-signupBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
+const data=await res.json();
 
-  const name = nameEl.value.trim();
-  const email = emailEl.value.trim();
-  const password = passwordEl.value.trim();
+if(!data.success){
+alert(data.message||"Login failed");
+loading(loginBtn,false);
+return;
+}
 
-  if (!name || !email || !password) {
-    alert("Name, email and password required");
-    return;
-  }
+/* SAVE USER */
+localStorage.setItem("cabiiUser",JSON.stringify(data.user));
 
-  setLoading(signupBtn, true);
+/* REDIRECT */
+window.location.href="/";
 
-  try {
-    const res = await fetch(API + "/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ name, email, password })
-    });
+}catch(e){
+alert("Server not responding");
+}
 
-    const data = await res.json();
+loading(loginBtn,false);
+};
 
-    if (!res.ok || !data.success) {
-      alert(data.message || "Signup failed");
-      return;
-    }
+/* SIGNUP */
+signupBtn.onclick=async()=>{
 
-    alert("✅ Account created successfully");
-    window.location.href = "/";
+const name=nameEl.value.trim();
+const email=emailEl.value.trim();
+const password=passEl.value.trim();
 
-  } catch (err) {
-    console.error("SIGNUP ERROR:", err);
-    alert("Server error");
-  } finally {
-    setLoading(signupBtn, false);
-  }
+if(!name||!email||!password){
+alert("Fill all fields");
+return;
+}
+
+loading(signupBtn,true);
+
+try{
+
+const res=await fetch("/api/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+credentials:"include",
+body:JSON.stringify({name,email,password})
 });
 
-/* ================= FORGOT PASSWORD ================= */
-document.getElementById("forgotLink").addEventListener("click", async (e) => {
-  e.preventDefault();
+const data=await res.json();
 
-  const email = prompt("Enter your registered email:");
-  if (!email) return;
+if(!data.success){
+alert(data.message||"Signup failed");
+loading(signupBtn,false);
+return;
+}
 
-  try {
-    const res = await fetch(API + "/api/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email })
-    });
+alert("Account created. Now login.");
+loading(signupBtn,false);
 
-    const data = await res.json();
+}catch{
+alert("Server error");
+loading(signupBtn,false);
+}
+};
 
-    if (!res.ok || !data.success) {
-      alert(data.message || "Error");
-      return;
-    }
+/* FORGOT PASSWORD */
+document.getElementById("forgot").onclick=async(e)=>{
+e.preventDefault();
 
-    alert("✅ Password reset link sent to your email");
+const email=prompt("Enter your registered email");
+if(!email) return;
 
-  } catch (err) {
-    console.error("FORGOT PASSWORD ERROR:", err);
-    alert("Server error");
-  }
+await fetch("/api/auth/forgot-password",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+credentials:"include",
+body:JSON.stringify({email})
 });
+
+alert("If email exists, reset link generated (check server log)");
+};
+
 </script>
+</body>
+</html>
