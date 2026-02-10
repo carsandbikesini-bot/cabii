@@ -45,17 +45,17 @@ app.use(session({
   secret:process.env.SESSION_SECRET || "cabii_secret",
   resave:false,
   saveUninitialized:false,
+  proxy:true,
   store:MongoStore.create({
     mongoUrl:process.env.MONGO_URI
   }),
   cookie:{
     httpOnly:true,
     secure:true,
-    sameSite:"none",
+    sameSite:"lax",
     maxAge:1000*60*60*24*7
   }
 }));
-
 /* AUTH CHECK */
 function isLoggedIn(req,res,next){
   if(!req.session.userId)
