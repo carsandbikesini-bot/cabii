@@ -30,7 +30,18 @@ app.use(cors({
 }));
 
 /* STATIC */
-app.use(express.static(path.join(__dirname, "public")));
+/* STATIC (NO CACHE FIX) */
+app.use(express.static(path.join(__dirname, "public"), {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith(".html")) {
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+    }
+  }
+}));
 
 /* DATABASE */
 const startServer = async () => {
