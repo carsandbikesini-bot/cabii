@@ -468,31 +468,230 @@ body::after{
 
 <script>
 
-const API_BASE = "https://www.carsandbikesinindia.com"
+const API_BASE = "https://www.carsandbikesinindia.com";
+
 const form = document.getElementById("postAdForm");
-const brandField = document.getElementById("brand");
-const modelField = document.getElementById("model");
-const yearField = document.getElementById("year");
-const kmField = document.getElementById("km");
-const ownerField = document.getElementById("owner");
 const fuelField = document.getElementById("fuel");
 const transmissionField = document.getElementById("transmission");
-const priceField = document.getElementById("price");
-const descField = document.getElementById("description");
 const imagesInput = document.getElementById("images");
 const previewBox = document.getElementById("preview");
 const previewEmpty = document.getElementById("previewEmpty");
 const imgCountDisplay = document.getElementById("imgCount");
 const successMsg = document.getElementById("successMsg");
 const errorMsg = document.getElementById("errorMsg");
+
+let uploadedImages = [];
+
+
+// ---------------- BUTTON ACTIVE FIX ----------------
+window.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".opt-btn").forEach(btn => {
+
+    btn.addEventListener("click", function(){
+
+      const target = this.dataset.target;
+      const value = this.dataset.val;
+
+      document.querySelectorAll(`.opt-btn[data-target="${target}"]`)
+        .forEach(b=>b.classList.remove("active"));
+
+      this.classList.add("active");
+
+      document.getElementById(target).value = value;
+      generateDesc();
+    });
+
+  });
+
+});
+
+
+// ---------------- IMAGE PREVIEW FIX ----------------
+imagesInput.addEventListener("change", function(e){
+
+  uploadedImages = Array.from(e.target.files);
+
+  drawPreview();
+
+});
+
+
+function drawPreview(){
+
+  previewBox.innerHTML="";
+
+  uploadedImages.forEach((file, i)=>{
+
+    if(!file.type.startsWith("image/")) return;
+
+    const reader = new FileReader();
+
+    reader.onload=function(ev){
+
+      const div=document.createElement("div");
+      div.className="preview-item";
+
+      const img=document.createElement("img");
+      img.src=ev.target.result;
+
+      const remove=document.createElement("button");
+      remove.className="remove-btn";
+      remove.innerHTML="×";
+
+      remove.addEventListener("click",function(){
+
+        uploadedImages.splice(i,1);
+        drawPreview();
+
+      });
+
+      div.appendChild(img);
+      div.appendChild(remove);
+      previewBox.appendChild(div);
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+  imgCountDisplay.innerText=uploadedImages.length;
+  previewEmpty.style.display=uploadedImages.length? "none":"flex";
+
+}
+
+
+// ---------------- VALIDATION FIX ----------------
+function validate(){
+
+  if(!fuelField.value){
+    errorMsg.classList.add("show");
+    errorMsg.innerText="❌ Select Fuel Type";
+    return false;
+  }
+
+  if(!transmissionField.value){
+    errorMsg.classList.add("show");
+    errorMsg.innerText="❌ Select Transmission";
+    return false;
+  }
+
+  if(uploadedImages.length < 3){
+    errorMsg.classList.add("show");
+    errorMsg.innerText="❌ Minimum 3 images required";
+    return false;
+  }
+
+  return true;
+}
+
+
+
+// ---------------- SUBMIT FIX (MOST IMPORTANT) ----------------
+form.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+  errorMsg.classList.remove("show");
+
+  if(!validate()) return;
+
+  const btn = form.querySelector(".submit-btn");
+  btn.disabled=true;
+  btn.innerHTML="Posting...";
+
+  try{
+
+    const fd = new FormData(form);
+
+    // append images properly
+    uploadedImages.forEach(file=>{
+      fd.append("images",file);
+    });
+
+    const res = await fetch(API_BASE + "/api/ads",{
+      method:"POST",
+      body:fd
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+
+      successMsg.classList.add("show");
+      successMsg.innerText="✅ Ad Posted Successfully!";
+
+      setTimeout(()=>{
+        window.location.href="index.html";
+      },2000);
+
+    }else{
+      throw new Error(data.message);
+    }
+
+  }catch(err){
+
+    errorMsg.classList.add("show");
+    errorMsg.innerText="❌ Server connection failed. Wait 30 sec and retry.";
+
+  }finally{
+    btn.disabled=false;
+    btn.innerText="POST AD";
+  }
+
+});
+
+function attachAutoDescription(){
+
+  const fields = [
+    "brand",
+    "model",
+    "year",
+    "km",
+    "owner",
+    "fuel",
+    "transmission",
+    "price"
+  ];
+
+  fields.forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    el.addEventListener("input", ()=>{
+      generateDesc();
+    });
+
+    el.addEventListener("change", ()=>{
+        
+    });
+  });
+
+}
+
+// wait full DOM load
+window.addEventListener("load", ()=>{
+  attachAutoDescription();
+});
+
+const brandField = document.getElementById("brand");
+const modelField = document.getElementById("model");
+const yearField = document.getElementById("year");
+const kmField = document.getElementById("km");
+const ownerField = document.getElementById("owner");
+const priceField = document.getElementById("price");
+const descField = document.getElementById("description");
 const charCount = document.getElementById("charCount");
-function updateCharCount() {
+
+function updateCharCount(){
+  if(!descField) return;
   charCount.innerText = descField.value.length;
 }
 
-let uploaded_Images = [];
+function generateDesc(){
 
-function generateDesc() {
+  if(!brandField || !modelField || !yearField) return;
+
   const brand = brandField.value.trim();
   const model = modelField.value.trim();
   const year = yearField.value;
@@ -502,317 +701,32 @@ function generateDesc() {
   const transmission = transmissionField.value;
   const price = priceField.value;
 
-  if (!brand || !model || !year || !km || !owner || !fuel || !transmission || !price) {
-    descField.value = "Complete all fields for auto-generated description...";
-    charCount.innerText = "0";
-    return;
-  }
+  // minimum data
+  if(!brand || !model || !year) return;
 
-  const ownerText = owner === "1st" ? "1st Owner" : owner === "2nd" ? "2nd Owner" : owner === "3rd" ? "3rd Owner" : "4th+ Owner";
-  const priceInLakh = (price / 100000).toFixed(2);
+  const priceInLakh = price ? (price/100000).toFixed(2) : "0.00";
 
   const desc = `✨ ${brand} ${model} – Premium Listing ✨
 
 🚗 VEHICLE OVERVIEW
 ━━━━━━━━━━━━━━━━━
-Year: ${year} | KM: ${parseInt(km).toLocaleString()} km
-Owner: ${ownerText}
-Fuel: ${fuel} | Transmission: ${transmission}
+Year: ${year}
+KM Driven: ${km ? parseInt(km).toLocaleString() : "—"} km
+Owner: ${owner || "—"}
+Fuel: ${fuel || "—"}
+Transmission: ${transmission || "—"}
 
 💰 PRICING
 ━━━━━━━━━━━━━━━━━
-Expected Price: ₹${parseInt(price).toLocaleString()} (≈₹${priceInLakh} Lakh)
+Expected Price: ₹${price ? parseInt(price).toLocaleString() : "—"} (≈₹${priceInLakh} Lakh)
 
 ✅ QUALITY HIGHLIGHTS
 ━━━━━━━━━━━━━━━━━
-✔ Well-maintained condition
-✔ Complete service history
-✔ All original documents
-✔ No accidents/major repairs
-✔ Regular maintenance records
-✔ Clean interior & exterior
-
-🔐 VERIFIED BY CABII™
-━━━━━━━━━━━━━━━━━
-✔ Guaranteed authenticity
-✔ 48-hour assured selling
-✔ Transparent pricing
 
 📞 Ready for immediate inspection
-Trust CABII for your automotive needs! 🌟`;
+Listed on Cars And Bikes In India-CABII™`;
 
   descField.value = desc;
-  charCount.innerText = desc.length;
+  updateCharCount();
 }
-
-function activateOptionButtons(){
-  const buttons = document.querySelectorAll(".opt-btn");
-
-  buttons.forEach(btn=>{
-    btn.onclick = function(){
-
-      const target = this.getAttribute("data-target");
-      const value = this.getAttribute("data-val");
-
-      // remove active from same group
-      document.querySelectorAll(`.opt-btn[data-target="${target}"]`)
-        .forEach(b=>b.classList.remove("active"));
-
-      // activate clicked
-      this.classList.add("active");
-
-      // set hidden input value
-      const hidden = document.getElementById(target);
-      if(hidden){
-        hidden.value = value;
-      }
-
-      // regenerate description
-      if(typeof generateDesc === "function"){
-        generateDesc();
-      }
-    }
-  });
-}
-
-activateOptionButtons();
-
-[brandField, modelField, yearField, kmField, ownerField, priceField].forEach(f => {
-  f.addEventListener("input", generateDesc);
-});
-
-let uploadedImages = [];
-
-imagesInput.addEventListener("change", e => {
-  uploadedImages = Array.from(e.target.files); // original files
-
-  previewBox.innerHTML = "";
-
-  uploadedImages.forEach(file => {
-    if (!file.type.startsWith("image/")) return;
-
-    const reader = new FileReader();
-    reader.onload = evt => {
-      const div = document.createElement("div");
-      div.className = "preview-item";
-
-      const img = document.createElement("img");
-      img.src = evt.target.result;
-
-      div.appendChild(img);
-      previewBox.appendChild(div);
-    };
-    reader.readAsDataURL(file);
-  });
-
-  imgCountDisplay.innerText = uploadedImages.length;
-  previewEmpty.style.display = uploadedImages.length ? "none" : "flex";
-});
-function updatePreview() {
-  imgCountDisplay.innerText = uploadedImages.length;
-  if (uploadedImages.length === 0) {
-    previewEmpty.style.display = "flex";
-    previewBox.style.display = "none";
-  } else {
-    previewEmpty.style.display = "none";
-    previewBox.style.display = "grid";
-  }
-}
-
-function validate() {
-  const fields = [
-    { el: brandField, msg: "Brand required" },
-    { el: modelField, msg: "Model required" },
-    { el: yearField, msg: "Year required" },
-    { el: kmField, msg: "KM required" },
-    { el: ownerField, msg: "Owner required" },
-    { el: fuelField, msg: "Fuel required" },
-    { el: transmissionField, msg: "Transmission required" },
-    { el: priceField, msg: "Price required" },
-  ];
-
-  let ok = true;
-  fields.forEach(f => {
-
-  // special case for hidden fields (fuel & transmission)
-  if (f.el.type === "hidden") {
-    if (!f.el.value) {
-      ok = false;
-    }
-    return;
-  }
-
-  const err = f.el.closest(".form-group")?.querySelector(".error-text");
-
-  if (!f.el.value.toString().trim()) {
-    f.el.classList.add("error");
-    if (err) {
-      err.innerText = f.msg;
-      err.classList.add("show");
-    }
-    ok = false;
-  } else {
-    f.el.classList.remove("error");
-    if (err) err.classList.remove("show");
-  }
-});
-  // Validate seller name
-  const sellerName = form.querySelector("input[name='sellername']");
-  const sellerErr = sellerName?.closest(".form-group")?.querySelector(".error-text");
-  if (!sellerName?.value.trim()) {
-  
-
-    if (sellerErr) {
-      sellerErr.innerText = "Seller name required";
-      sellerErr.classList.add("show");
-    }
-    ok = false;
-  } else {
-    sellerName.classList.remove("error");
-    if (sellerErr) sellerErr.classList.remove("show");
-  }
-
-  // Validate location
-  const location = form.querySelector("input[name='location']");
-  const locErr = location?.closest(".form-group")?.querySelector(".error-text");
-  if (!location?.value.trim()) {
-    location.classList.add("error");
-    if (locErr) {
-      locErr.innerText = "City/Location required";
-      locErr.classList.add("show");
-    }
-    ok = false;
-  } else {
-    location.classList.remove("error");
-    if (locErr) locErr.classList.remove("show");
-  }
-
-  // Validate phone number
-  const tel = form.querySelector("input[name='contactNumber']");
-  const telErr = tel?.closest(".form-group")?.querySelector(".error-text");
-  if (!tel.value.match(/^[0-9]{10}$/)) {
-    tel.classList.add("error");
-    if (telErr) {
-      telErr.innerText = "10-digit number required";
-      telErr.classList.add("show");
-    }
-    ok = false;
-  } else {
-    tel.classList.remove("error");
-    if (telErr) telErr.classList.remove("show");
-  }
-
-  // Check images - minimum 3 required
-  const imgErr = imagesInput?.closest(".form-group")?.querySelector(".error-text");
-  
-  if (uploadedImages.length < 3) {
-    imagesInput.classList.add("error");
-    if (imgErr) {
-      imgErr.innerText = `Minimum 3 images required (${uploadedImages.length} / 3)`;
-      imgErr.classList.add("show");
-    }
-    ok = false;
-  } else {
-    // Always clear error when enough images
-    imagesInput.classList.remove("error");
-    if (imgErr) {
-      imgErr.innerText = "";
-      imgErr.classList.remove("show");
-    }
-  }
-  // Manual check for fuel & transmission buttons
-if (!fuelField.value || !transmissionField.value) {
-  errorMsg.classList.add("show");
-  errorMsg.innerText = "❌ Please select Fuel Type and Transmission";
-  ok = false;
-}
-  return ok;
-}
-
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-
-
-  if (!validate()) {
-    errorMsg.classList.add("show");
-    errorMsg.innerText = "❌ Please fill all required fields correctly";
-    return;
-  }
-  const btn = form.querySelector(".submit-btn");
-  btn.disabled = true;
-  btn.innerHTML = `<span class="spinner"></span> Posting...`;
-
-  try {
-    console.log("📤 Starting ad submission...");
-    
-   
-    // Prepare form data
-    console.log("📋 Preparing form data with", uploadedImages.length, "images...");
-    const fd = new FormData();
-    fd.append("brand", brandField.value);
-    fd.append("model", modelField.value);
-    fd.append("manufacturerYear", parseInt(yearField.value));
-    fd.append("km", parseInt(kmField.value));
-    fd.append("owner", ownerField.value);
-    fd.append("fuel", fuelField.value);
-    fd.append("transmission", transmissionField.value);
-    fd.append("price", parseInt(priceField.value));
-    fd.append("description", descField.value);
-    fd.append("sellername", form.querySelector("input[name='sellername']").value);
-    fd.append("contactNumber", form.querySelector("input[name='contactNumber']").value);
-    fd.append("location", form.querySelector("input[name='location']").value);
-    
-    
-  uploadedImages.forEach((img, idx) => {
-  fd.append("images", img);
-});
-
-    
-
-const res = await fetch(`${API_BASE}/api/ads`, {
-  method: "POST",
-  mode: "cors",
-  credentials: "include",
-  headers: {
-    "Accept": "application/json"
-  },
-  body: fd
-});
-let data;
-try {
-  data = await res.json();
-} catch {
-  throw new Error("Server not responding (Render sleeping)");
-}
-
-    if (!res.ok) {
-      throw new Error(data.message || `HTTP ${res.status}: ${res.statusText}`);
-    }
-
-    if (data.success) {
-      successMsg.classList.add("show");
-      successMsg.innerText = "✅ Ad Posted Successfully! Your listing is now live.";
-      errorMsg.classList.remove("show");
-      console.log("✅ Ad created with ID:", data.adId);
-      
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
-    } else {
-      throw new Error(data.message || "Failed to post ad");
-    }
-  } catch (err) {
-    
-    errorMsg.classList.add("show");
-    errorMsg.innerText = `❌ Error: ${err.message}`;
-    successMsg.classList.remove("show");
-  } finally {
-    btn.disabled = false;
-    btn.innerText = "📤 POST AD";
-  }
-});
-
 </script>
-
-</body>
-</html>
