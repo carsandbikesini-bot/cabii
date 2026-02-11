@@ -701,7 +701,7 @@ function generateDesc(){
   const transmission = transmissionField.value;
   const price = priceField.value;
 
-  // minimum data
+  // minimum 
   if(!brand || !model || !year) return;
 
   const priceInLakh = price ? (price/100000).toFixed(2) : "0.00";
@@ -729,4 +729,5 @@ Listed on Cars And Bikes In India-CABII™`;
   descField.value = desc;
   updateCharCount();
 }
+
 </script>
