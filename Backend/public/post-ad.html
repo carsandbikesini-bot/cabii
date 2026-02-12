@@ -469,7 +469,9 @@ body::after{
 <script>
 
 const API_BASE = "https://www.carsandbikesinindia.com";
-
+const cabii = {
+  api: API_BASE
+};
 const form = document.getElementById("postAdForm");
 const fuelField = document.getElementById("fuel");
 const transmissionField = document.getElementById("transmission");
@@ -498,8 +500,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
       this.classList.add("active");
 
-      document.getElementById(target).value = value;
-      generateDesc();
+      const hidden = document.getElementById(target);
+    hidden.value = value;
+    hidden.dispatchEvent(new Event("change"));
+    generateDesc();
     });
 
   });
@@ -731,3 +735,5 @@ Listed on Cars And Bikes In India-CABII™`;
 }
 
 </script>
+</body>
+</html>
