@@ -15,6 +15,15 @@ const PORT = process.env.PORT || 8080;
 
 /* TRUST PROXY (Railway) */
 app.set("trust proxy", 1);
+// CORS FIX (VERY IMPORTANT)
+app.use(cors({
+  origin: [
+    "https://www.carsandbikesindia.com",
+    "https://cabii-carsandbikesindia-production.up.railway.app"
+  ],
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 
 /* BODY */
 app.use(express.json());
